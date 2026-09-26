@@ -1,98 +1,69 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+// app/index.tsx — 3D prototype screen
+import { useRef, useState } from "react";
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
+import { WebView } from "react-native-webview";
+import { buildViewerHtml } from "../lib/viewerHtml";
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+export default function Home() {
+  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
+  const [error, setError] = useState("");
+  const webref = useRef<WebView>(null);
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
+  const run = (js: string) => webref.current?.injectJavaScript(js + "; true;");
+
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+    <View style={styles.container}>
+      <Text style={styles.title}>Ibuprofen inside COX-2</Text>
+      <Text style={styles.sub}>PDB 4PH9 · mouse COX-2 (structure is from a mouse protein) · educational only</Text>
 
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+      <View style={styles.viewer}>
+        <WebView
+          ref={webref}
+          originWhitelist={["*"]}
+          source={{ html: buildViewerHtml("4PH9", "IBP", "A") }}
+          style={{ flex: 1, backgroundColor: "#0b1020" }}
+          javaScriptEnabled
+          scrollEnabled={false}
+          bounces={false}
+          onMessage={(e) => {
+            const msg = String(e.nativeEvent.data);
+            if (msg === "rendered") setStatus("ready");
+            else if (msg.startsWith("error:")) { setStatus("error"); setError(msg.slice(6)); }
+          }}
+        />
+        {status === "loading" && (
+          <View style={styles.overlay}>
+            <ActivityIndicator color="#fff" />
+            <Text style={styles.overlayText}>Loading structure…</Text>
+          </View>
+        )}
+      </View>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+      <View style={styles.row}>
+        <Pressable style={styles.btn} onPress={() => run("window.mlx.toggleSurface()")}>
+          <Text style={styles.btnText}>Ribbon / Surface</Text>
+        </Pressable>
+        <Pressable style={styles.btn} onPress={() => run("window.mlx.refocus()")}>
+          <Text style={styles.btnText}>Zoom to drug</Text>
+        </Pressable>
+      </View>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+      <Text style={styles.note}>
+        {status === "error" ? `Error: ${error}` : "Drag to rotate · pinch to zoom · two-finger drag to pan"}
+      </Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
-  },
+  container: { flex: 1, backgroundColor: "#05070f", padding: 12, gap: 8 },
+  title: { color: "white", fontSize: 20, fontWeight: "700", marginTop: 8 },
+  sub: { color: "#9aa4c7", fontSize: 12 },
+  viewer: { flex: 1, borderRadius: 16, overflow: "hidden", backgroundColor: "#0b1020" },
+  overlay: { ...StyleSheet.absoluteFill, alignItems: "center", justifyContent: "center", gap: 8 },
+  overlayText: { color: "white" },
+  row: { flexDirection: "row", gap: 8 },
+  btn: { flex: 1, backgroundColor: "#22306b", padding: 12, borderRadius: 12, alignItems: "center" },
+  btnText: { color: "white", fontWeight: "600" },
+  note: { color: "#9aa4c7", fontSize: 12, textAlign: "center", marginBottom: 8 },
 });
