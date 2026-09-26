@@ -27,11 +27,11 @@ export function buildViewerHtml(pdbId: string, ligand: string, chain: string) {
 
   function focus() {
     viewer.zoomTo(LIG, 600);
-    viewer.zoom(0.7, 600);
   }
 
   window.mlx = {
     refocus: function () { focus(); },
+    wholeProtein: function () { viewer.zoomTo({ chain: '${chain}' }, 600); },
     toggleSurface: function () {
       if (surfaceOn) { viewer.removeAllSurfaces(); surfaceOn = false; viewer.render(); return; }
       status.textContent = 'Building surface…';
@@ -45,7 +45,8 @@ export function buildViewerHtml(pdbId: string, ligand: string, chain: string) {
 
   try {
     if (typeof $3Dmol === 'undefined') throw new Error('3Dmol.js did not load (no internet?)');
-    viewer = $3Dmol.createViewer(document.getElementById('viewer'), { backgroundColor: '#0b1020' });
+    Object.defineProperty(window, 'devicePixelRatio', { value: Math.min(window.devicePixelRatio || 1, 2) });
+    viewer = $3Dmol.createViewer(document.getElementById('viewer'), { backgroundColor: '#0b1020', antialias: false, cartoonQuality: 5 });
 
     fetch('https://files.rcsb.org/download/${pdbId}.pdb')
       .then(function (r) { if (!r.ok) throw new Error('RCSB HTTP ' + r.status); return r.text(); })
@@ -56,6 +57,16 @@ export function buildViewerHtml(pdbId: string, ligand: string, chain: string) {
           stick:  { colorscheme: 'Jmol', radius: 0.22 },
           sphere: { colorscheme: 'Jmol', scale: 0.28 }
         });
+        // residues lining the pocket (within 5 Å of the drug) as thin white sticks
+        viewer.addStyle({ chain: '${chain}', hetflag: false, byres: true, within: { distance: 5, sel: LIG } },
+                        { stick: { radius: 0.1, colorscheme: 'whiteCarbon', opacity: 0.85 } });
+        // soft glow around the drug
+        var la = viewer.selectedAtoms(LIG);
+        if (la.length) {
+          var c = { x: 0, y: 0, z: 0 };
+          la.forEach(function (a) { c.x += a.x / la.length; c.y += a.y / la.length; c.z += a.z / la.length; });
+          viewer.addSphere({ center: c, radius: 5.5, color: '#ffd166', opacity: 0.16 });
+        }
         focus();
         viewer.render();
         status.textContent = '';

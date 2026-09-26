@@ -46,6 +46,9 @@ export default function Home() {
         <Pressable style={styles.btn} onPress={() => run("window.mlx.refocus()")}>
           <Text style={styles.btnText}>Zoom to drug</Text>
         </Pressable>
+        <Pressable style={styles.btn} onPress={() => run("window.mlx.wholeProtein()")}>
+          <Text style={styles.btnText}>Whole protein</Text>
+        </Pressable>
       </View>
 
       <Text style={styles.note}>
