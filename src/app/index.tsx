@@ -29,6 +29,7 @@ export default function Home() {
             const msg = String(e.nativeEvent.data);
             if (msg === "rendered") setStatus("ready");
             else if (msg.startsWith("error:")) { setStatus("error"); setError(msg.slice(6)); }
+            else if (msg.startsWith("ligatoms:")) console.log("ligand atoms:", msg.slice(9));
           }}
         />
         {status === "loading" && (

@@ -60,13 +60,12 @@ export function buildViewerHtml(pdbId: string, ligand: string, chain: string) {
         // residues lining the pocket (within 5 Å of the drug) as thin white sticks
         viewer.addStyle({ chain: '${chain}', hetflag: false, byres: true, within: { distance: 5, sel: LIG } },
                         { stick: { radius: 0.1, colorscheme: 'whiteCarbon', opacity: 0.85 } });
-        // soft glow around the drug
+        // halo: a translucent yellow sphere on every drug atom
         var la = viewer.selectedAtoms(LIG);
-        if (la.length) {
-          var c = { x: 0, y: 0, z: 0 };
-          la.forEach(function (a) { c.x += a.x / la.length; c.y += a.y / la.length; c.z += a.z / la.length; });
-          viewer.addSphere({ center: c, radius: 5.5, color: '#ffd166', opacity: 0.16 });
-        }
+        la.forEach(function (a) {
+          viewer.addSphere({ center: { x: a.x, y: a.y, z: a.z }, radius: 1.1, color: '#ffd166', opacity: 0.35 });
+        });
+        send('ligatoms:' + la.length);
         focus();
         viewer.render();
         status.textContent = '';
