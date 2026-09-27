@@ -1,4 +1,5 @@
 // app/index.tsx — 3D prototype screen
+import { Link } from "expo-router";
 import { useRef, useState } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 import { WebView } from "react-native-webview";
@@ -55,6 +56,7 @@ export default function Home() {
       <Text style={styles.note}>
         {status === "error" ? `Error: ${error}` : "Drag to rotate · pinch to zoom · two-finger drag to pan"}
       </Text>
+      <Link href="/paywall" style={{ color: "#9fb4ff", textAlign: "center", padding: 8 }}>Open paywall test →</Link>
     </View>
   );
 }
