@@ -2,7 +2,7 @@
 import Purchases, { CustomerInfo, LOG_LEVEL, PurchasesPackage } from "react-native-purchases";
 
 // Public Test Store SDK key from RevenueCat → Project settings → API keys. Safe to keep in code.
-const RC_TEST_STORE_KEY = "test_PASTE_YOURS_HERE";
+const RC_TEST_STORE_KEY = "test_YoxeCAioQWYlqtwBzAiVaUnKEDF";
 
 let configured = false;
 export function initPurchases() {
