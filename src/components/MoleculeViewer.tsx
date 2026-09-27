@@ -1,26 +1,35 @@
-// src/components/MoleculeViewer.tsx — moved from the 3D prototype screen; generalized in Part C
-import { useRef, useState } from "react";
+// src/components/MoleculeViewer.tsx — interactive 3D structure (3Dmol.js inside a WebView)
+import { useMemo, useRef, useState } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { buildViewerHtml } from "../lib/viewerHtml";
 
-export default function MoleculeViewer() {
+type Props = {
+  fileUrl: string;
+  ligandCode?: string;
+  chain?: string;
+  ligandLabel?: string; // e.g. "tagged serine"; button reads "Zoom to <label>"
+  height?: number;
+};
+
+export default function MoleculeViewer({ fileUrl, ligandCode, chain, ligandLabel, height = 360 }: Props) {
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [error, setError] = useState("");
   const webref = useRef<WebView>(null);
+  const html = useMemo(
+    () => buildViewerHtml(fileUrl, ligandCode ?? "", chain ?? ""),
+    [fileUrl, ligandCode, chain]
+  );
 
   const run = (js: string) => webref.current?.injectJavaScript(js + "; true;");
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Ibuprofen inside COX-2</Text>
-      <Text style={styles.sub}>PDB 4PH9 · mouse COX-2 (structure is from a mouse protein) · educational only</Text>
-
-      <View style={styles.viewer}>
+      <View style={[styles.viewer, { height }]}>
         <WebView
           ref={webref}
           originWhitelist={["*"]}
-          source={{ html: buildViewerHtml("4PH9", "IBP", "A") }}
+          source={{ html }}
           style={{ flex: 1, backgroundColor: "#0b1020" }}
           javaScriptEnabled
           scrollEnabled={false}
@@ -44,9 +53,11 @@ export default function MoleculeViewer() {
         <Pressable style={styles.btn} onPress={() => run("window.mlx.toggleSurface()")}>
           <Text style={styles.btnText}>Ribbon / Surface</Text>
         </Pressable>
-        <Pressable style={styles.btn} onPress={() => run("window.mlx.refocus()")}>
-          <Text style={styles.btnText}>Zoom to drug</Text>
-        </Pressable>
+        {ligandCode ? (
+          <Pressable style={styles.btn} onPress={() => run("window.mlx.refocus()")}>
+            <Text style={styles.btnText}>Zoom to {ligandLabel ?? "drug"}</Text>
+          </Pressable>
+        ) : null}
         <Pressable style={styles.btn} onPress={() => run("window.mlx.wholeProtein()")}>
           <Text style={styles.btnText}>Whole protein</Text>
         </Pressable>
@@ -60,14 +71,12 @@ export default function MoleculeViewer() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#05070f", padding: 12, gap: 8 },
-  title: { color: "white", fontSize: 20, fontWeight: "700", marginTop: 8 },
-  sub: { color: "#9aa4c7", fontSize: 12 },
-  viewer: { flex: 1, borderRadius: 16, overflow: "hidden", backgroundColor: "#0b1020" },
+  container: { gap: 8 },
+  viewer: { borderRadius: 16, overflow: "hidden", backgroundColor: "#0b1020" },
   overlay: { ...StyleSheet.absoluteFill, alignItems: "center", justifyContent: "center", gap: 8 },
   overlayText: { color: "white" },
   row: { flexDirection: "row", gap: 8 },
-  btn: { flex: 1, backgroundColor: "#22306b", padding: 12, borderRadius: 12, alignItems: "center" },
-  btnText: { color: "white", fontWeight: "600" },
-  note: { color: "#9aa4c7", fontSize: 12, textAlign: "center", marginBottom: 8 },
+  btn: { flex: 1, backgroundColor: "#22306b", padding: 12, borderRadius: 12, alignItems: "center", justifyContent: "center" },
+  btnText: { color: "white", fontWeight: "600", textAlign: "center" },
+  note: { color: "#9aa4c7", fontSize: 12, textAlign: "center" },
 });
