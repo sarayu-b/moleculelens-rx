@@ -1,9 +1,11 @@
 // src/app/medicine/[id].tsx — target screen: protein, 3D structure, plain-language cards
-import { Stack, useLocalSearchParams } from "expo-router";
-import { useState } from "react";
+import { Href, router, Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
+import { useCallback, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import ExplanationCards from "../../components/ExplanationCards";
 import MoleculeViewer from "../../components/MoleculeViewer";
+import { cabinetAddNeedsPro } from "../../lib/entitlements";
+import { addToCabinet, getCabinet } from "../../lib/storage";
 import { getMedicine } from "../../logic/resolveMedicine";
 import type { Medicine, Structure, TargetLink } from "../../types";
 
@@ -26,6 +28,31 @@ export default function MedicineScreen() {
   const [selectedId, setSelectedId] = useState(primary?.target.uniprotId);
   const [scrollEnabled, setScrollEnabled] = useState(true);
   const { height } = useWindowDimensions();
+  const [inCabinet, setInCabinet] = useState(false);
+  const [busy, setBusy] = useState(false);
+
+  // Re-check on every visit (e.g. after removing it in the cabinet or buying Lens Pro).
+  useFocusEffect(
+    useCallback(() => {
+      let active = true;
+      getCabinet().then((cab) => { if (active) setInCabinet(cab.some((i) => i.medicineId === String(id))); });
+      return () => { active = false; };
+    }, [id])
+  );
+
+  async function onAddToCabinet() {
+    if (!med || busy) return;
+    if (inCabinet) { router.push("/cabinet" as Href); return; }
+    setBusy(true);
+    try {
+      const cab = await getCabinet();
+      if (await cabinetAddNeedsPro(cab.length)) { router.push("/paywall"); return; }
+      await addToCabinet(med.id);
+      setInCabinet(true);
+    } finally {
+      setBusy(false);
+    }
+  }
 
   if (!med) {
     return (
@@ -121,10 +148,14 @@ export default function MedicineScreen() {
         </>
       )}
 
-      {/* Wired up in Part D (cabinet). */}
-      <Pressable style={[s.addBtn, s.addBtnDisabled]} disabled>
-        <Text style={s.addText}>Add to cabinet</Text>
+      <Pressable style={[s.addBtn, inCabinet && s.addBtnDone, busy && s.addBtnBusy]} onPress={onAddToCabinet} disabled={busy}>
+        <Text style={s.addText}>{inCabinet ? "In your cabinet ✓" : "Add to cabinet"}</Text>
       </Pressable>
+      {inCabinet && (
+        <Pressable onPress={() => router.push("/cabinet" as Href)}>
+          <Text style={s.cabinetLink}>View cabinet and shared-target warnings →</Text>
+        </Pressable>
+      )}
 
       <Text style={s.footer}>
         Educational only. Never change how you take a medicine without asking your pharmacist or doctor.
@@ -183,7 +214,9 @@ const s = StyleSheet.create({
   otherRow: { backgroundColor: "#111833", borderRadius: 12, padding: 12, gap: 2 },
   otherTitle: { color: "white", fontSize: 15, fontWeight: "600" },
   addBtn: { backgroundColor: "#3b4fd1", padding: 14, borderRadius: 12, alignItems: "center" },
-  addBtnDisabled: { opacity: 0.4 },
+  addBtnDone: { backgroundColor: "#1c6b4a" },
+  addBtnBusy: { opacity: 0.6 },
+  cabinetLink: { color: "#9fb4ff", textAlign: "center", fontSize: 15 },
   addText: { color: "white", fontWeight: "700", fontSize: 16 },
   footer: { color: "#6b7599", fontSize: 12, textAlign: "center", lineHeight: 17 },
 });
