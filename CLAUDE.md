@@ -23,12 +23,15 @@ RevenueCat: Test Store products lens_pro_monthly (subscription, 1 month, $4.99),
 Safety and honesty rules for all UI copy: educational only; never give doses; "Ask your pharmacist" on every warning; say when a structure comes from an animal protein (4PH9 is mouse COX-2); show "mechanism still debated" for acetaminophen instead of forcing a protein. The AI never chooses the protein; it only explains verified facts.
 
 Structure (built as of Sep 27 2026):
-- src/app/: index (Home search), medicine/[id] (target screen: target chips, structure note, 3D viewer, cards, Add to cabinet), cabinet (saved medicines + shared-target warnings, free limit 3), paywall (RevenueCat test paywall), _layout (Stack + initPurchases).
-- src/components: MoleculeViewer (WebView + 3Dmol; props fileUrl/ligandCode/chain/ligandLabel/height), ExplanationCards, WarningBanner.
-- src/data/heroList.json (generated; hand-written `cards` are preserved by id on re-run).
-- src/lib: viewerHtml (buildViewerHtml(fileUrl, ligand, chain); empty ligand = whole-model cartoon), purchases, entitlements (FREE_CABINET_LIMIT, isPro, cabinetAddNeedsPro), storage (AsyncStorage key cabinet:v1).
-- src/logic: resolveMedicine (getHeroList, getMedicine, searchHero, targetSummary), sharedTargets (findSharedTargets; ibuprofen+aspirin FDA note on the COX-1 warning).
-- src/types.ts (Structure has optional note, ligandLabel; Medicine has optional primaryTarget).
+- src/app/: index (Home search + Scan a box), medicine/[id] (target chips, structure note, 3D viewer, cards, locked deep dives, Add to cabinet), cabinet (saved medicines + shared-target warnings, free limit 3), paywall (real paywall; `reason` param: cabinet | study | deepdive), scan (expo-camera barcode + manual 12-digit entry), _layout (Stack inside EntitlementsProvider; initPurchases).
+- src/components: MoleculeViewer (WebView + 3Dmol; props fileUrl/ligandCode/chain/ligandLabel/height), ExplanationCards, WarningBanner, LockedSection (title/locked/reason → paywall).
+- src/data/heroList.json (generated; hand-written `cards` and `deepDives` are preserved by id on re-run).
+- src/lib: viewerHtml (buildViewerHtml(fileUrl, ligand, chain); empty ligand = whole-model cartoon), purchases, EntitlementsProvider (useEntitlements(): info/isPro/hasStudy/loading/refresh — call refresh() after purchases; also calls initPurchases() first because child effects run before the layout's), entitlements (FREE_CABINET_LIMIT, cabinetAddNeedsPro(count, isPro)), storage (AsyncStorage key cabinet:v1).
+- src/logic: resolveMedicine (getHeroList, getMedicine, searchHero, targetSummary, findByIngredient incl. salt forms), sharedTargets (findSharedTargets; ibuprofen+aspirin FDA note on the COX-1 warning), barcode (normalizeUpc, ndcCandidates).
+- src/api: openfda (lookupUpc, lookupProductNdc, resolveBarcode; 8 s timeout; 429 → OpenFdaRateLimitError).
+- src/types.ts (Structure: note, ligandLabel; Medicine: primaryTarget, deepDives).
 - scripts/: seed.json, build-hero-list.mjs (`npm run build:hero`; falls back to parent_molecule_chembl_id when ChEMBL stores the mechanism on a salt form; SHORT_NAME_OVERRIDES / MECHANISM_OVERRIDES; chain check), verification-report.md.
+- Paywall copy: trial line and "Start free trial" only when product.introPrice exists, else "Subscribe". Test Store monthly/yearly have a 7-day trial.
+- openFDA no-key limit is per public IP (240/min, daily cap); on Sep 27 2026 the dev network was already rate-limited (429, Retry-After ~4 h) — test scanning on cellular or later. A key would have to live in the Worker, never in the app.
 - Typed routes: .expo/types is regenerated only by `expo start`, so links to new screens use `as Href` casts.
-Still planned: src/app/scan and study, src/components/LockedSection, src/api (rxnorm, openfda, chembl, uniprot, rcsb, alphafold, explain), src/logic/barcode, worker/.
+Still planned: src/app/study, src/api (rxnorm, chembl, uniprot, rcsb, alphafold, explain), worker/.
