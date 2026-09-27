@@ -1,0 +1,826 @@
+{
+  "generatedAt": "2026-09-27T17:14:28.912Z",
+  "sources": [
+    "ChEMBL (https://www.ebi.ac.uk/chembl/)",
+    "UniProt (https://www.uniprot.org/)",
+    "RxNorm (https://rxnav.nlm.nih.gov/)",
+    "RCSB PDB (https://www.rcsb.org/)",
+    "AlphaFold DB (https://alphafold.ebi.ac.uk/)"
+  ],
+  "medicines": [
+    {
+      "id": "ibuprofen",
+      "name": "Ibuprofen",
+      "ingredient": "Ibuprofen",
+      "brandNames": [
+        "Advil",
+        "Motrin"
+      ],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "P35354",
+            "name": "Prostaglandin G/H synthase 2",
+            "shortName": "COX-2",
+            "gene": "PTGS2",
+            "organism": "Homo sapiens",
+            "functionText": "Dual cyclooxygenase and peroxidase in the biosynthesis pathway of prostanoids, a class of C20 oxylipins mainly derived from arachidonate ((5Z,8Z,11Z,14Z)-eicosatetraenoate, AA, C20:4(n-6)), with a particular role in the inflammatory response (PubMed:11939906, PubMed:16373578, PubMed:17519235, PubMed:19540099, PubMed:22942274, PubMed:26859324, PubMed:27226593, PubMed:7592599, PubMed:7947975, PubMed:9261177). The cyclooxygenase activity oxygenates AA to the hydroperoxy endoperoxide prostaglandin G2 (PGG2), and the peroxidase activity reduces PGG2 to the hydroxy endoperoxide prostaglandin H2 (PGH2), the precursor of all 2-series prostaglandins and thromboxanes (PubMed:16373578, PubMed:22942274, PubMed:26859324, PubMed:27226593, PubMed:7592599, PubMed:7947975, PubMed:9261177). This complex transformation is initiated by abstraction of hydrogen at carbon 13 (with S-stereochemistry), followed by insertion of molecular O2 to form the endoperoxide bridge between carbon 9 and 11 that defines prostaglandins. The insertion of a second molecule of O2 (bis-oxygenase activity) yields a hydroperoxy group in PGG2 that is then reduced to PGH2 by two electrons (PubMed:16373578, PubMed:22942274, PubMed:26859324, PubMed:27226593, PubMed:7592599, PubMed:7947975, PubMed:9261177). Similarly catalyzes successive cyclooxygenation and peroxidation of dihomo-gamma-linoleate (DGLA, C20:3(n-6)) and eicosapentaenoate (EPA, C20:5(n-3)) to PGH1 and PGH3, the precursors of 1- and 3-series prostaglandins respectively, though arachidonate (AA, C20:4(n-6)) remains the preferred substrate (PubMed:11939906, PubMed:17519235, PubMed:19540099). In an alternative pathway of prostanoid biosynthesis, converts 2-arachidonoyl lysophospholipids to prostanoid lysophospholipids, which are then hydrolyzed by intracellular phospholipases to release free prostanoids (PubMed:27642067). Metabolizes 2-arachidonoyl glycerol yielding the glyceryl ester of PGH2, a process that can contribute to pain response (PubMed:22942274). Generates lipid mediators from n-3 and n-6 polyunsaturated fatty acids (PUFAs) via a lipoxygenase-type mechanism. Oxygenates PUFAs to hydroperoxy compounds and then reduces them to corresponding alcohols (PubMed:11034610, PubMed:11192938, PubMed:9048568, PubMed:9261177). Plays a role in the generation of resolution phase interaction products (resolvins) during both sterile and infectious inflammation (PubMed:12391014). Metabolizes docosahexaenoate (DHA, C22:6(n-3)) to 17R-HDHA, a precursor of the D-series resolvins (RvDs) (PubMed:12391014). As a component of the biosynthetic pathway of E-series resolvins (RvEs), converts eicosapentaenoate (EPA, C20:5(n-3)) primarily to 18S-HEPE that is further metabolized by ALOX5 and LTA4H to generate 18S-RvE1 and 18S-RvE2 (PubMed:21206090). In vascular endothelial cells, converts docosapentaenoate (DPA, C22:5(n-3)) to 13R-HDPA, a precursor for 13-series resolvins (RvTs) shown to activate macrophage phagocytosis during bacterial infection (PubMed:26236990). In activated leukocytes, contributes to oxygenation of hydroxyeicosatetraenoates (HETE) to diHETES (5,15-diHETE and 5,11-diHETE) (PubMed:22068350, PubMed:26282205). Can also use linoleate (LA, (9Z,12Z)-octadecadienoate, C18:2(n-6)) as substrate and produce hydroxyoctadecadienoates (HODEs) in a regio- and stereospecific manner, being (9R)-HODE ((9R)-hydroxy-(10E,12Z)-octadecadienoate) and (13S)-HODE ((13S)-hydroxy-(9Z,11E)-octadecadienoate) its major products (By similarity) (PubMed:7642610). During neuroinflammation, plays a role in neuronal secretion of specialized preresolving mediators (SPMs) 15R-lipoxin A4 that regulates phagocytic microglia (By similarity)"
+          },
+          "actionType": "INHIBITOR",
+          "mechanism": "Cyclooxygenase inhibitor",
+          "structure": {
+            "source": "rcsb",
+            "fileUrl": "https://files.rcsb.org/download/4PH9.pdb",
+            "pdbId": "4PH9",
+            "ligandCode": "IBP",
+            "chain": "A",
+            "title": "THE STRUCTURE OF IBUPROFEN BOUND TO CYCLOOXYGENASE-2",
+            "organism": "Mus musculus",
+            "isAnimal": true,
+            "resolutionA": 1.81
+          }
+        },
+        {
+          "target": {
+            "uniprotId": "P23219",
+            "name": "Prostaglandin G/H synthase 1",
+            "shortName": "COX-1",
+            "gene": "PTGS1",
+            "organism": "Homo sapiens",
+            "functionText": "Dual cyclooxygenase and peroxidase that plays an important role in the biosynthesis pathway of prostanoids, a class of C20 oxylipins mainly derived from arachidonate ((5Z,8Z,11Z,14Z)-eicosatetraenoate, AA, C20:4(n-6)), with a particular role in the inflammatory response. The cyclooxygenase activity oxygenates AA to the hydroperoxy endoperoxide prostaglandin G2 (PGG2), and the peroxidase activity reduces PGG2 to the hydroxy endoperoxide prostaglandin H2 (PGH2), the precursor of all 2-series prostaglandins and thromboxanes. This complex transformation is initiated by abstraction of hydrogen at carbon 13 (with S-stereochemistry), followed by insertion of molecular O2 to form the endoperoxide bridge between carbon 9 and 11 that defines prostaglandins. The insertion of a second molecule of O2 (bis-oxygenase activity) yields a hydroperoxy group in PGG2 that is then reduced to PGH2 by two electrons (PubMed:7947975). Involved in the constitutive production of prostanoids in particular in the stomach and platelets. In gastric epithelial cells, it is a key step in the generation of prostaglandins, such as prostaglandin E2 (PGE2), which plays an important role in cytoprotection. In platelets, it is involved in the generation of thromboxane A2 (TXA2), which promotes platelet activation and aggregation, vasoconstriction and proliferation of vascular smooth muscle cells (Probable). Can also use linoleate (LA, (9Z,12Z)-octadecadienoate, C18:2(n-6)) as substrate and produce hydroxyoctadecadienoates (HODEs) in a regio- and stereospecific manner, being (9R)-HODE ((9R)-hydroxy-(10E,12Z)-octadecadienoate) and (13S)-HODE ((13S)-hydroxy-(9Z,11E)-octadecadienoate) its major products (By similarity)"
+          },
+          "actionType": "INHIBITOR",
+          "mechanism": "Cyclooxygenase inhibitor",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P23219-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        }
+      ],
+      "chemblId": "CHEMBL521",
+      "rxcui": "5640",
+      "cards": {
+        "protein": "COX-2 (cyclooxygenase-2) is an enzyme your cells switch on during injury or infection. It turns a fat called arachidonic acid into prostaglandins — messenger molecules that cause swelling, pain and fever.",
+        "drug": "Ibuprofen slips into the tunnel where arachidonic acid normally enters and plugs it. With the tunnel blocked, COX-2 can't make prostaglandins. Ibuprofen also blocks the sister enzyme COX-1.",
+        "effect": "Fewer prostaglandins means less pain, swelling and fever. But COX-1 also protects the stomach lining and helps platelets work, so blocking it can upset the stomach. Ask your pharmacist if you have questions."
+      }
+    },
+    {
+      "id": "aspirin",
+      "name": "Aspirin",
+      "ingredient": "Aspirin",
+      "brandNames": [
+        "Bayer",
+        "Ecotrin"
+      ],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "P35354",
+            "name": "Prostaglandin G/H synthase 2",
+            "shortName": "COX-2",
+            "gene": "PTGS2",
+            "organism": "Homo sapiens",
+            "functionText": "Dual cyclooxygenase and peroxidase in the biosynthesis pathway of prostanoids, a class of C20 oxylipins mainly derived from arachidonate ((5Z,8Z,11Z,14Z)-eicosatetraenoate, AA, C20:4(n-6)), with a particular role in the inflammatory response (PubMed:11939906, PubMed:16373578, PubMed:17519235, PubMed:19540099, PubMed:22942274, PubMed:26859324, PubMed:27226593, PubMed:7592599, PubMed:7947975, PubMed:9261177). The cyclooxygenase activity oxygenates AA to the hydroperoxy endoperoxide prostaglandin G2 (PGG2), and the peroxidase activity reduces PGG2 to the hydroxy endoperoxide prostaglandin H2 (PGH2), the precursor of all 2-series prostaglandins and thromboxanes (PubMed:16373578, PubMed:22942274, PubMed:26859324, PubMed:27226593, PubMed:7592599, PubMed:7947975, PubMed:9261177). This complex transformation is initiated by abstraction of hydrogen at carbon 13 (with S-stereochemistry), followed by insertion of molecular O2 to form the endoperoxide bridge between carbon 9 and 11 that defines prostaglandins. The insertion of a second molecule of O2 (bis-oxygenase activity) yields a hydroperoxy group in PGG2 that is then reduced to PGH2 by two electrons (PubMed:16373578, PubMed:22942274, PubMed:26859324, PubMed:27226593, PubMed:7592599, PubMed:7947975, PubMed:9261177). Similarly catalyzes successive cyclooxygenation and peroxidation of dihomo-gamma-linoleate (DGLA, C20:3(n-6)) and eicosapentaenoate (EPA, C20:5(n-3)) to PGH1 and PGH3, the precursors of 1- and 3-series prostaglandins respectively, though arachidonate (AA, C20:4(n-6)) remains the preferred substrate (PubMed:11939906, PubMed:17519235, PubMed:19540099). In an alternative pathway of prostanoid biosynthesis, converts 2-arachidonoyl lysophospholipids to prostanoid lysophospholipids, which are then hydrolyzed by intracellular phospholipases to release free prostanoids (PubMed:27642067). Metabolizes 2-arachidonoyl glycerol yielding the glyceryl ester of PGH2, a process that can contribute to pain response (PubMed:22942274). Generates lipid mediators from n-3 and n-6 polyunsaturated fatty acids (PUFAs) via a lipoxygenase-type mechanism. Oxygenates PUFAs to hydroperoxy compounds and then reduces them to corresponding alcohols (PubMed:11034610, PubMed:11192938, PubMed:9048568, PubMed:9261177). Plays a role in the generation of resolution phase interaction products (resolvins) during both sterile and infectious inflammation (PubMed:12391014). Metabolizes docosahexaenoate (DHA, C22:6(n-3)) to 17R-HDHA, a precursor of the D-series resolvins (RvDs) (PubMed:12391014). As a component of the biosynthetic pathway of E-series resolvins (RvEs), converts eicosapentaenoate (EPA, C20:5(n-3)) primarily to 18S-HEPE that is further metabolized by ALOX5 and LTA4H to generate 18S-RvE1 and 18S-RvE2 (PubMed:21206090). In vascular endothelial cells, converts docosapentaenoate (DPA, C22:5(n-3)) to 13R-HDPA, a precursor for 13-series resolvins (RvTs) shown to activate macrophage phagocytosis during bacterial infection (PubMed:26236990). In activated leukocytes, contributes to oxygenation of hydroxyeicosatetraenoates (HETE) to diHETES (5,15-diHETE and 5,11-diHETE) (PubMed:22068350, PubMed:26282205). Can also use linoleate (LA, (9Z,12Z)-octadecadienoate, C18:2(n-6)) as substrate and produce hydroxyoctadecadienoates (HODEs) in a regio- and stereospecific manner, being (9R)-HODE ((9R)-hydroxy-(10E,12Z)-octadecadienoate) and (13S)-HODE ((13S)-hydroxy-(9Z,11E)-octadecadienoate) its major products (By similarity) (PubMed:7642610). During neuroinflammation, plays a role in neuronal secretion of specialized preresolving mediators (SPMs) 15R-lipoxin A4 that regulates phagocytic microglia (By similarity)"
+          },
+          "actionType": "INHIBITOR",
+          "mechanism": "Cyclooxygenase inhibitor",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P35354-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        },
+        {
+          "target": {
+            "uniprotId": "P23219",
+            "name": "Prostaglandin G/H synthase 1",
+            "shortName": "COX-1",
+            "gene": "PTGS1",
+            "organism": "Homo sapiens",
+            "functionText": "Dual cyclooxygenase and peroxidase that plays an important role in the biosynthesis pathway of prostanoids, a class of C20 oxylipins mainly derived from arachidonate ((5Z,8Z,11Z,14Z)-eicosatetraenoate, AA, C20:4(n-6)), with a particular role in the inflammatory response. The cyclooxygenase activity oxygenates AA to the hydroperoxy endoperoxide prostaglandin G2 (PGG2), and the peroxidase activity reduces PGG2 to the hydroxy endoperoxide prostaglandin H2 (PGH2), the precursor of all 2-series prostaglandins and thromboxanes. This complex transformation is initiated by abstraction of hydrogen at carbon 13 (with S-stereochemistry), followed by insertion of molecular O2 to form the endoperoxide bridge between carbon 9 and 11 that defines prostaglandins. The insertion of a second molecule of O2 (bis-oxygenase activity) yields a hydroperoxy group in PGG2 that is then reduced to PGH2 by two electrons (PubMed:7947975). Involved in the constitutive production of prostanoids in particular in the stomach and platelets. In gastric epithelial cells, it is a key step in the generation of prostaglandins, such as prostaglandin E2 (PGE2), which plays an important role in cytoprotection. In platelets, it is involved in the generation of thromboxane A2 (TXA2), which promotes platelet activation and aggregation, vasoconstriction and proliferation of vascular smooth muscle cells (Probable). Can also use linoleate (LA, (9Z,12Z)-octadecadienoate, C18:2(n-6)) as substrate and produce hydroxyoctadecadienoates (HODEs) in a regio- and stereospecific manner, being (9R)-HODE ((9R)-hydroxy-(10E,12Z)-octadecadienoate) and (13S)-HODE ((13S)-hydroxy-(9Z,11E)-octadecadienoate) its major products (By similarity)"
+          },
+          "actionType": "INHIBITOR",
+          "mechanism": "Cyclooxygenase inhibitor",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P23219-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        }
+      ],
+      "chemblId": "CHEMBL25",
+      "rxcui": "1191",
+      "cards": {
+        "protein": "COX-1 (cyclooxygenase-1) runs all the time in most tissues. It makes prostaglandins that protect the stomach lining, and in platelets it makes thromboxane, which helps blood clot.",
+        "drug": "Aspirin is unusual: it permanently attaches a small chemical tag (an acetyl group) to COX-1, switching the enzyme off for good. Platelets can't build new enzyme, so the effect lasts as long as the platelet does, about a week.",
+        "effect": "Blocking COX-1 in platelets makes clots less likely, which is why low-dose aspirin is used for heart protection. It also lowers stomach-protecting prostaglandins, which can irritate the stomach. Ask your pharmacist if you have questions."
+      }
+    },
+    {
+      "id": "naproxen",
+      "name": "Naproxen",
+      "ingredient": "Naproxen",
+      "brandNames": [
+        "Aleve"
+      ],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "P35354",
+            "name": "Prostaglandin G/H synthase 2",
+            "shortName": "COX-2",
+            "gene": "PTGS2",
+            "organism": "Homo sapiens",
+            "functionText": "Dual cyclooxygenase and peroxidase in the biosynthesis pathway of prostanoids, a class of C20 oxylipins mainly derived from arachidonate ((5Z,8Z,11Z,14Z)-eicosatetraenoate, AA, C20:4(n-6)), with a particular role in the inflammatory response (PubMed:11939906, PubMed:16373578, PubMed:17519235, PubMed:19540099, PubMed:22942274, PubMed:26859324, PubMed:27226593, PubMed:7592599, PubMed:7947975, PubMed:9261177). The cyclooxygenase activity oxygenates AA to the hydroperoxy endoperoxide prostaglandin G2 (PGG2), and the peroxidase activity reduces PGG2 to the hydroxy endoperoxide prostaglandin H2 (PGH2), the precursor of all 2-series prostaglandins and thromboxanes (PubMed:16373578, PubMed:22942274, PubMed:26859324, PubMed:27226593, PubMed:7592599, PubMed:7947975, PubMed:9261177). This complex transformation is initiated by abstraction of hydrogen at carbon 13 (with S-stereochemistry), followed by insertion of molecular O2 to form the endoperoxide bridge between carbon 9 and 11 that defines prostaglandins. The insertion of a second molecule of O2 (bis-oxygenase activity) yields a hydroperoxy group in PGG2 that is then reduced to PGH2 by two electrons (PubMed:16373578, PubMed:22942274, PubMed:26859324, PubMed:27226593, PubMed:7592599, PubMed:7947975, PubMed:9261177). Similarly catalyzes successive cyclooxygenation and peroxidation of dihomo-gamma-linoleate (DGLA, C20:3(n-6)) and eicosapentaenoate (EPA, C20:5(n-3)) to PGH1 and PGH3, the precursors of 1- and 3-series prostaglandins respectively, though arachidonate (AA, C20:4(n-6)) remains the preferred substrate (PubMed:11939906, PubMed:17519235, PubMed:19540099). In an alternative pathway of prostanoid biosynthesis, converts 2-arachidonoyl lysophospholipids to prostanoid lysophospholipids, which are then hydrolyzed by intracellular phospholipases to release free prostanoids (PubMed:27642067). Metabolizes 2-arachidonoyl glycerol yielding the glyceryl ester of PGH2, a process that can contribute to pain response (PubMed:22942274). Generates lipid mediators from n-3 and n-6 polyunsaturated fatty acids (PUFAs) via a lipoxygenase-type mechanism. Oxygenates PUFAs to hydroperoxy compounds and then reduces them to corresponding alcohols (PubMed:11034610, PubMed:11192938, PubMed:9048568, PubMed:9261177). Plays a role in the generation of resolution phase interaction products (resolvins) during both sterile and infectious inflammation (PubMed:12391014). Metabolizes docosahexaenoate (DHA, C22:6(n-3)) to 17R-HDHA, a precursor of the D-series resolvins (RvDs) (PubMed:12391014). As a component of the biosynthetic pathway of E-series resolvins (RvEs), converts eicosapentaenoate (EPA, C20:5(n-3)) primarily to 18S-HEPE that is further metabolized by ALOX5 and LTA4H to generate 18S-RvE1 and 18S-RvE2 (PubMed:21206090). In vascular endothelial cells, converts docosapentaenoate (DPA, C22:5(n-3)) to 13R-HDPA, a precursor for 13-series resolvins (RvTs) shown to activate macrophage phagocytosis during bacterial infection (PubMed:26236990). In activated leukocytes, contributes to oxygenation of hydroxyeicosatetraenoates (HETE) to diHETES (5,15-diHETE and 5,11-diHETE) (PubMed:22068350, PubMed:26282205). Can also use linoleate (LA, (9Z,12Z)-octadecadienoate, C18:2(n-6)) as substrate and produce hydroxyoctadecadienoates (HODEs) in a regio- and stereospecific manner, being (9R)-HODE ((9R)-hydroxy-(10E,12Z)-octadecadienoate) and (13S)-HODE ((13S)-hydroxy-(9Z,11E)-octadecadienoate) its major products (By similarity) (PubMed:7642610). During neuroinflammation, plays a role in neuronal secretion of specialized preresolving mediators (SPMs) 15R-lipoxin A4 that regulates phagocytic microglia (By similarity)"
+          },
+          "actionType": "INHIBITOR",
+          "mechanism": "Cyclooxygenase inhibitor",
+          "structure": {
+            "source": "rcsb",
+            "fileUrl": "https://files.rcsb.org/download/3NT1.pdb",
+            "pdbId": "3NT1",
+            "ligandCode": "NPS",
+            "chain": "A",
+            "title": "HIGH RESOLUTION STRUCTURE OF NAPROXEN:COX-2 COMPLEX.",
+            "organism": "Mus musculus",
+            "isAnimal": true,
+            "resolutionA": 1.73
+          }
+        },
+        {
+          "target": {
+            "uniprotId": "P23219",
+            "name": "Prostaglandin G/H synthase 1",
+            "shortName": "COX-1",
+            "gene": "PTGS1",
+            "organism": "Homo sapiens",
+            "functionText": "Dual cyclooxygenase and peroxidase that plays an important role in the biosynthesis pathway of prostanoids, a class of C20 oxylipins mainly derived from arachidonate ((5Z,8Z,11Z,14Z)-eicosatetraenoate, AA, C20:4(n-6)), with a particular role in the inflammatory response. The cyclooxygenase activity oxygenates AA to the hydroperoxy endoperoxide prostaglandin G2 (PGG2), and the peroxidase activity reduces PGG2 to the hydroxy endoperoxide prostaglandin H2 (PGH2), the precursor of all 2-series prostaglandins and thromboxanes. This complex transformation is initiated by abstraction of hydrogen at carbon 13 (with S-stereochemistry), followed by insertion of molecular O2 to form the endoperoxide bridge between carbon 9 and 11 that defines prostaglandins. The insertion of a second molecule of O2 (bis-oxygenase activity) yields a hydroperoxy group in PGG2 that is then reduced to PGH2 by two electrons (PubMed:7947975). Involved in the constitutive production of prostanoids in particular in the stomach and platelets. In gastric epithelial cells, it is a key step in the generation of prostaglandins, such as prostaglandin E2 (PGE2), which plays an important role in cytoprotection. In platelets, it is involved in the generation of thromboxane A2 (TXA2), which promotes platelet activation and aggregation, vasoconstriction and proliferation of vascular smooth muscle cells (Probable). Can also use linoleate (LA, (9Z,12Z)-octadecadienoate, C18:2(n-6)) as substrate and produce hydroxyoctadecadienoates (HODEs) in a regio- and stereospecific manner, being (9R)-HODE ((9R)-hydroxy-(10E,12Z)-octadecadienoate) and (13S)-HODE ((13S)-hydroxy-(9Z,11E)-octadecadienoate) its major products (By similarity)"
+          },
+          "actionType": "INHIBITOR",
+          "mechanism": "Cyclooxygenase inhibitor",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P23219-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        }
+      ],
+      "chemblId": "CHEMBL154",
+      "rxcui": "7258"
+    },
+    {
+      "id": "celecoxib",
+      "name": "Celecoxib",
+      "ingredient": "Celecoxib",
+      "brandNames": [
+        "Celebrex"
+      ],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "P35354",
+            "name": "Prostaglandin G/H synthase 2",
+            "shortName": "COX-2",
+            "gene": "PTGS2",
+            "organism": "Homo sapiens",
+            "functionText": "Dual cyclooxygenase and peroxidase in the biosynthesis pathway of prostanoids, a class of C20 oxylipins mainly derived from arachidonate ((5Z,8Z,11Z,14Z)-eicosatetraenoate, AA, C20:4(n-6)), with a particular role in the inflammatory response (PubMed:11939906, PubMed:16373578, PubMed:17519235, PubMed:19540099, PubMed:22942274, PubMed:26859324, PubMed:27226593, PubMed:7592599, PubMed:7947975, PubMed:9261177). The cyclooxygenase activity oxygenates AA to the hydroperoxy endoperoxide prostaglandin G2 (PGG2), and the peroxidase activity reduces PGG2 to the hydroxy endoperoxide prostaglandin H2 (PGH2), the precursor of all 2-series prostaglandins and thromboxanes (PubMed:16373578, PubMed:22942274, PubMed:26859324, PubMed:27226593, PubMed:7592599, PubMed:7947975, PubMed:9261177). This complex transformation is initiated by abstraction of hydrogen at carbon 13 (with S-stereochemistry), followed by insertion of molecular O2 to form the endoperoxide bridge between carbon 9 and 11 that defines prostaglandins. The insertion of a second molecule of O2 (bis-oxygenase activity) yields a hydroperoxy group in PGG2 that is then reduced to PGH2 by two electrons (PubMed:16373578, PubMed:22942274, PubMed:26859324, PubMed:27226593, PubMed:7592599, PubMed:7947975, PubMed:9261177). Similarly catalyzes successive cyclooxygenation and peroxidation of dihomo-gamma-linoleate (DGLA, C20:3(n-6)) and eicosapentaenoate (EPA, C20:5(n-3)) to PGH1 and PGH3, the precursors of 1- and 3-series prostaglandins respectively, though arachidonate (AA, C20:4(n-6)) remains the preferred substrate (PubMed:11939906, PubMed:17519235, PubMed:19540099). In an alternative pathway of prostanoid biosynthesis, converts 2-arachidonoyl lysophospholipids to prostanoid lysophospholipids, which are then hydrolyzed by intracellular phospholipases to release free prostanoids (PubMed:27642067). Metabolizes 2-arachidonoyl glycerol yielding the glyceryl ester of PGH2, a process that can contribute to pain response (PubMed:22942274). Generates lipid mediators from n-3 and n-6 polyunsaturated fatty acids (PUFAs) via a lipoxygenase-type mechanism. Oxygenates PUFAs to hydroperoxy compounds and then reduces them to corresponding alcohols (PubMed:11034610, PubMed:11192938, PubMed:9048568, PubMed:9261177). Plays a role in the generation of resolution phase interaction products (resolvins) during both sterile and infectious inflammation (PubMed:12391014). Metabolizes docosahexaenoate (DHA, C22:6(n-3)) to 17R-HDHA, a precursor of the D-series resolvins (RvDs) (PubMed:12391014). As a component of the biosynthetic pathway of E-series resolvins (RvEs), converts eicosapentaenoate (EPA, C20:5(n-3)) primarily to 18S-HEPE that is further metabolized by ALOX5 and LTA4H to generate 18S-RvE1 and 18S-RvE2 (PubMed:21206090). In vascular endothelial cells, converts docosapentaenoate (DPA, C22:5(n-3)) to 13R-HDPA, a precursor for 13-series resolvins (RvTs) shown to activate macrophage phagocytosis during bacterial infection (PubMed:26236990). In activated leukocytes, contributes to oxygenation of hydroxyeicosatetraenoates (HETE) to diHETES (5,15-diHETE and 5,11-diHETE) (PubMed:22068350, PubMed:26282205). Can also use linoleate (LA, (9Z,12Z)-octadecadienoate, C18:2(n-6)) as substrate and produce hydroxyoctadecadienoates (HODEs) in a regio- and stereospecific manner, being (9R)-HODE ((9R)-hydroxy-(10E,12Z)-octadecadienoate) and (13S)-HODE ((13S)-hydroxy-(9Z,11E)-octadecadienoate) its major products (By similarity) (PubMed:7642610). During neuroinflammation, plays a role in neuronal secretion of specialized preresolving mediators (SPMs) 15R-lipoxin A4 that regulates phagocytic microglia (By similarity)"
+          },
+          "actionType": "INHIBITOR",
+          "mechanism": "Cyclooxygenase-2 inhibitor",
+          "structure": {
+            "source": "rcsb",
+            "fileUrl": "https://files.rcsb.org/download/3LN1.pdb",
+            "pdbId": "3LN1",
+            "ligandCode": "CEL",
+            "chain": "A",
+            "title": "STRUCTURE OF CELECOXIB BOUND AT THE COX-2 ACTIVE SITE",
+            "organism": "Mus musculus",
+            "isAnimal": true,
+            "resolutionA": 2.4
+          }
+        }
+      ],
+      "chemblId": "CHEMBL118",
+      "rxcui": "140587"
+    },
+    {
+      "id": "atorvastatin",
+      "name": "Atorvastatin",
+      "ingredient": "Atorvastatin",
+      "brandNames": [
+        "Lipitor"
+      ],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "P04035",
+            "name": "3-hydroxy-3-methylglutaryl-coenzyme A reductase",
+            "shortName": "HMG-CoA reductase",
+            "gene": "HMGCR",
+            "organism": "Homo sapiens",
+            "functionText": "Catalyzes the conversion of (3S)-hydroxy-3-methylglutaryl-CoA (HMG-CoA) to mevalonic acid, the rate-limiting step in the synthesis of cholesterol and other isoprenoids, thus plays a critical role in cellular cholesterol homeostasis (PubMed:21357570, PubMed:2991281, PubMed:36745799, PubMed:6995544). HMGCR is the main target of statins, a class of cholesterol-lowering drugs (PubMed:11349148, PubMed:18540668, PubMed:36745799)"
+          },
+          "actionType": "INHIBITOR",
+          "mechanism": "HMG-CoA reductase inhibitor",
+          "structure": {
+            "source": "rcsb",
+            "fileUrl": "https://files.rcsb.org/download/1HWK.pdb",
+            "pdbId": "1HWK",
+            "ligandCode": "117",
+            "chain": "A",
+            "title": "COMPLEX OF THE CATALYTIC PORTION OF HUMAN HMG-COA REDUCTASE WITH ATORVASTATIN",
+            "organism": "Homo sapiens",
+            "isAnimal": false,
+            "resolutionA": 2.22
+          }
+        }
+      ],
+      "chemblId": "CHEMBL1487",
+      "rxcui": "83367",
+      "cards": {
+        "protein": "HMG-CoA reductase is the enzyme that sets the speed of cholesterol production in the liver. It performs the step that commits raw materials to becoming cholesterol.",
+        "drug": "Atorvastatin fits into the enzyme's active site more tightly than the natural molecule it processes, blocking it. The liver makes less cholesterol and responds by pulling more LDL ('bad') cholesterol out of the blood.",
+        "effect": "Lower LDL cholesterol over time lowers the risk of heart attack and stroke. The same enzyme works in muscle cells, which is thought to be one reason some people get muscle aches. Ask your pharmacist if you have questions."
+      }
+    },
+    {
+      "id": "simvastatin",
+      "name": "Simvastatin",
+      "ingredient": "Simvastatin",
+      "brandNames": [
+        "Zocor"
+      ],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "P04035",
+            "name": "3-hydroxy-3-methylglutaryl-coenzyme A reductase",
+            "shortName": "HMG-CoA reductase",
+            "gene": "HMGCR",
+            "organism": "Homo sapiens",
+            "functionText": "Catalyzes the conversion of (3S)-hydroxy-3-methylglutaryl-CoA (HMG-CoA) to mevalonic acid, the rate-limiting step in the synthesis of cholesterol and other isoprenoids, thus plays a critical role in cellular cholesterol homeostasis (PubMed:21357570, PubMed:2991281, PubMed:36745799, PubMed:6995544). HMGCR is the main target of statins, a class of cholesterol-lowering drugs (PubMed:11349148, PubMed:18540668, PubMed:36745799)"
+          },
+          "actionType": "INHIBITOR",
+          "mechanism": "HMG-CoA reductase inhibitor",
+          "structure": {
+            "source": "rcsb",
+            "fileUrl": "https://files.rcsb.org/download/1HW9.pdb",
+            "pdbId": "1HW9",
+            "ligandCode": "SIM",
+            "chain": "A",
+            "title": "COMPLEX OF THE CATALYTIC PORTION OF HUMAN HMG-COA REDUCTASE WITH SIMVASTATIN",
+            "organism": "Homo sapiens",
+            "isAnimal": false,
+            "resolutionA": 2.33
+          }
+        }
+      ],
+      "chemblId": "CHEMBL1064",
+      "rxcui": "36567"
+    },
+    {
+      "id": "lisinopril",
+      "name": "Lisinopril",
+      "ingredient": "Lisinopril",
+      "brandNames": [
+        "Zestril",
+        "Prinivil"
+      ],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "P12821",
+            "name": "Angiotensin-converting enzyme",
+            "shortName": "ACE",
+            "gene": "ACE",
+            "organism": "Homo sapiens",
+            "functionText": "Dipeptidyl carboxypeptidase that removes dipeptides from the C-terminus of a variety of circulating hormones, such as angiotensin I, bradykinin or enkephalins, thereby playing a key role in the regulation of blood pressure, electrolyte homeostasis or synaptic plasticity (PubMed:15615692, PubMed:20826823, PubMed:2558109, PubMed:4322742, PubMed:7523412, PubMed:7683654). Composed of two similar catalytic domains, each possessing a functional active site, with different selectivity for substrates (PubMed:10913258, PubMed:1320019, PubMed:1851160, PubMed:19773553, PubMed:7683654, PubMed:7876104). Plays a major role in the angiotensin-renin system that regulates blood pressure and sodium retention by the kidney by converting angiotensin I to angiotensin II, resulting in an increase of the vasoconstrictor activity of angiotensin (PubMed:11432860, PubMed:1851160, PubMed:19773553, PubMed:23056909, PubMed:4322742). Also able to inactivate bradykinin, a potent vasodilator, and therefore enhance the blood pressure response (PubMed:15615692, PubMed:2558109, PubMed:4322742, PubMed:6055465, PubMed:6270633, PubMed:7683654). Acts as a regulator of synaptic transmission by mediating cleavage of neuropeptide hormones, such as substance P, neurotensin or enkephalins (PubMed:15615692, PubMed:6208535, PubMed:6270633, PubMed:656131). Catalyzes degradation of different enkephalin neuropeptides (Met-enkephalin, Leu-enkephalin, Met-enkephalin-Arg-Phe and possibly Met-enkephalin-Arg-Gly-Leu) (PubMed:2982830, PubMed:6270633, PubMed:656131). Acts as a regulator of synaptic plasticity in the nucleus accumbens of the brain by mediating cleavage of Met-enkephalin-Arg-Phe, a strong ligand of Mu-type opioid receptor OPRM1, into Met-enkephalin (By similarity). Met-enkephalin-Arg-Phe cleavage by ACE decreases activation of OPRM1, leading to long-term synaptic potentiation of glutamate release (By similarity). Also acts as a regulator of hematopoietic stem cell differentiation by mediating degradation of hemoregulatory peptide N-acetyl-SDKP (AcSDKP) (PubMed:26403559, PubMed:7876104, PubMed:8257427, PubMed:8609242). Acts as a regulator of cannabinoid signaling pathway by mediating degradation of hemopressin, an antagonist peptide of the cannabinoid receptor CNR1 (PubMed:18077343). Involved in amyloid-beta metabolism by catalyzing degradation of Amyloid-beta protein 40 and Amyloid-beta protein 42 peptides, thereby preventing plaque formation (PubMed:11604391, PubMed:16154999, PubMed:19773553). Catalyzes cleavage of cholecystokinin (maturation of Cholecystokinin-8 and Cholecystokinin-5) and Gonadoliberin-1 (both maturation and degradation) hormones (PubMed:10336644, PubMed:2983326, PubMed:7683654, PubMed:9371719). Degradation of hemoregulatory peptide N-acetyl-SDKP (AcSDKP) and amyloid-beta proteins is mediated by the N-terminal catalytic domain, while angiotensin I and cholecystokinin cleavage is mediated by the C-terminal catalytic region (PubMed:10336644, PubMed:19773553, PubMed:7876104)"
+          },
+          "actionType": "INHIBITOR",
+          "mechanism": "Angiotensin-converting enzyme inhibitor",
+          "structure": {
+            "source": "rcsb",
+            "fileUrl": "https://files.rcsb.org/download/1O86.pdb",
+            "pdbId": "1O86",
+            "ligandCode": "LPR",
+            "chain": "A",
+            "title": "CRYSTAL STRUCTURE OF HUMAN ANGIOTENSIN CONVERTING ENZYME IN COMPLEX WITH LISINOPRIL.",
+            "organism": "Homo sapiens",
+            "isAnimal": false,
+            "resolutionA": 2
+          }
+        }
+      ],
+      "chemblId": "CHEMBL419213",
+      "rxcui": "29046"
+    },
+    {
+      "id": "acetaminophen",
+      "name": "Acetaminophen",
+      "ingredient": "Acetaminophen",
+      "brandNames": [
+        "Tylenol"
+      ],
+      "targets": [],
+      "mechanismDebated": true,
+      "chemblId": "CHEMBL112",
+      "rxcui": "161",
+      "cards": {
+        "protein": "Scientists still debate which protein acetaminophen acts on. It seems to reduce prostaglandin production inside the brain, but it doesn't block the COX enzymes the way ibuprofen does.",
+        "drug": "Leading ideas involve a breakdown product acting in the brain and spinal cord. Because there's no agreed target, MoleculeLens doesn't show a protein for it — we'd rather say 'still debated' than guess.",
+        "effect": "It eases pain and fever with little effect on the stomach. It's processed by the liver, and too much can harm the liver, so watch for combination products that also contain it. Ask your pharmacist if you have questions."
+      }
+    },
+    {
+      "id": "metformin",
+      "name": "Metformin",
+      "ingredient": "Metformin",
+      "brandNames": [
+        "Glucophage"
+      ],
+      "targets": [],
+      "mechanismDebated": true,
+      "chemblId": "CHEMBL1431",
+      "rxcui": "6809"
+    },
+    {
+      "id": "omeprazole",
+      "name": "Omeprazole",
+      "ingredient": "Omeprazole",
+      "brandNames": [
+        "Prilosec"
+      ],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "P20648",
+            "name": "Potassium-transporting ATPase alpha chain 1",
+            "shortName": "ATP4A",
+            "gene": "ATP4A",
+            "organism": "Homo sapiens",
+            "functionText": "The catalytic subunit of the gastric H(+)/K(+) ATPase pump which transports H(+) ions in exchange for K(+) ions across the apical membrane of parietal cells. Uses ATP as an energy source to pump H(+) ions to the gastric lumen while transporting K(+) ion from the lumen into the cell (By similarity). Remarkably generates a million-fold proton gradient across the gastric parietal cell membrane, acidifying the gastric juice down to pH 1 (By similarity). Within a transport cycle, the transfer of a H(+) ion across the membrane is coupled to ATP hydrolysis and is associated with a transient phosphorylation that shifts the pump conformation from inward-facing (E1) to outward-facing state (E2). The release of the H(+) ion in the stomach lumen is followed by binding of K(+) ion converting the pump conformation back to the E1 state (By similarity)"
+          },
+          "actionType": "INHIBITOR",
+          "mechanism": "Potassium-transporting ATPase inhibitor",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P20648-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        },
+        {
+          "target": {
+            "uniprotId": "P51164",
+            "name": "Potassium-transporting ATPase subunit beta",
+            "shortName": "ATP4B",
+            "gene": "ATP4B",
+            "organism": "Homo sapiens",
+            "functionText": "The beta subunit of the gastric H(+)/K(+) ATPase pump which transports H(+) ions in exchange for K(+) ions across the apical membrane of parietal cells. Plays a structural and regulatory role in the assembly and membrane targeting of a functionally active pump (By similarity). Within a transport cycle, the transfer of a H(+) ion across the membrane is coupled to ATP hydrolysis and is associated with a transient phosphorylation of the alpha subunit that shifts the pump conformation from inward-facing (E1) to outward-facing state (E2). Interacts with the phosphorylation domain of the alpha subunit and functions as a ratchet, stabilizing the lumenal-open E2 conformation and preventing the reverse reaction of the transport cycle (By similarity)"
+          },
+          "actionType": "INHIBITOR",
+          "mechanism": "Potassium-transporting ATPase inhibitor",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P51164-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        }
+      ],
+      "chemblId": "CHEMBL1503",
+      "rxcui": "7646"
+    },
+    {
+      "id": "loratadine",
+      "name": "Loratadine",
+      "ingredient": "Loratadine",
+      "brandNames": [
+        "Claritin"
+      ],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "P35367",
+            "name": "Histamine H1 receptor",
+            "shortName": "H1-R",
+            "gene": "HRH1",
+            "organism": "Homo sapiens",
+            "functionText": "G protein-coupled receptor for histamine, a biogenic amine that functions as an immune modulator and a neurotransmitter (PubMed:33828102, PubMed:8280179). Through the H1 receptor, histamine mediates the contraction of smooth muscles and increases capillary permeability due to contraction of terminal venules. Also mediates neurotransmission in the central nervous system and thereby regulates circadian rhythms, emotional and locomotor activities as well as cognitive functions (By similarity)"
+          },
+          "actionType": "ANTAGONIST",
+          "mechanism": "Histamine H1 receptor antagonist",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P35367-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        }
+      ],
+      "chemblId": "CHEMBL998",
+      "rxcui": "28889"
+    },
+    {
+      "id": "cetirizine",
+      "name": "Cetirizine",
+      "ingredient": "Cetirizine",
+      "brandNames": [
+        "Zyrtec"
+      ],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "P35367",
+            "name": "Histamine H1 receptor",
+            "shortName": "H1-R",
+            "gene": "HRH1",
+            "organism": "Homo sapiens",
+            "functionText": "G protein-coupled receptor for histamine, a biogenic amine that functions as an immune modulator and a neurotransmitter (PubMed:33828102, PubMed:8280179). Through the H1 receptor, histamine mediates the contraction of smooth muscles and increases capillary permeability due to contraction of terminal venules. Also mediates neurotransmission in the central nervous system and thereby regulates circadian rhythms, emotional and locomotor activities as well as cognitive functions (By similarity)"
+          },
+          "actionType": "ANTAGONIST",
+          "mechanism": "Histamine H1 receptor antagonist",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P35367-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        }
+      ],
+      "chemblId": "CHEMBL1000",
+      "rxcui": "20610"
+    },
+    {
+      "id": "diphenhydramine",
+      "name": "Diphenhydramine",
+      "ingredient": "Diphenhydramine",
+      "brandNames": [
+        "Benadryl"
+      ],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "P35367",
+            "name": "Histamine H1 receptor",
+            "shortName": "H1-R",
+            "gene": "HRH1",
+            "organism": "Homo sapiens",
+            "functionText": "G protein-coupled receptor for histamine, a biogenic amine that functions as an immune modulator and a neurotransmitter (PubMed:33828102, PubMed:8280179). Through the H1 receptor, histamine mediates the contraction of smooth muscles and increases capillary permeability due to contraction of terminal venules. Also mediates neurotransmission in the central nervous system and thereby regulates circadian rhythms, emotional and locomotor activities as well as cognitive functions (By similarity)"
+          },
+          "actionType": "ANTAGONIST",
+          "mechanism": "Histamine H1 receptor antagonist",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P35367-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        }
+      ],
+      "chemblId": "CHEMBL657",
+      "rxcui": "3498"
+    },
+    {
+      "id": "sertraline",
+      "name": "Sertraline",
+      "ingredient": "Sertraline",
+      "brandNames": [
+        "Zoloft"
+      ],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "P31645",
+            "name": "Sodium-dependent serotonin transporter",
+            "shortName": "SERT",
+            "gene": "SLC6A4",
+            "organism": "Homo sapiens",
+            "functionText": "Serotonin transporter that cotransports serotonin with one Na(+) ion in exchange for one K(+) ion and possibly one proton in an overall electroneutral transport cycle. Transports serotonin across the plasma membrane from the extracellular compartment to the cytosol thus limiting serotonin intercellular signaling (PubMed:10407194, PubMed:12869649, PubMed:21730057, PubMed:27049939, PubMed:27756841, PubMed:34851672). Essential for serotonin homeostasis in the central nervous system. In the developing somatosensory cortex, acts in glutamatergic neurons to control serotonin uptake and its trophic functions accounting for proper spatial organization of cortical neurons and elaboration of sensory circuits. In the mature cortex, acts primarily in brainstem raphe neurons to mediate serotonin uptake from the synaptic cleft back into the pre-synaptic terminal thus terminating serotonin signaling at the synapse (By similarity). Modulates mucosal serotonin levels in the gastrointestinal tract through uptake and clearance of serotonin in enterocytes. Required for enteric neurogenesis and gastrointestinal reflexes (By similarity). Regulates blood serotonin levels by ensuring rapid high affinity uptake of serotonin from plasma to platelets, where it is further stored in dense granules via vesicular monoamine transporters and then released upon stimulation (PubMed:17506858, PubMed:18317590). Mechanistically, the transport cycle starts with an outward-open conformation having Na1(+) and Cl(-) sites occupied. The binding of a second extracellular Na2(+) ion and serotonin substrate leads to structural changes to outward-occluded to inward-occluded to inward-open, where the Na2(+) ion and serotonin are released into the cytosol. Binding of intracellular K(+) ion induces conformational transitions to inward-occluded to outward-open and completes the cycle by releasing K(+) possibly together with a proton bound to Asp-98 into the extracellular compartment. Na1(+) and Cl(-) ions remain bound throughout the transport cycle (PubMed:10407194, PubMed:12869649, PubMed:21730057, PubMed:27049939, PubMed:27756841, PubMed:34851672). Additionally, displays serotonin-induced channel-like conductance for monovalent cations, mainly Na(+) ions. The channel activity is uncoupled from the transport cycle and may contribute to the membrane resting potential or excitability (By similarity)"
+          },
+          "actionType": "INHIBITOR",
+          "mechanism": "Serotonin transporter inhibitor",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P31645-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        }
+      ],
+      "chemblId": "CHEMBL809",
+      "rxcui": "36437"
+    },
+    {
+      "id": "amlodipine",
+      "name": "Amlodipine",
+      "ingredient": "Amlodipine",
+      "brandNames": [
+        "Norvasc"
+      ],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "Q13936",
+            "name": "Voltage-dependent L-type calcium channel subunit alpha-1C",
+            "shortName": "CACNA1C",
+            "gene": "CACNA1C",
+            "organism": "Homo sapiens",
+            "functionText": "Pore-forming, alpha-1C subunit of the voltage-gated calcium channel that gives rise to L-type calcium currents (PubMed:12181424, PubMed:15454078, PubMed:15863612, PubMed:16299511, PubMed:17224476, PubMed:20953164, PubMed:23677916, PubMed:24728418, PubMed:26253506, PubMed:27218670, PubMed:29078335, PubMed:29742403, PubMed:30023270, PubMed:30172029, PubMed:34163037, PubMed:8099908). Mediates influx of calcium ions into the cytoplasm, and thereby triggers calcium release from the sarcoplasm (By similarity). Plays an important role in excitation-contraction coupling in the heart. Required for normal heart development and normal regulation of heart rhythm (PubMed:15454078, PubMed:15863612, PubMed:17224476, PubMed:24728418, PubMed:26253506). Required for normal contraction of smooth muscle cells in blood vessels and in the intestine. Essential for normal blood pressure regulation via its role in the contraction of arterial smooth muscle cells (PubMed:28119464). Long-lasting (L-type) calcium channels belong to the 'high-voltage activated' (HVA) group (Probable)"
+          },
+          "actionType": "BLOCKER",
+          "mechanism": "Voltage-gated L-type calcium channel blocker",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-Q13936-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        },
+        {
+          "target": {
+            "uniprotId": "Q13698",
+            "name": "Voltage-dependent L-type calcium channel subunit alpha-1S",
+            "shortName": "CACNA1S",
+            "gene": "CACNA1S",
+            "organism": "Homo sapiens",
+            "functionText": "Pore-forming, alpha-1S subunit of the voltage-gated calcium channel that gives rise to L-type calcium currents in skeletal muscle. Calcium channels containing the alpha-1S subunit play an important role in excitation-contraction coupling in skeletal muscle via their interaction with RYR1, which triggers Ca(2+) release from the sarcoplasmic reticulum and ultimately results in muscle contraction. Long-lasting (L-type) calcium channels belong to the 'high-voltage activated' (HVA) group"
+          },
+          "actionType": "BLOCKER",
+          "mechanism": "Voltage-gated L-type calcium channel blocker",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-Q13698-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        },
+        {
+          "target": {
+            "uniprotId": "Q01668",
+            "name": "Voltage-dependent L-type calcium channel subunit alpha-1D",
+            "shortName": "CACNA1D",
+            "gene": "CACNA1D",
+            "organism": "Homo sapiens",
+            "functionText": "Voltage-sensitive calcium channels (VSCC) mediate the entry of calcium ions into excitable cells and are also involved in a variety of calcium-dependent processes, including muscle contraction, hormone or neurotransmitter release, gene expression, cell motility, cell division and cell death. The isoform alpha-1D gives rise to L-type calcium currents. Long-lasting (L-type) calcium channels belong to the 'high-voltage activated' (HVA) group. They are blocked by dihydropyridines (DHP), phenylalkylamines, and by benzothiazepines"
+          },
+          "actionType": "BLOCKER",
+          "mechanism": "Voltage-gated L-type calcium channel blocker",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-Q01668-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        },
+        {
+          "target": {
+            "uniprotId": "O60840",
+            "name": "Voltage-dependent L-type calcium channel subunit alpha-1F",
+            "shortName": "CACNA1F",
+            "gene": "CACNA1F",
+            "organism": "Homo sapiens",
+            "functionText": "Voltage-sensitive calcium channels (VSCC) mediate the entry of calcium ions into excitable cells and are also involved in a variety of calcium-dependent processes, including muscle contraction, hormone or neurotransmitter release, gene expression, cell motility, cell division and cell death. The isoform alpha-1F gives rise to L-type calcium currents. Long-lasting (L-type) calcium channels belong to the 'high-voltage activated' (HVA) group. They are blocked by dihydropyridines (DHP), phenylalkylamines, and by benzothiazepines. Activates at more negative voltages and does not undergo calcium-dependent inactivation (CDI), due to incoming calcium ions, during depolarization"
+          },
+          "actionType": "BLOCKER",
+          "mechanism": "Voltage-gated L-type calcium channel blocker",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-O60840-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        }
+      ],
+      "chemblId": "CHEMBL1491",
+      "rxcui": "17767"
+    },
+    {
+      "id": "levothyroxine",
+      "name": "Levothyroxine",
+      "ingredient": "Levothyroxine",
+      "brandNames": [
+        "Synthroid"
+      ],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "P10827",
+            "name": "Thyroid hormone receptor alpha",
+            "shortName": "TRα",
+            "gene": "THRA",
+            "organism": "Homo sapiens",
+            "functionText": "Nuclear hormone receptor that can act as a repressor or activator of transcription. High affinity receptor for thyroid hormones, including triiodothyronine and thyroxine"
+          },
+          "actionType": "AGONIST",
+          "mechanism": "Thyroid hormone receptor agonist",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P10827-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        },
+        {
+          "target": {
+            "uniprotId": "P10828",
+            "name": "Thyroid hormone receptor beta",
+            "shortName": "TRβ",
+            "gene": "THRB",
+            "organism": "Homo sapiens",
+            "functionText": "Nuclear hormone receptor that can act as a repressor or activator of transcription. High affinity receptor for thyroid hormones, including triiodothyronine and thyroxine"
+          },
+          "actionType": "AGONIST",
+          "mechanism": "Thyroid hormone receptor agonist",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P10828-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        }
+      ],
+      "chemblId": "CHEMBL1624",
+      "rxcui": "10582"
+    },
+    {
+      "id": "famotidine",
+      "name": "Famotidine",
+      "ingredient": "Famotidine",
+      "brandNames": [
+        "Pepcid"
+      ],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "P25021",
+            "name": "Histamine H2 receptor",
+            "shortName": "H2R",
+            "gene": "HRH2",
+            "organism": "Homo sapiens",
+            "functionText": "G protein-coupled receptor for histamine, primarily mediating gastric acid secretion. Predominantly expressed in the gastric mucosa, couples to G(s) G alpha proteins upon histamine binding, leading to activation of adenylate cyclase and increased intracellular cyclic AMP (cAMP) levels (PubMed:38647423, PubMed:39333117). This signaling cascade stimulates parietal cells to secrete hydrochloric acid, playing a key role in digestive physiology. Also expressed in other tissues, including the heart and central nervous system, where it may contribute to cardiac stimulation and modulate neurotransmitter release (By similarity)"
+          },
+          "actionType": "ANTAGONIST",
+          "mechanism": "Histamine H2 receptor antagonist",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P25021-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        }
+      ],
+      "chemblId": "CHEMBL902",
+      "rxcui": "4278"
+    },
+    {
+      "id": "montelukast",
+      "name": "Montelukast",
+      "ingredient": "Montelukast",
+      "brandNames": [
+        "Singulair"
+      ],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "Q9Y271",
+            "name": "Cysteinyl leukotriene receptor 1",
+            "shortName": "CysLTR1",
+            "gene": "CYSLTR1",
+            "organism": "Homo sapiens",
+            "functionText": "Receptor for cysteinyl leukotrienes mediating bronchoconstriction of individuals with and without asthma. Stimulation by LTD4 results in the contraction and proliferation of smooth muscle, edema, eosinophil migration and damage to the mucus layer in the lung. This response is mediated via a G protein that activates a phosphatidylinositol-calcium second messenger system. The rank order of affinities for the leukotrienes is LTD4 >> LTE4 = LTC4 >> LTB4"
+          },
+          "actionType": "ANTAGONIST",
+          "mechanism": "Cysteinyl leukotriene receptor 1 antagonist",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-Q9Y271-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        }
+      ],
+      "chemblId": "CHEMBL787",
+      "rxcui": "88249"
+    },
+    {
+      "id": "warfarin",
+      "name": "Warfarin",
+      "ingredient": "Warfarin",
+      "brandNames": [
+        "Coumadin",
+        "Jantoven"
+      ],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "Q9BQB6",
+            "name": "Vitamin K epoxide reductase complex subunit 1",
+            "shortName": "VKORC1",
+            "gene": "VKORC1",
+            "organism": "Homo sapiens",
+            "functionText": "Involved in vitamin K metabolism. Catalytic subunit of the vitamin K epoxide reductase (VKOR) complex which reduces inactive vitamin K 2,3-epoxide to active vitamin K. Vitamin K is required for the gamma-carboxylation of various proteins, including clotting factors, and is required for normal blood coagulation, but also for normal bone development"
+          },
+          "actionType": "INHIBITOR",
+          "mechanism": "Vitamin K epoxide reductase inhibitor",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-Q9BQB6-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        }
+      ],
+      "chemblId": "CHEMBL1464",
+      "rxcui": "11289"
+    },
+    {
+      "id": "caffeine",
+      "name": "Caffeine",
+      "ingredient": "Caffeine",
+      "brandNames": [],
+      "targets": [
+        {
+          "target": {
+            "uniprotId": "P30542",
+            "name": "Adenosine receptor A1",
+            "shortName": "ADORA1",
+            "gene": "ADORA1",
+            "organism": "Homo sapiens",
+            "functionText": "Receptor for adenosine (PubMed:29925945). The activity of this receptor is mediated by G proteins such as GNAI2 which inhibit adenylyl cyclase"
+          },
+          "actionType": "ANTAGONIST",
+          "mechanism": "Adenosine receptor antagonist",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P30542-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        },
+        {
+          "target": {
+            "uniprotId": "P29275",
+            "name": "Adenosine receptor A2b",
+            "shortName": "ADORA2B",
+            "gene": "ADORA2B",
+            "organism": "Homo sapiens",
+            "functionText": "Receptor for adenosine. The activity of this receptor is mediated by G proteins which activate adenylyl cyclase"
+          },
+          "actionType": "ANTAGONIST",
+          "mechanism": "Adenosine receptor antagonist",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P29275-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        },
+        {
+          "target": {
+            "uniprotId": "P0DMS8",
+            "name": "Adenosine receptor A3",
+            "shortName": "ADORA3",
+            "gene": "ADORA3",
+            "organism": "Homo sapiens",
+            "functionText": "G protein-coupled receptor (GPCR) for adenosine that plays significant roles in various physiological processes including immune regulation, cardioprotection and neuroprotection (PubMed:38627384, PubMed:40825947, PubMed:9837869). Also acts as a receptor for adenosines containing N(6)-methylated adenine (m6A) post-transcriptional modification, which are derived from the degradation of RNAs (mRNAs, rRNAs and tRNAs): activated by N(6)-methyladenosine (m6A), N(6),N(6)-dimethyladenosine (m6,6A) and N(6)-isopentenyladenosine (i6A) (PubMed:33472058, PubMed:39511145). Preferentially couples to the inhibitory G protein (Gi), leading to the suppression of adenylate cyclase activity and a reduction in intracellular cyclic AMP levels (PubMed:33472058, PubMed:38627384). Upon adenosine binding, mediates cardioprotection in cardiomyocytes through anti-apoptotic effects primarily via the ERK1/2 pathway as well as the PI3K pathway (PubMed:9837869). In the central nervous system, participates in the modulation of synaptic plasticity, including long-term potentiation (LTP) and long-term depression (LTD) in the hippocampus (By similarity). In lung mast cells, receptor activation contributes to the type I allergic response by facilitating mast cell degranulation and histamine release (By similarity). Highly expressed in inflammatory cells such as neutrophils and mast cells, inhibits neutrophil degranulation and reduces superoxide production, thereby modulating inflammatory responses (PubMed:9164961)"
+          },
+          "actionType": "ANTAGONIST",
+          "mechanism": "Adenosine receptor antagonist",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P0DMS8-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        },
+        {
+          "target": {
+            "uniprotId": "P29274",
+            "name": "Adenosine receptor A2a",
+            "shortName": "ADORA2A",
+            "gene": "ADORA2A",
+            "organism": "Homo sapiens",
+            "functionText": "Receptor for adenosine (By similarity). The activity of this receptor is mediated by G proteins which activate adenylyl cyclase (By similarity)"
+          },
+          "actionType": "ANTAGONIST",
+          "mechanism": "Adenosine receptor antagonist",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P29274-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
+        }
+      ],
+      "chemblId": "CHEMBL113",
+      "rxcui": "1886"
+    }
+  ]
+}
