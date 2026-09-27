@@ -22,4 +22,13 @@ RevenueCat: Test Store products lens_pro_monthly (subscription, 1 month, $4.99),
 
 Safety and honesty rules for all UI copy: educational only; never give doses; "Ask your pharmacist" on every warning; say when a structure comes from an animal protein (4PH9 is mouse COX-2); show "mechanism still debated" for acetaminophen instead of forcing a protein. The AI never chooses the protein; it only explains verified facts.
 
-Planned structure: src/app/ (index, scan, medicine/[id], cabinet, paywall, study, _layout), src/components (MoleculeViewer, ExplanationCards, WarningBanner, LockedSection), src/data (heroList.json), src/lib (viewerHtml, purchases, entitlements, storage), src/api (rxnorm, openfda, chembl, uniprot, rcsb, alphafold, explain), src/logic (resolveMedicine, sharedTargets, barcode), src/types.ts, scripts/, worker/.
+Structure (built as of Sep 27 2026):
+- src/app/: index (Home search), medicine/[id] (target screen: target chips, structure note, 3D viewer, cards, Add to cabinet), cabinet (saved medicines + shared-target warnings, free limit 3), paywall (RevenueCat test paywall), _layout (Stack + initPurchases).
+- src/components: MoleculeViewer (WebView + 3Dmol; props fileUrl/ligandCode/chain/ligandLabel/height), ExplanationCards, WarningBanner.
+- src/data/heroList.json (generated; hand-written `cards` are preserved by id on re-run).
+- src/lib: viewerHtml (buildViewerHtml(fileUrl, ligand, chain); empty ligand = whole-model cartoon), purchases, entitlements (FREE_CABINET_LIMIT, isPro, cabinetAddNeedsPro), storage (AsyncStorage key cabinet:v1).
+- src/logic: resolveMedicine (getHeroList, getMedicine, searchHero, targetSummary), sharedTargets (findSharedTargets; ibuprofen+aspirin FDA note on the COX-1 warning).
+- src/types.ts (Structure has optional note, ligandLabel; Medicine has optional primaryTarget).
+- scripts/: seed.json, build-hero-list.mjs (`npm run build:hero`; falls back to parent_molecule_chembl_id when ChEMBL stores the mechanism on a salt form; SHORT_NAME_OVERRIDES / MECHANISM_OVERRIDES; chain check), verification-report.md.
+- Typed routes: .expo/types is regenerated only by `expo start`, so links to new screens use `as Href` casts.
+Still planned: src/app/scan and study, src/components/LockedSection, src/api (rxnorm, openfda, chembl, uniprot, rcsb, alphafold, explain), src/logic/barcode, worker/.
