@@ -16,11 +16,14 @@ const BENEFITS = [
   "Exportable 'how my medicines work' sheet",
 ];
 
-function trialText(pkg: PurchasesPackage): string {
-  const intro = pkg.product.introPrice;
-  if (intro) return `${intro.periodNumberOfUnits}-${intro.periodUnit.toLowerCase()} free trial, then`;
-  return "7-day free trial, then";
+// Trial copy only when the store actually reports an intro offer — honest by construction.
+function trialText(pkg: PurchasesPackage | undefined): string | null {
+  const intro = pkg?.product.introPrice;
+  if (!intro) return null;
+  return `${intro.periodNumberOfUnits}-${intro.periodUnit.toLowerCase()} free trial, then`;
 }
+
+let loggedPackages = false; // log what the store returns once per app session
 
 function goBack() {
   if (router.canGoBack()) router.back();
@@ -39,6 +42,10 @@ export default function Paywall() {
     setLoadState("loading");
     try {
       const pkgs = await getPackages();
+      if (!loggedPackages) {
+        loggedPackages = true;
+        console.log("[paywall] packages:", JSON.stringify(pkgs.map((p) => ({ id: p.identifier, introPrice: p.product.introPrice })), null, 2));
+      }
       setPackages(pkgs);
       setLoadState(pkgs.length ? "ready" : "error");
     } catch {
@@ -131,7 +138,7 @@ export default function Paywall() {
                           <Text style={s.planTitle}>{isAnnual ? "Annual" : "Monthly"}</Text>
                           {isAnnual && <Text style={s.badge}>Best value</Text>}
                         </View>
-                        <Text style={s.small}>{trialText(p)}</Text>
+                        {trialText(p) && <Text style={s.small}>{trialText(p)}</Text>}
                         <Text style={s.price}>
                           {p.product.priceString} / {isAnnual ? "year" : "month"}
                         </Text>
@@ -140,7 +147,7 @@ export default function Paywall() {
                   })}
                 </View>
                 <Pressable style={[s.primaryBtn, busy && s.busy]} disabled={busy || !chosen} onPress={() => purchase(chosen, "pro")}>
-                  <Text style={s.primaryText}>{busy ? "Working…" : "Start free trial"}</Text>
+                  <Text style={s.primaryText}>{busy ? "Working…" : trialText(chosen) ? "Start free trial" : "Subscribe"}</Text>
                 </Pressable>
               </>
             )}
