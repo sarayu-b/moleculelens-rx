@@ -44,6 +44,9 @@ export default function Home() {
               clearButtonMode="while-editing"
               returnKeyType="search"
             />
+            <Pressable style={s.scanBtn} onPress={() => router.push("/scan" as Href)}>
+              <Text style={s.scanText}>📷 Scan a box</Text>
+            </Pressable>
           </View>
         }
         renderItem={({ item }) => <ResultRow med={item} />}
@@ -95,6 +98,8 @@ const s = StyleSheet.create({
     marginTop: 12, backgroundColor: "#111833", color: "white", fontSize: 16,
     paddingHorizontal: 14, paddingVertical: 12, borderRadius: 12, borderWidth: 1, borderColor: "#22306b",
   },
+  scanBtn: { backgroundColor: "#22306b", paddingVertical: 12, borderRadius: 12, alignItems: "center" },
+  scanText: { color: "white", fontSize: 16, fontWeight: "600" },
   row: { backgroundColor: "#111833", padding: 14, borderRadius: 12, gap: 2 },
   rowTitle: { color: "white", fontSize: 17, fontWeight: "600" },
   rowBrands: { color: "#9aa4c7", fontSize: 13 },

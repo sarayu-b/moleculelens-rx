@@ -1,0 +1,52 @@
+// src/api/openfda.ts — look up a drug product by UPC or product NDC (openFDA, no key)
+import { ndcCandidates } from "../logic/barcode";
+
+export type FdaProduct = { brandName?: string; genericName?: string; ingredient?: string };
+export type BarcodeMatch = FdaProduct & { method: string };
+
+// openFDA's no-key limit is shared per network IP; surface it separately from "not found".
+export class OpenFdaRateLimitError extends Error {
+  constructor() {
+    super("openFDA's free lookup limit is used up for this network. Try again later or switch to cellular data.");
+  }
+}
+
+const TIMEOUT_MS = 8000;
+
+async function query(search: string): Promise<FdaProduct | null> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+  try {
+    // Encode the quotes (iOS URL parsing can reject raw `"`); openFDA decodes %22 the same way.
+    const url = `https://api.fda.gov/drug/ndc.json?search=${search.replace(/"/g, "%22")}&limit=1`;
+    const res = await fetch(url, { signal: controller.signal });
+    if (res.status === 404) return null; // openFDA answers "no matches" with 404
+    if (res.status === 429) throw new OpenFdaRateLimitError();
+    if (!res.ok) throw new Error(`openFDA HTTP ${res.status}`);
+    const data = await res.json();
+    const r = data.results?.[0];
+    if (!r) return null;
+    return { brandName: r.brand_name, genericName: r.generic_name, ingredient: r.active_ingredients?.[0]?.name };
+  } catch (e: any) {
+    if (e?.name === "AbortError") throw new Error("openFDA took too long to answer.");
+    throw e;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+// openFDA stores UPCs zero-padded to 13 digits.
+export const lookupUpc = (upc12: string) => query(`openfda.upc:"0${upc12}"`);
+export const lookupProductNdc = (productNdc: string) => query(`product_ndc:"${productNdc}"`);
+
+export async function resolveBarcode(upc12: string): Promise<BarcodeMatch | null> {
+  const byUpc = await lookupUpc(upc12);
+  if (byUpc) return { ...byUpc, method: "upc" };
+  const layouts = ["4-4-2", "5-3-2", "5-4-1"];
+  const candidates = ndcCandidates(upc12);
+  for (let i = 0; i < candidates.length; i++) {
+    const hit = await lookupProductNdc(candidates[i]);
+    if (hit) return { ...hit, method: `ndc ${layouts[i]} (${candidates[i]})` };
+  }
+  return null;
+}

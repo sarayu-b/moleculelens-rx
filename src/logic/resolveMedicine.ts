@@ -38,6 +38,18 @@ export function searchHero(query: string, limit = 8): Medicine[] {
     .map((r) => r.m);
 }
 
+// Match an openFDA ingredient/generic name to a hero medicine, case-insensitively.
+// Exact match on ingredient or name first; then a salt form like "CETIRIZINE HYDROCHLORIDE".
+export function findByIngredient(name: string): Medicine | undefined {
+  const q = name.trim().toLowerCase();
+  if (!q) return undefined;
+  const fields = (m: Medicine) => [m.ingredient.toLowerCase(), m.name.toLowerCase()];
+  return (
+    hero.medicines.find((m) => fields(m).includes(q)) ??
+    hero.medicines.find((m) => fields(m).some((f) => q.startsWith(f + " ")))
+  );
+}
+
 // One-line target summary for lists, e.g. "COX-2 · COX-1" or "Mechanism still debated".
 export function targetSummary(m: Medicine, max = 3): string {
   if (m.mechanismDebated) return "Mechanism still debated";
