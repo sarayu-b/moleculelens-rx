@@ -197,7 +197,7 @@ async function alphafoldStructure(acc) {
 }
 
 // ---------- one medicine ----------
-async function buildMedicine(seed, existingCards) {
+async function buildMedicine(seed, existingCards, existingDeepDives) {
   const errors = [];
   const flags = [];
   const med = {
@@ -279,6 +279,7 @@ async function buildMedicine(seed, existingCards) {
   }
 
   if (existingCards) med.cards = existingCards;
+  if (existingDeepDives) med.deepDives = existingDeepDives;
   return { med, prefName, flags, errors };
 }
 
@@ -308,12 +309,16 @@ function reportRow(seed, r) {
 async function main() {
   const seeds = JSON.parse(readFileSync(SEED_PATH, "utf8"));
 
-  // Preserve hand-written cards from a previous run, keyed by medicine id.
+  // Preserve hand-written cards and deep dives from a previous run, keyed by medicine id.
   const existingCards = new Map();
+  const existingDeepDives = new Map();
   if (existsSync(OUT_PATH)) {
     try {
       const prev = JSON.parse(readFileSync(OUT_PATH, "utf8"));
-      for (const m of prev.medicines ?? []) if (m.cards) existingCards.set(m.id, m.cards);
+      for (const m of prev.medicines ?? []) {
+        if (m.cards) existingCards.set(m.id, m.cards);
+        if (m.deepDives) existingDeepDives.set(m.id, m.deepDives);
+      }
     } catch { /* unreadable previous file: start fresh */ }
   }
 
@@ -322,7 +327,7 @@ async function main() {
   for (const seed of seeds) {
     process.stdout.write(`• ${seed.name}… `);
     let r;
-    try { r = await buildMedicine(seed, existingCards.get(seed.id)); }
+    try { r = await buildMedicine(seed, existingCards.get(seed.id), existingDeepDives.get(seed.id)); }
     catch (e) { r = { med: null, flags: [], errors: [`Unexpected: ${e.message}`] }; }
     if (r.med) medicines.push(r.med);
     rows.push(reportRow(seed, r));

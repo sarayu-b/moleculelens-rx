@@ -1,6 +1,6 @@
 # Hero list verification report
 
-Generated 2026-09-27T17:27:22.937Z · 20/20 medicines written to src/data/heroList.json
+Generated 2026-09-27T19:03:25.344Z · 20/20 medicines written to src/data/heroList.json
 
 | Medicine | ChEMBL (pref_name) | RxCUI | Targets (accession gene / short name (organism) — mechanism · action) | Structure | Flags / errors |
 |---|---|---|---|---|---|

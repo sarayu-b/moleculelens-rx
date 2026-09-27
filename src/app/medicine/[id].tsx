@@ -3,8 +3,10 @@ import { Href, router, Stack, useFocusEffect, useLocalSearchParams } from "expo-
 import { useCallback, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import ExplanationCards from "../../components/ExplanationCards";
+import LockedSection from "../../components/LockedSection";
 import MoleculeViewer from "../../components/MoleculeViewer";
 import { cabinetAddNeedsPro } from "../../lib/entitlements";
+import { useEntitlements } from "../../lib/EntitlementsProvider";
 import { addToCabinet, getCabinet } from "../../lib/storage";
 import { getMedicine } from "../../logic/resolveMedicine";
 import type { Medicine, Structure, TargetLink } from "../../types";
@@ -30,6 +32,7 @@ export default function MedicineScreen() {
   const { height } = useWindowDimensions();
   const [inCabinet, setInCabinet] = useState(false);
   const [busy, setBusy] = useState(false);
+  const { isPro } = useEntitlements();
 
   // Re-check on every visit (e.g. after removing it in the cabinet or buying Lens Pro).
   useFocusEffect(
@@ -46,7 +49,10 @@ export default function MedicineScreen() {
     setBusy(true);
     try {
       const cab = await getCabinet();
-      if (await cabinetAddNeedsPro(cab.length)) { router.push("/paywall"); return; }
+      if (cabinetAddNeedsPro(cab.length, isPro)) {
+        router.push({ pathname: "/paywall", params: { reason: "cabinet" } });
+        return;
+      }
       await addToCabinet(med.id);
       setInCabinet(true);
     } finally {
@@ -65,6 +71,17 @@ export default function MedicineScreen() {
 
   const link = med.targets.find((l) => l.target.uniprotId === selectedId) ?? primary;
   const others = med.targets.filter((l) => l !== link);
+  const comingSoon = "A deeper look for this medicine is coming soon.";
+  const deepDives = (
+    <>
+      <LockedSection title="Side-effect deep dive" locked={!isPro} reason="deepdive">
+        <Text style={s.p}>{med.deepDives?.sideEffects ?? comingSoon}</Text>
+      </LockedSection>
+      <LockedSection title="Metabolism deep dive" locked={!isPro} reason="deepdive">
+        <Text style={s.p}>{med.deepDives?.metabolism ?? comingSoon}</Text>
+      </LockedSection>
+    </>
+  );
 
   return (
     <ScrollView style={s.page} contentContainerStyle={s.content} scrollEnabled={scrollEnabled}>
@@ -76,14 +93,17 @@ export default function MedicineScreen() {
       </View>
 
       {med.mechanismDebated ? (
-        <View style={s.debated}>
-          <Text style={s.debatedTitle}>Mechanism still debated</Text>
-          <Text style={s.p}>
-            {med.cards
-              ? `${med.cards.protein}\n\n${med.cards.drug}\n\n${med.cards.effect}`
-              : "Scientists still debate exactly which protein this medicine acts on, so MoleculeLens doesn’t show one. Ask your pharmacist if you have questions."}
-          </Text>
-        </View>
+        <>
+          <View style={s.debated}>
+            <Text style={s.debatedTitle}>Mechanism still debated</Text>
+            <Text style={s.p}>
+              {med.cards
+                ? `${med.cards.protein}\n\n${med.cards.drug}\n\n${med.cards.effect}`
+                : "Scientists still debate exactly which protein this medicine acts on, so MoleculeLens doesn’t show one. Ask your pharmacist if you have questions."}
+            </Text>
+          </View>
+          {deepDives}
+        </>
       ) : !link ? (
         <Text style={s.p}>No verified protein target for this medicine yet.</Text>
       ) : (
@@ -133,6 +153,7 @@ export default function MedicineScreen() {
           )}
 
           <ExplanationCards medicine={med} link={primary} />
+          {deepDives}
 
           {others.length > 0 && (
             <View style={s.others}>

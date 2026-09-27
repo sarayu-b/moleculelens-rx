@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-27T17:27:22.937Z",
+  "generatedAt": "2026-09-27T19:03:25.344Z",
   "sources": [
     "ChEMBL (https://www.ebi.ac.uk/chembl/)",
     "UniProt (https://www.uniprot.org/)",
@@ -65,6 +65,10 @@
         "protein": "COX-2 (cyclooxygenase-2) is an enzyme your cells switch on during injury or infection. It turns a fat called arachidonic acid into prostaglandins — messenger molecules that cause swelling, pain and fever.",
         "drug": "Ibuprofen slips into the tunnel where arachidonic acid normally enters and plugs it. With the tunnel blocked, COX-2 can't make prostaglandins. Ibuprofen also blocks the sister enzyme COX-1.",
         "effect": "Fewer prostaglandins means less pain, swelling and fever. But COX-1 also protects the stomach lining and helps platelets work, so blocking it can upset the stomach. Ask your pharmacist if you have questions."
+      },
+      "deepDives": {
+        "sideEffects": "Stomach upset and, with long use, ulcers come from blocking COX-1 in the stomach lining, which loses its protective prostaglandins. Kidneys rely on prostaglandins to keep blood flowing, so NSAIDs can strain them, especially when you're dehydrated. Blocking COX-2 in blood vessels shifts the clotting balance, which is why long-term, high-dose NSAID use is linked to heart risk. Ask your pharmacist if you have questions.",
+        "metabolism": "Ibuprofen is absorbed within about an hour. The liver breaks most of it down, mainly with an enzyme called CYP2C9, into inactive pieces that leave in urine, and most of a dose is gone within a day. That short life is why it's taken several times a day rather than once."
       }
     },
     {
@@ -127,6 +131,10 @@
         "protein": "COX-1 (cyclooxygenase-1) runs all the time in most tissues. It makes prostaglandins that protect the stomach lining, and in platelets it makes thromboxane, which helps blood clot.",
         "drug": "Aspirin is unusual: it permanently attaches a small chemical tag (an acetyl group) to COX-1, switching the enzyme off for good. Platelets can't build new enzyme, so the effect lasts as long as the platelet does, about a week.",
         "effect": "Blocking COX-1 in platelets makes clots less likely, which is why low-dose aspirin is used for heart protection. It also lowers stomach-protecting prostaglandins, which can irritate the stomach. Ask your pharmacist if you have questions."
+      },
+      "deepDives": {
+        "sideEffects": "Stomach irritation and bleeding come from losing COX-1's protective prostaglandins and from the anti-clotting effect itself. Because the platelet effect is permanent, bleeding risk lasts for days after the last dose. In children and teens with viral illnesses, aspirin is linked to Reye's syndrome, so it's avoided for them. Ask your pharmacist if you have questions.",
+        "metabolism": "Aspirin is split within minutes in the blood and liver into salicylic acid, which the liver then processes and the kidneys clear over several hours. The anti-platelet effect outlasts the drug itself because the acetyl tag it leaves on COX-1 stays until the platelet is replaced."
       }
     },
     {

@@ -33,6 +33,7 @@ export type Medicine = {
   primaryTarget?: string; // UniProt accession the target screen opens on
   targets: TargetLink[];
   cards?: Cards;
+  deepDives?: { sideEffects: string; metabolism: string };
 };
 export type HeroList = { generatedAt: string; sources: string[]; medicines: Medicine[] };
 export type CabinetItem = { medicineId: string; addedAt: string };

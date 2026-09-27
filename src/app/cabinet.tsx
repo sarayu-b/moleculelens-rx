@@ -3,7 +3,8 @@ import { Href, router, Stack, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import WarningBanner from "../components/WarningBanner";
-import { cabinetAddNeedsPro, FREE_CABINET_LIMIT, isPro } from "../lib/entitlements";
+import { cabinetAddNeedsPro, FREE_CABINET_LIMIT } from "../lib/entitlements";
+import { useEntitlements } from "../lib/EntitlementsProvider";
 import { getCabinet, removeFromCabinet } from "../lib/storage";
 import { getHeroList, getMedicine, targetSummary } from "../logic/resolveMedicine";
 import { findSharedTargets } from "../logic/sharedTargets";
@@ -11,15 +12,15 @@ import type { CabinetItem } from "../types";
 
 export default function Cabinet() {
   const [items, setItems] = useState<CabinetItem[]>([]);
-  const [pro, setPro] = useState(false);
+  const { isPro: pro } = useEntitlements();
 
   // Re-read on every visit (after adding on a target screen or buying on the paywall).
   useFocusEffect(
     useCallback(() => {
       let active = true;
       (async () => {
-        const [cab, p] = await Promise.all([getCabinet(), isPro()]);
-        if (active) { setItems(cab); setPro(p); }
+        const cab = await getCabinet();
+        if (active) setItems(cab);
       })();
       return () => { active = false; };
     }, [])
@@ -28,7 +29,7 @@ export default function Cabinet() {
   const warnings = findSharedTargets(items, getHeroList());
 
   async function onAdd() {
-    if (await cabinetAddNeedsPro(items.length)) router.push("/paywall");
+    if (cabinetAddNeedsPro(items.length, pro)) router.push({ pathname: "/paywall", params: { reason: "cabinet" } });
     else router.navigate("/"); // search on Home, then "Add to cabinet" on the target screen
   }
 
