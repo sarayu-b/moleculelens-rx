@@ -175,6 +175,7 @@ async function checkPdb(seed, s) {
       isAnimal: organism !== "Homo sapiens",
       ...(resolutionA !== undefined ? { resolutionA } : {}),
       ...(s.note ? { note: s.note } : {}),
+      ...(s.ligandLabel ? { ligandLabel: s.ligandLabel } : {}),
     },
   };
 }
@@ -270,6 +271,11 @@ async function buildMedicine(seed, existingCards) {
       if (af) link.structure = af;
       else flags.push(`AlphaFold 404 for ${link.target.uniprotId}`);
     } catch (e) { errors.push(`AlphaFold ${link.target.uniprotId}: ${e.message}`); }
+  }
+
+  if (seed.primaryTarget) {
+    if (med.targets.some((l) => l.target.uniprotId === seed.primaryTarget)) med.primaryTarget = seed.primaryTarget;
+    else flags.push(`primaryTarget ${seed.primaryTarget} not among targets (ignored)`);
   }
 
   if (existingCards) med.cards = existingCards;

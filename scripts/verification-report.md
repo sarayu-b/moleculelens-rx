@@ -1,11 +1,11 @@
 # Hero list verification report
 
-Generated 2026-09-27T17:14:28.912Z · 20/20 medicines written to src/data/heroList.json
+Generated 2026-09-27T17:27:22.937Z · 20/20 medicines written to src/data/heroList.json
 
 | Medicine | ChEMBL (pref_name) | RxCUI | Targets (accession gene / short name (organism) — mechanism · action) | Structure | Flags / errors |
 |---|---|---|---|---|---|
 | Ibuprofen | CHEMBL521 (IBUPROFEN) | 5640 | P35354 PTGS2 / COX-2 (Homo sapiens) — Cyclooxygenase inhibitor · INHIBITOR<br>P23219 PTGS1 / COX-1 (Homo sapiens) — Cyclooxygenase inhibitor · INHIBITOR | P35354: **4PH9** IBP/A · Mus musculus · 1.81 Å · "THE STRUCTURE OF IBUPROFEN BOUND TO CYCLOOXYGENASE-2"<br>P23219: AlphaFold | — |
-| Aspirin | CHEMBL25 (ASPIRIN) | 1191 | P35354 PTGS2 / COX-2 (Homo sapiens) — Cyclooxygenase inhibitor · INHIBITOR<br>P23219 PTGS1 / COX-1 (Homo sapiens) — Cyclooxygenase inhibitor · INHIBITOR | P35354: AlphaFold<br>P23219: AlphaFold | ⚠️ 5F19: LIGAND-NOT-FOUND |
+| Aspirin | CHEMBL25 (ASPIRIN) | 1191 | P35354 PTGS2 / COX-2 (Homo sapiens) — Cyclooxygenase inhibitor · INHIBITOR<br>P23219 PTGS1 / COX-1 (Homo sapiens) — Cyclooxygenase inhibitor · INHIBITOR | P35354: **5F19** OAS/A · Homo sapiens · 2.04 Å · "THE CRYSTAL STRUCTURE OF ASPIRIN ACETYLATED HUMAN CYCLOOXYGENASE-2"<br>P23219: AlphaFold | — |
 | Naproxen | CHEMBL154 (NAPROXEN) | 7258 | P35354 PTGS2 / COX-2 (Homo sapiens) — Cyclooxygenase inhibitor · INHIBITOR<br>P23219 PTGS1 / COX-1 (Homo sapiens) — Cyclooxygenase inhibitor · INHIBITOR | P35354: **3NT1** NPS/A · Mus musculus · 1.73 Å · "HIGH RESOLUTION STRUCTURE OF NAPROXEN:COX-2 COMPLEX."<br>P23219: AlphaFold | — |
 | Celecoxib | CHEMBL118 (CELECOXIB) | 140587 | P35354 PTGS2 / COX-2 (Homo sapiens) — Cyclooxygenase-2 inhibitor · INHIBITOR | P35354: **3LN1** CEL/A · Mus musculus · 2.4 Å · "STRUCTURE OF CELECOXIB BOUND AT THE COX-2 ACTIVE SITE" | — |
 | Atorvastatin | CHEMBL1487 (ATORVASTATIN) | 83367 | P04035 HMGCR / HMG-CoA reductase (Homo sapiens) — HMG-CoA reductase inhibitor · INHIBITOR | P04035: **1HWK** 117/A · Homo sapiens · 2.22 Å · "COMPLEX OF THE CATALYTIC PORTION OF HUMAN HMG-COA REDUCTASE WITH ATORVASTATIN" | ⚠️ mechanism via salt form CHEMBL393220 |

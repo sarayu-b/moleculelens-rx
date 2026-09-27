@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-27T17:14:28.912Z",
+  "generatedAt": "2026-09-27T17:27:22.937Z",
   "sources": [
     "ChEMBL (https://www.ebi.ac.uk/chembl/)",
     "UniProt (https://www.uniprot.org/)",
@@ -88,10 +88,17 @@
           "actionType": "INHIBITOR",
           "mechanism": "Cyclooxygenase inhibitor",
           "structure": {
-            "source": "alphafold",
-            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P35354-F1-model_v6.pdb",
-            "organism": "Homo sapiens (predicted)",
-            "isAnimal": false
+            "source": "rcsb",
+            "fileUrl": "https://files.rcsb.org/download/5F19.pdb",
+            "pdbId": "5F19",
+            "ligandCode": "OAS",
+            "chain": "A",
+            "title": "THE CRYSTAL STRUCTURE OF ASPIRIN ACETYLATED HUMAN CYCLOOXYGENASE-2",
+            "organism": "Homo sapiens",
+            "isAnimal": false,
+            "resolutionA": 2.04,
+            "note": "Aspirin works by permanently attaching a small acetyl tag to one amino acid (serine 530) inside the pocket. This human COX-2 structure was solved after aspirin did its job — the highlighted piece is that tagged amino acid, not the aspirin molecule itself.",
+            "ligandLabel": "tagged serine"
           }
         },
         {
@@ -115,6 +122,7 @@
       ],
       "chemblId": "CHEMBL25",
       "rxcui": "1191",
+      "primaryTarget": "P23219",
       "cards": {
         "protein": "COX-1 (cyclooxygenase-1) runs all the time in most tissues. It makes prostaglandins that protect the stomach lining, and in platelets it makes thromboxane, which helps blood clot.",
         "drug": "Aspirin is unusual: it permanently attaches a small chemical tag (an acetyl group) to COX-1, switching the enzyme off for good. Platelets can't build new enzyme, so the effect lasts as long as the platelet does, about a week.",

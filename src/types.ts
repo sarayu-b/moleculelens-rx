@@ -17,6 +17,7 @@ export type Structure = {
   isAnimal: boolean;      // organism !== Homo sapiens
   resolutionA?: number;   // from REMARK 2
   note?: string;          // hand-written explanation shown under the structure line
+  ligandLabel?: string;   // what the highlighted ligand is, e.g. "tagged serine" (default "drug")
 };
 export type TargetLink = {
   target: Target;
@@ -29,6 +30,7 @@ export type Medicine = {
   id: string; name: string; ingredient: string;
   rxcui?: string; chemblId?: string; brandNames: string[];
   mechanismDebated?: boolean;
+  primaryTarget?: string; // UniProt accession the target screen opens on
   targets: TargetLink[];
   cards?: Cards;
 };

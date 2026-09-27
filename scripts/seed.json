@@ -1,9 +1,10 @@
 [
   { "id": "ibuprofen", "name": "Ibuprofen", "brandNames": ["Advil", "Motrin"], "chemblId": "CHEMBL521",
     "structure": { "pdbId": "4PH9", "ligandCode": "IBP", "chain": "A", "forTarget": "P35354" } },
-  { "id": "aspirin", "name": "Aspirin", "brandNames": ["Bayer", "Ecotrin"], "chemblId": "CHEMBL25",
-    "structure": { "pdbId": "5F19", "ligandCode": "SAL", "chain": "A", "forTarget": "P35354", "verify": true,
-                   "note": "Aspirin permanently tags COX-2. This structure shows the enzyme after tagging, with salicylate (the leftover half of aspirin) in the pocket." } },
+  { "id": "aspirin", "name": "Aspirin", "brandNames": ["Bayer", "Ecotrin"], "chemblId": "CHEMBL25", "primaryTarget": "P23219",
+    "structure": { "pdbId": "5F19", "ligandCode": "OAS", "chain": "A", "forTarget": "P35354", "verify": true,
+                   "ligandLabel": "tagged serine",
+                   "note": "Aspirin works by permanently attaching a small acetyl tag to one amino acid (serine 530) inside the pocket. This human COX-2 structure was solved after aspirin did its job — the highlighted piece is that tagged amino acid, not the aspirin molecule itself." } },
   { "id": "naproxen", "name": "Naproxen", "brandNames": ["Aleve"],
     "structure": { "pdbId": "3NT1", "ligandCode": "NPS", "chain": "A", "forTarget": "P35354", "verify": true } },
   { "id": "celecoxib", "name": "Celecoxib", "brandNames": ["Celebrex"],
