@@ -1,6 +1,6 @@
 // src/logic/study.ts — Study Pack flashcards and quizzes built from the cabinet
 import type { Medicine } from "../types";
-import { getHeroList, getMedicine, pickPrimary } from "./resolveMedicine";
+import { getHeroList, getMedicine, pickPrimary, withGene } from "./resolveMedicine";
 
 export type Flashcard = { medicineId: string; front: string; back: string; extra?: string };
 export type QuizQuestion = { medicineId: string; question: string; options: string[]; answer: string; explanation: string };
@@ -30,7 +30,7 @@ export function flashcardFor(m: Medicine): Flashcard | null {
   return {
     medicineId: m.id,
     front,
-    back: `${link.target.shortName} (${link.target.gene}) · ${link.mechanism}`,
+    back: `${withGene(link.target.shortName, link.target.gene)} · ${link.mechanism}`,
     extra: m.cards?.drug,
   };
 }

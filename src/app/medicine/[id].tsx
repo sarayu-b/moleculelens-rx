@@ -9,7 +9,7 @@ import MoleculeViewer from "../../components/MoleculeViewer";
 import { cabinetAddNeedsPro } from "../../lib/entitlements";
 import { useEntitlements } from "../../lib/EntitlementsProvider";
 import { addToCabinet, getCabinet } from "../../lib/storage";
-import { getMedicine, pickPrimary } from "../../logic/resolveMedicine";
+import { getMedicine, isMachineTarget, pickPrimary } from "../../logic/resolveMedicine";
 import type { Cards, DeepDives, Structure } from "../../types";
 
 // Friendly names for animal source organisms in structure notes.
@@ -175,7 +175,7 @@ export default function MedicineScreen() {
           <View style={s.protein}>
             <Text style={s.h2}>{link.target.name}</Text>
             <Text style={s.p}>
-              {link.target.shortName} · gene {link.target.gene}
+              {link.target.shortName}{link.target.gene ? ` · gene ${link.target.gene}` : ""}
             </Text>
             <Text style={s.mech}>
               {link.mechanism} · {link.actionType}
@@ -200,6 +200,13 @@ export default function MedicineScreen() {
                 height={Math.round(height * 0.55)}
               />
             </View>
+          ) : isMachineTarget(link) ? (
+            <View style={s.debated}>
+              <Text style={s.p}>
+                No single protein to show in 3D — this medicine jams a multi-part machine (the bacterial ribosome), not
+                one protein.
+              </Text>
+            </View>
           ) : (
             <Text style={s.p}>No 3D structure is available for this protein.</Text>
           )}
@@ -219,7 +226,7 @@ export default function MedicineScreen() {
               {others.map((l) => (
                 <Pressable key={l.target.uniprotId} style={s.otherRow} onPress={() => setSelectedId(l.target.uniprotId)}>
                   <Text style={s.otherTitle}>{l.target.shortName} — {l.target.name}</Text>
-                  <Text style={s.small}>gene {l.target.gene} · {l.mechanism}</Text>
+                  <Text style={s.small}>{l.target.gene ? `gene ${l.target.gene} · ` : ""}{l.mechanism}</Text>
                 </Pressable>
               ))}
             </View>

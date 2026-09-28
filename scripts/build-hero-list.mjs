@@ -47,21 +47,24 @@ async function request(url, { method = "GET", as = "json" } = {}) {
 }
 
 // ---------- ChEMBL ----------
+// seed.chemblName overrides the lookup name when ChEMBL files the mechanism under another form
+// (e.g. "FLUTICASONE PROPIONATE"); the display name stays seed.name.
 async function resolveChembl(seed) {
+  const lookupName = seed.chemblName ?? seed.name;
   if (seed.chemblId) {
     const m = await request(`${CHEMBL}/molecule/${seed.chemblId}.json`);
-    if ((m.pref_name ?? "").toLowerCase() !== seed.name.toLowerCase()) {
-      throw new Error(`ChEMBL ${seed.chemblId} pref_name "${m.pref_name}" ≠ "${seed.name}"`);
+    if ((m.pref_name ?? "").toLowerCase() !== lookupName.toLowerCase()) {
+      throw new Error(`ChEMBL ${seed.chemblId} pref_name "${m.pref_name}" ≠ "${lookupName}"`);
     }
     return { chemblId: m.molecule_chembl_id, prefName: m.pref_name };
   }
-  const q = encodeURIComponent(seed.name.toUpperCase());
+  const q = encodeURIComponent(lookupName.toUpperCase());
   let mols = (await request(`${CHEMBL}/molecule.json?pref_name__iexact=${q}&limit=5`)).molecules ?? [];
   // ChEMBL prefers US names, but some drugs are filed under another name; try its synonyms.
   if (!mols.length) {
     mols = (await request(`${CHEMBL}/molecule.json?molecule_synonyms__molecule_synonym__iexact=${q}&limit=5`)).molecules ?? [];
   }
-  if (!mols.length) throw new Error(`No ChEMBL molecule named "${seed.name}"`);
+  if (!mols.length) throw new Error(`No ChEMBL molecule named "${lookupName}"`);
   mols.sort((a, b) => Number(b.max_phase ?? -1) - Number(a.max_phase ?? -1));
   return { chemblId: mols[0].molecule_chembl_id, prefName: mols[0].pref_name };
 }
@@ -89,12 +92,34 @@ async function getAccessions(targetChemblId) {
   if (targetCache.has(targetChemblId)) return targetCache.get(targetChemblId);
   const t = await request(`${CHEMBL}/target/${targetChemblId}.json`);
   const accs = (t.target_components ?? []).filter((c) => c.component_type === "PROTEIN" && c.accession).map((c) => c.accession);
-  const result = { accessions: accs, organism: t.organism ?? "", prefName: t.pref_name, targetType: t.target_type };
+  const result = { accessions: accs, organism: t.organism ?? "", prefName: t.pref_name, targetType: t.target_type, targetChemblId };
   targetCache.set(targetChemblId, result);
   return result;
 }
 
+// Big multi-part machines (the bacterial ribosome: dozens of proteins plus RNA) are shown as ONE
+// pseudo-target keyed by the ChEMBL target id, with no structure. Protein FAMILIES (e.g. the six
+// alpha-adrenergic receptors) are still expanded: each member is a real, separate protein.
+const MAX_COMPONENTS = 5;
+const isMachine = (t) => t.accessions.length > MAX_COMPONENTS && t.targetType !== "PROTEIN FAMILY";
+function machineTarget(t) {
+  return {
+    uniprotId: t.targetChemblId,
+    name: t.prefName,
+    shortName: "Ribosome",
+    gene: "",
+    organism: t.organism,
+    functionText: "A large molecular machine made of dozens of proteins plus RNA that builds every new protein the cell needs.",
+  };
+}
+
 // ---------- UniProt ----------
+// recommended short name → alternative short name → gene → recommended full name → accession.
+// 1–2 character results (influenza neuraminidase's gene is "NA") fall back to the full name.
+function pickShortName(recShort, altShort, gene, fullName, acc) {
+  const pick = recShort || altShort || gene || fullName || acc;
+  return pick.length <= 2 && fullName ? fullName : pick;
+}
 const uniprotCache = new Map();
 async function getUniprot(acc) {
   if (uniprotCache.has(acc)) return uniprotCache.get(acc);
@@ -109,7 +134,7 @@ async function getUniprot(acc) {
   const target = {
     uniprotId: acc,
     name: rec?.fullName?.value ?? acc,
-    shortName: SHORT_NAME_OVERRIDES[acc] ?? rec?.shortNames?.[0]?.value ?? altShort ?? (gene || acc),
+    shortName: SHORT_NAME_OVERRIDES[acc] ?? pickShortName(rec?.shortNames?.[0]?.value, altShort, gene, rec?.fullName?.value, acc),
     gene,
     organism: u.organism?.scientificName ?? "",
     functionText: fn?.texts?.[0]?.value ?? "",
@@ -251,13 +276,21 @@ async function buildMedicine(seed, existingCards, existingDeepDives) {
         continue;
       }
       if (t.organism !== "Homo sapiens") flags.push(`non-human target ${m.targetChemblId} "${t.prefName}" (${t.organism}, ${t.accessions.length} protein(s))`);
+      if (isMachine(t)) {
+        if (!seen.has(t.targetChemblId)) {
+          med.targets.push({ target: machineTarget(t), actionType: m.actionType, mechanism: MECHANISM_OVERRIDES[med.chemblId] ?? m.mechanism });
+          seen.add(t.targetChemblId);
+        }
+        continue;
+      }
       for (const acc of t.accessions) {
         if (seen.has(acc)) continue;
         try {
           const target = { ...(await getUniprot(acc)) };
           if (!target.organism) target.organism = t.organism;
           // UniProt often names a strain ("Escherichia coli (strain K12)"); only flag real disagreements.
-          else if (t.organism && !target.organism.startsWith(t.organism) && !t.organism.startsWith(target.organism)) flags.push(`${acc}: UniProt organism "${target.organism}" ≠ ChEMBL "${t.organism}"`);
+          // ChEMBL sometimes names only a group ("Bacteria") — not a disagreement.
+          else if (t.organism && t.organism.includes(" ") && !target.organism.startsWith(t.organism) && !t.organism.startsWith(target.organism)) flags.push(`${acc}: UniProt organism "${target.organism}" ≠ ChEMBL "${t.organism}"`);
           med.targets.push({ target, actionType: m.actionType, mechanism: MECHANISM_OVERRIDES[med.chemblId] ?? m.mechanism });
           seen.add(acc);
         } catch (e) { errors.push(`UniProt ${acc}: ${e.message}`); }
@@ -279,7 +312,7 @@ async function buildMedicine(seed, existingCards, existingDeepDives) {
     } catch (e) { errors.push(`PDB ${s.pdbId}: ${e.message}`); }
   }
   for (const link of med.targets) {
-    if (link.structure) continue;
+    if (link.structure || link.target.uniprotId.startsWith("CHEMBL")) continue; // machines have no single structure
     // Skip AlphaFold failures silently: some non-human accessions have no model.
     try {
       const af = await alphafoldStructure(link.target.uniprotId, link.target.organism);

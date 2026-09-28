@@ -60,11 +60,20 @@ export function targetSummary(m: Medicine, max = 3): string {
   return names.length > max ? `${shown} +${names.length - max}` : shown;
 }
 
-// Opening target: explicit primaryTarget, else first with a drug-bound (rcsb) structure, else the first.
+// Multi-part machines (the bacterial ribosome) are one pseudo-target keyed by a ChEMBL target id.
+export const isMachineTarget = (link: TargetLink) => link.target.uniprotId.startsWith("CHEMBL");
+
+const isHumanTarget = (link: TargetLink) => link.target.organism.startsWith("Homo sapiens");
+
+// Opening target: explicit primaryTarget; else, when human and non-human targets are mixed, the first
+// in ChEMBL's mechanism order (authoritative); else the first with a drug-bound (rcsb) structure; else the first.
 export function pickPrimary(med: Medicine): TargetLink | undefined {
-  return (
-    med.targets.find((l) => l.target.uniprotId === med.primaryTarget) ??
-    med.targets.find((l) => l.structure?.source === "rcsb") ??
-    med.targets[0]
-  );
+  const explicit = med.targets.find((l) => l.target.uniprotId === med.primaryTarget);
+  if (explicit) return explicit;
+  const mixed = med.targets.some(isHumanTarget) && med.targets.some((l) => !isHumanTarget(l));
+  if (mixed) return med.targets[0];
+  return med.targets.find((l) => l.structure?.source === "rcsb") ?? med.targets[0];
 }
+
+// "COX-2 (PTGS2)", or just "Ribosome" when there is no gene symbol.
+export const withGene = (shortName: string, gene: string) => (gene ? `${shortName} (${gene})` : shortName);
