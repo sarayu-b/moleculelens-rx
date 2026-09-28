@@ -56,8 +56,11 @@ async function resolveChembl(seed) {
     return { chemblId: m.molecule_chembl_id, prefName: m.pref_name };
   }
   const q = encodeURIComponent(seed.name.toUpperCase());
-  const data = await request(`${CHEMBL}/molecule.json?pref_name__iexact=${q}&limit=5`);
-  const mols = data.molecules ?? [];
+  let mols = (await request(`${CHEMBL}/molecule.json?pref_name__iexact=${q}&limit=5`)).molecules ?? [];
+  // ChEMBL prefers US names, but some drugs are filed under another name; try its synonyms.
+  if (!mols.length) {
+    mols = (await request(`${CHEMBL}/molecule.json?molecule_synonyms__molecule_synonym__iexact=${q}&limit=5`)).molecules ?? [];
+  }
   if (!mols.length) throw new Error(`No ChEMBL molecule named "${seed.name}"`);
   mols.sort((a, b) => Number(b.max_phase ?? -1) - Number(a.max_phase ?? -1));
   return { chemblId: mols[0].molecule_chembl_id, prefName: mols[0].pref_name };
@@ -81,13 +84,12 @@ async function getMechanisms(chemblId) {
 }
 
 const targetCache = new Map();
-async function getHumanAccessions(targetChemblId) {
+// Human and non-human (bacterial / viral / fungal) targets alike; organism comes from ChEMBL.
+async function getAccessions(targetChemblId) {
   if (targetCache.has(targetChemblId)) return targetCache.get(targetChemblId);
   const t = await request(`${CHEMBL}/target/${targetChemblId}.json`);
-  const accs = t.organism === "Homo sapiens"
-    ? (t.target_components ?? []).filter((c) => c.component_type === "PROTEIN" && c.accession).map((c) => c.accession)
-    : [];
-  const result = { accessions: accs, organism: t.organism, prefName: t.pref_name };
+  const accs = (t.target_components ?? []).filter((c) => c.component_type === "PROTEIN" && c.accession).map((c) => c.accession);
+  const result = { accessions: accs, organism: t.organism ?? "", prefName: t.pref_name, targetType: t.target_type };
   targetCache.set(targetChemblId, result);
   return result;
 }
@@ -181,7 +183,7 @@ async function checkPdb(seed, s) {
 }
 
 const alphafoldCache = new Map();
-async function alphafoldStructure(acc) {
+async function alphafoldStructure(acc, organism) {
   if (!alphafoldCache.has(acc)) {
     const fileUrl = `https://alphafold.ebi.ac.uk/files/AF-${acc}-F1-model_v6.pdb`;
     let { status } = await request(fileUrl, { method: "HEAD" });
@@ -190,7 +192,7 @@ async function alphafoldStructure(acc) {
       try { await request(fileUrl, { as: "text" }); status = 200; } catch { status = 404; }
     }
     alphafoldCache.set(acc, status === 200
-      ? { source: "alphafold", fileUrl, organism: "Homo sapiens (predicted)", isAnimal: false }
+      ? { source: "alphafold", fileUrl, organism: `${organism || "Homo sapiens"} (predicted)`, isAnimal: false }
       : undefined);
   }
   return alphafoldCache.get(acc);
@@ -231,19 +233,31 @@ async function buildMedicine(seed, existingCards, existingDeepDives) {
   if (!seed.mechanismDebated) {
     let mechs = [];
     try { mechs = await getMechanisms(med.chemblId); } catch (e) { errors.push(`Mechanisms: ${e.message}`); }
-    if (!mechs.length) errors.push("No ChEMBL mechanism rows with a target");
+    // A ChEMBL entry with no mechanism rows at all (even via salt forms): the ingredient works
+    // physically or chemically. Flagged so a human confirms it isn't just missing data.
+    if (!mechs.length && !errors.some((e) => e.startsWith("Mechanisms:"))) {
+      med.noProteinMechanism = true;
+      flags.push("no ChEMBL mechanism rows → noProteinMechanism");
+    }
     const salts = [...new Set(mechs.map((m) => m.viaMolecule).filter((id) => id && id !== med.chemblId))];
     if (salts.length) flags.push(`mechanism via salt form ${salts.join(", ")}`);
     const seen = new Set();
     for (const m of mechs) {
       let t;
-      try { t = await getHumanAccessions(m.targetChemblId); }
+      try { t = await getAccessions(m.targetChemblId); }
       catch (e) { errors.push(`Target ${m.targetChemblId}: ${e.message}`); continue; }
-      if (t.organism !== "Homo sapiens") { errors.push(`Target ${m.targetChemblId} skipped (organism ${t.organism})`); continue; }
+      if (!t.accessions.length) {
+        errors.push(`Target ${m.targetChemblId} "${t.prefName}" (${t.targetType}, ${t.organism}) has no protein accessions`);
+        continue;
+      }
+      if (t.organism !== "Homo sapiens") flags.push(`non-human target ${m.targetChemblId} "${t.prefName}" (${t.organism}, ${t.accessions.length} protein(s))`);
       for (const acc of t.accessions) {
         if (seen.has(acc)) continue;
         try {
-          const target = await getUniprot(acc);
+          const target = { ...(await getUniprot(acc)) };
+          if (!target.organism) target.organism = t.organism;
+          // UniProt often names a strain ("Escherichia coli (strain K12)"); only flag real disagreements.
+          else if (t.organism && !target.organism.startsWith(t.organism) && !t.organism.startsWith(target.organism)) flags.push(`${acc}: UniProt organism "${target.organism}" ≠ ChEMBL "${t.organism}"`);
           med.targets.push({ target, actionType: m.actionType, mechanism: MECHANISM_OVERRIDES[med.chemblId] ?? m.mechanism });
           seen.add(acc);
         } catch (e) { errors.push(`UniProt ${acc}: ${e.message}`); }
@@ -266,11 +280,11 @@ async function buildMedicine(seed, existingCards, existingDeepDives) {
   }
   for (const link of med.targets) {
     if (link.structure) continue;
+    // Skip AlphaFold failures silently: some non-human accessions have no model.
     try {
-      const af = await alphafoldStructure(link.target.uniprotId);
+      const af = await alphafoldStructure(link.target.uniprotId, link.target.organism);
       if (af) link.structure = af;
-      else flags.push(`AlphaFold 404 for ${link.target.uniprotId}`);
-    } catch (e) { errors.push(`AlphaFold ${link.target.uniprotId}: ${e.message}`); }
+    } catch { /* no model */ }
   }
 
   if (seed.primaryTarget) {
@@ -291,6 +305,8 @@ function reportRow(seed, r) {
   const chembl = med?.chemblId ? `${med.chemblId} (${esc(r.prefName)})` : "—";
   const targets = med?.mechanismDebated
     ? "_mechanism debated — none_"
+    : med?.noProteinMechanism
+    ? "_no protein mechanism_"
     : (med?.targets ?? []).map((l) =>
         `${l.target.uniprotId} ${esc(l.target.gene)} / ${esc(l.target.shortName)} (${esc(l.target.organism)}) — ${esc(l.mechanism)} · ${esc(l.actionType)}`
       ).join("<br>") || "—";

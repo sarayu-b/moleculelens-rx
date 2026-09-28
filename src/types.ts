@@ -31,6 +31,7 @@ export type Medicine = {
   id: string; name: string; ingredient: string;
   rxcui?: string; chemblId?: string; brandNames: string[];
   mechanismDebated?: boolean;
+  noProteinMechanism?: boolean; // ChEMBL lists no mechanism: works physically or chemically
   primaryTarget?: string; // UniProt accession the target screen opens on
   targets: TargetLink[];
   cards?: Cards;

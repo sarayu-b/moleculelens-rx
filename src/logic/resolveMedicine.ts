@@ -53,6 +53,7 @@ export function findByIngredient(name: string): Medicine | undefined {
 // One-line target summary for lists, e.g. "COX-2 · COX-1" or "Mechanism still debated".
 export function targetSummary(m: Medicine, max = 3): string {
   if (m.mechanismDebated) return "Mechanism still debated";
+  if (m.noProteinMechanism) return "Works without a protein target";
   const names = [...new Set(m.targets.map((t) => t.target.shortName))];
   if (!names.length) return "No verified target yet";
   const shown = names.slice(0, max).join(" · ");

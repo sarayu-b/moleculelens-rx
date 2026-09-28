@@ -92,9 +92,9 @@ export default function MedicineScreen() {
   const others = med.targets.filter((l) => l !== link);
   const comingSoon = "A deeper look for this medicine is coming soon.";
   // Debated medicines never call the Worker, so they only ever show hand-written deep dives.
-  const diveLoading = !med.mechanismDebated && !med.deepDives && dives.status === "loading";
+  const diveLoading = canAsk && !med.deepDives && dives.status === "loading";
   const diveValue = med.deepDives ?? (dives.status === "done" ? dives.value : null);
-  const diveCaption = med.deepDives ? HAND_CAPTION : !med.mechanismDebated && dives.status === "done" ? dives.caption : undefined;
+  const diveCaption = med.deepDives ? HAND_CAPTION : canAsk && dives.status === "done" ? dives.caption : undefined;
   const diveBody = (text?: string) =>
     diveLoading ? (
       <View style={s.bars} accessibilityLabel="Loading deep dive">
@@ -140,6 +140,17 @@ export default function MedicineScreen() {
           </View>
           {deepDives}
         </>
+      ) : med.noProteinMechanism ? (
+        <>
+          <View style={s.debated}>
+            <Text style={s.debatedTitle}>No protein target</Text>
+            <Text style={s.p}>
+              This ingredient works physically or chemically (for example coating, neutralising or lubricating) rather
+              than by binding a protein, so there’s nothing to show in 3D.
+            </Text>
+          </View>
+          {deepDives}
+        </>
       ) : !link ? (
         <Text style={s.p}>No verified protein target for this medicine yet.</Text>
       ) : (
@@ -169,7 +180,12 @@ export default function MedicineScreen() {
             <Text style={s.mech}>
               {link.mechanism} · {link.actionType}
             </Text>
-            {link.structure && <StructureNote st={link.structure} />}
+            {!isHuman(link.target.organism) && (
+              <Text style={s.amber}>
+                This protein belongs to {link.target.organism}, not to you — the medicine attacks the germ.
+              </Text>
+            )}
+            {link.structure && <StructureNote st={link.structure} germ={!isHuman(link.target.organism)} />}
           </View>
 
           {link.structure ? (
@@ -227,11 +243,15 @@ export default function MedicineScreen() {
   );
 }
 
-function StructureNote({ st }: { st: Structure }) {
+const isHuman = (organism: string) => !organism || organism.startsWith("Homo sapiens");
+
+// germ: the target itself is non-human, so the "animal stand-in" note would be misleading.
+function StructureNote({ st, germ }: { st: Structure; germ: boolean }) {
   if (st.source === "alphafold") {
     return (
       <Text style={s.small}>
-        Predicted structure (AlphaFold DB). No drug-bound experimental structure is bundled, so the drug itself isn’t shown.
+        Predicted structure (AlphaFold DB{germ ? `, ${st.organism}` : ""}). No drug-bound experimental structure is
+        bundled, so the drug itself isn’t shown.
       </Text>
     );
   }
@@ -243,7 +263,7 @@ function StructureNote({ st }: { st: Structure }) {
         {st.resolutionA !== undefined ? ` · ${st.resolutionA} Å` : ""}
       </Text>
       {st.note && <Text style={s.small}>{st.note}</Text>}
-      {st.isAnimal && (
+      {st.isAnimal && !germ && (
         <Text style={s.amber}>
           This structure is from a {common ? `${common} (${st.organism})` : st.organism} protein, not human. The drug pocket is very similar.
         </Text>

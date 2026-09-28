@@ -10,6 +10,7 @@ export type Quiz = { questions: QuizQuestion[]; usingSample: boolean };
 export const SAMPLE_IDS = ["ibuprofen", "aspirin", "atorvastatin", "loratadine"];
 export const SAMPLE_NOTE = "Using sample medicines — add yours to the cabinet";
 const DEBATED_BACK = "Mechanism still debated — no single protein";
+const NO_PROTEIN_BACK = "No protein — it works physically or chemically";
 
 const hasTargets = (m: Medicine) => !m.mechanismDebated && m.targets.length > 0;
 
@@ -23,6 +24,7 @@ function studyMedicines(cabinetIds: string[]): { meds: Medicine[]; usingSample: 
 export function flashcardFor(m: Medicine): Flashcard | null {
   const front = `${m.name} — which protein does it act on?`;
   if (m.mechanismDebated) return { medicineId: m.id, front, back: DEBATED_BACK, extra: m.cards?.drug };
+  if (m.noProteinMechanism) return { medicineId: m.id, front, back: NO_PROTEIN_BACK, extra: m.cards?.drug };
   const link = pickPrimary(m);
   if (!link) return null;
   return {
