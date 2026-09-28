@@ -1,0 +1,7 @@
+{
+  // Cloudflare Worker that turns verified facts into plain-language explanations via Gemini.
+  // Secrets (GEMINI_API_KEY, APP_TOKEN) are set with `npx wrangler secret put`, never stored here.
+  "name": "moleculelens-explain",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-28"
+}

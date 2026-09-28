@@ -26,6 +26,7 @@ export type TargetLink = {
   structure?: Structure;
 };
 export type Cards = { protein: string; drug: string; effect: string };
+export type DeepDives = { sideEffects: string; metabolism: string };
 export type Medicine = {
   id: string; name: string; ingredient: string;
   rxcui?: string; chemblId?: string; brandNames: string[];
@@ -33,7 +34,7 @@ export type Medicine = {
   primaryTarget?: string; // UniProt accession the target screen opens on
   targets: TargetLink[];
   cards?: Cards;
-  deepDives?: { sideEffects: string; metabolism: string };
+  deepDives?: DeepDives;
 };
 export type HeroList = { generatedAt: string; sources: string[]; medicines: Medicine[] };
 export type CabinetItem = { medicineId: string; addedAt: string };

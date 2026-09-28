@@ -1,7 +1,8 @@
 // src/app/medicine/[id].tsx — target screen: protein, 3D structure, plain-language cards
 import { Href, router, Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { fetchCards, fetchDeepDives } from "../../api/explain";
 import ExplanationCards from "../../components/ExplanationCards";
 import LockedSection from "../../components/LockedSection";
 import MoleculeViewer from "../../components/MoleculeViewer";
@@ -9,10 +10,31 @@ import { cabinetAddNeedsPro } from "../../lib/entitlements";
 import { useEntitlements } from "../../lib/EntitlementsProvider";
 import { addToCabinet, getCabinet } from "../../lib/storage";
 import { getMedicine } from "../../logic/resolveMedicine";
-import type { Medicine, Structure, TargetLink } from "../../types";
+import type { Cards, DeepDives, Medicine, Structure, TargetLink } from "../../types";
 
 // Friendly names for animal source organisms in structure notes.
 const COMMON_NAMES: Record<string, string> = { "Mus musculus": "mouse", "Rattus norvegicus": "rat", "Bos taurus": "cow" };
+
+const HAND_CAPTION = "Hand-verified explanation";
+const AI_CAPTION = "AI explanation from verified facts · Gemini 3.8 Flash";
+const FALLBACK_CAPTION = "AI explanation unavailable — showing the verified facts";
+
+// Hand-written text if the hero list has it; otherwise ask the Worker (null = unavailable).
+type Explained<T> = { status: "loading" } | { status: "done"; value: T | null; caption: string };
+
+function useExplained<T>(hand: T | undefined, enabled: boolean, key: string, load: () => Promise<T | null>): Explained<T> {
+  const [fetched, setFetched] = useState<{ key: string; value: T | null } | null>(null);
+  useEffect(() => {
+    if (hand || !enabled) return;
+    let active = true;
+    load().then((value) => { if (active) setFetched({ key, value }); });
+    return () => { active = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hand, enabled, key]);
+  if (hand) return { status: "done", value: hand, caption: HAND_CAPTION };
+  if (!enabled || fetched?.key !== key) return { status: "loading" };
+  return { status: "done", value: fetched.value, caption: fetched.value ? AI_CAPTION : FALLBACK_CAPTION };
+}
 
 // Opening target: explicit primaryTarget, else first with a drug-bound (rcsb) structure, else the first.
 function pickPrimary(med: Medicine): TargetLink | undefined {
@@ -33,6 +55,12 @@ export default function MedicineScreen() {
   const [inCabinet, setInCabinet] = useState(false);
   const [busy, setBusy] = useState(false);
   const { isPro } = useEntitlements();
+
+  // Never ask the AI about medicines whose mechanism is debated.
+  const canAsk = !!med && !!primary && !med.mechanismDebated;
+  const askKey = `${med?.id}:${primary?.target.uniprotId}`;
+  const cards = useExplained<Cards>(med?.cards, canAsk, askKey, () => fetchCards(med!, primary!));
+  const dives = useExplained<DeepDives>(med?.deepDives, canAsk && isPro, askKey, () => fetchDeepDives(med!, primary!));
 
   // Re-check on every visit (e.g. after removing it in the cabinet or buying Lens Pro).
   useFocusEffect(
@@ -72,13 +100,30 @@ export default function MedicineScreen() {
   const link = med.targets.find((l) => l.target.uniprotId === selectedId) ?? primary;
   const others = med.targets.filter((l) => l !== link);
   const comingSoon = "A deeper look for this medicine is coming soon.";
+  // Debated medicines never call the Worker, so they only ever show hand-written deep dives.
+  const diveLoading = !med.mechanismDebated && !med.deepDives && dives.status === "loading";
+  const diveValue = med.deepDives ?? (dives.status === "done" ? dives.value : null);
+  const diveCaption = med.deepDives ? HAND_CAPTION : !med.mechanismDebated && dives.status === "done" ? dives.caption : undefined;
+  const diveBody = (text?: string) =>
+    diveLoading ? (
+      <View style={s.bars} accessibilityLabel="Loading deep dive">
+        <View style={[s.bar, { width: "94%" }]} />
+        <View style={[s.bar, { width: "86%" }]} />
+        <View style={[s.bar, { width: "70%" }]} />
+      </View>
+    ) : (
+      <>
+        <Text style={s.p}>{text ?? comingSoon}</Text>
+        {diveCaption && <Text style={s.caption}>{diveCaption}</Text>}
+      </>
+    );
   const deepDives = (
     <>
       <LockedSection title="Side-effect deep dive" locked={!isPro} reason="deepdive">
-        <Text style={s.p}>{med.deepDives?.sideEffects ?? comingSoon}</Text>
+        {diveBody(diveValue?.sideEffects)}
       </LockedSection>
       <LockedSection title="Metabolism deep dive" locked={!isPro} reason="deepdive">
-        <Text style={s.p}>{med.deepDives?.metabolism ?? comingSoon}</Text>
+        {diveBody(diveValue?.metabolism)}
       </LockedSection>
     </>
   );
@@ -152,7 +197,13 @@ export default function MedicineScreen() {
             <Text style={s.p}>No 3D structure is available for this protein.</Text>
           )}
 
-          <ExplanationCards medicine={med} link={primary} />
+          <ExplanationCards
+            medicine={med}
+            link={primary}
+            loading={cards.status === "loading"}
+            cards={cards.status === "done" ? cards.value : null}
+            caption={cards.status === "done" ? cards.caption : undefined}
+          />
           {deepDives}
 
           {others.length > 0 && (
@@ -239,5 +290,8 @@ const s = StyleSheet.create({
   addBtnBusy: { opacity: 0.6 },
   cabinetLink: { color: "#9fb4ff", textAlign: "center", fontSize: 15 },
   addText: { color: "white", fontWeight: "700", fontSize: 16 },
+  bars: { gap: 8, opacity: 0.6 },
+  bar: { height: 12, borderRadius: 6, backgroundColor: "#2b3354" },
+  caption: { color: "#6b7599", fontSize: 12 },
   footer: { color: "#6b7599", fontSize: 12, textAlign: "center", lineHeight: 17 },
 });
