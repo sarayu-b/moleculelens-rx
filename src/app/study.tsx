@@ -1,18 +1,30 @@
-// src/app/study.tsx — Study Pack: flashcards and a quiz built from the cabinet
+// src/app/study.tsx — Study Pack: flashcards and a quiz built from the cabinet or the whole hero list
 import { router, Stack, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useEntitlements } from "../lib/EntitlementsProvider";
 import { getCabinet } from "../lib/storage";
-import { getMedicine } from "../logic/resolveMedicine";
-import { buildDeck, buildQuiz, flashcardFor, SAMPLE_NOTE, type Flashcard, type Quiz } from "../logic/study";
+import { buildDeck, buildQuiz, SAMPLE_NOTE, teaserCard, type Flashcard, type Quiz, type Scope } from "../logic/study";
 
 type Mode = "flashcards" | "quiz";
+
+function Segmented<T extends string>({ value, options, onChange }: { value: T; options: [T, string][]; onChange: (v: T) => void }) {
+  return (
+    <View style={s.segment}>
+      {options.map(([v, label]) => (
+        <Pressable key={v} style={[s.segBtn, value === v && s.segBtnOn]} onPress={() => onChange(v)}>
+          <Text style={[s.segText, value === v && s.segTextOn]}>{label}</Text>
+        </Pressable>
+      ))}
+    </View>
+  );
+}
 
 export default function StudyScreen() {
   const { hasStudy, loading } = useEntitlements();
   const [cabinetIds, setCabinetIds] = useState<string[] | null>(null);
   const [mode, setMode] = useState<Mode>("flashcards");
+  const [scope, setScope] = useState<Scope>("cabinet");
 
   // Re-read on every visit so newly added medicines show up.
   useFocusEffect(
@@ -32,17 +44,12 @@ export default function StudyScreen() {
         <Teaser />
       ) : (
         <>
-          <View style={s.segment}>
-            {(["flashcards", "quiz"] as Mode[]).map((m) => (
-              <Pressable key={m} style={[s.segBtn, mode === m && s.segBtnOn]} onPress={() => setMode(m)}>
-                <Text style={[s.segText, mode === m && s.segTextOn]}>{m === "flashcards" ? "Flashcards" : "Quiz"}</Text>
-              </Pressable>
-            ))}
-          </View>
+          <Segmented value={scope} options={[["cabinet", "My cabinet"], ["all", "All medicines"]]} onChange={setScope} />
+          <Segmented value={mode} options={[["flashcards", "Flashcards"], ["quiz", "Quiz"]]} onChange={setMode} />
           {mode === "flashcards" ? (
-            <Flashcards key={cabinetIds.join(",")} cabinetIds={cabinetIds} />
+            <Flashcards key={`${scope}:${cabinetIds.join(",")}`} cabinetIds={cabinetIds} scope={scope} />
           ) : (
-            <QuizView key={cabinetIds.join(",")} cabinetIds={cabinetIds} />
+            <QuizView key={`${scope}:${cabinetIds.join(",")}`} cabinetIds={cabinetIds} scope={scope} />
           )}
         </>
       )}
@@ -52,7 +59,7 @@ export default function StudyScreen() {
 }
 
 function Teaser() {
-  const sample = flashcardFor(getMedicine("ibuprofen")!);
+  const sample = teaserCard();
   const [flipped, setFlipped] = useState(false);
   return (
     <View style={s.gap}>
@@ -84,8 +91,18 @@ function Card({ card, flipped, onPress }: { card: Flashcard; flipped: boolean; o
   );
 }
 
-function Flashcards({ cabinetIds }: { cabinetIds: string[] }) {
-  const [deck] = useState(() => buildDeck(cabinetIds));
+// Title for a deck or quiz, with the sample note underneath when sample medicines were mixed in.
+function Heading({ title, usingSample }: { title: string; usingSample: boolean }) {
+  return (
+    <View style={{ gap: 6 }}>
+      <Text style={s.h2}>{title}</Text>
+      {usingSample && <Text style={s.note}>{SAMPLE_NOTE} — add yours to the cabinet</Text>}
+    </View>
+  );
+}
+
+function Flashcards({ cabinetIds, scope }: { cabinetIds: string[]; scope: Scope }) {
+  const [deck] = useState(() => buildDeck(cabinetIds, scope));
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const go = (next: number) => { setIndex(next); setFlipped(false); };
@@ -94,14 +111,14 @@ function Flashcards({ cabinetIds }: { cabinetIds: string[] }) {
 
   return (
     <View style={s.gap}>
-      {deck.usingSample && <Text style={s.note}>{SAMPLE_NOTE}</Text>}
+      <Heading title={scope === "all" ? "All medicines" : "My cabinet"} usingSample={deck.usingSample} />
       <Card card={card} flipped={flipped} onPress={() => setFlipped((f) => !f)} />
       <Text style={s.hint}>Tap the card to flip it</Text>
       <View style={s.navRow}>
         <Pressable style={[s.navBtn, index === 0 && s.disabled]} disabled={index === 0} onPress={() => go(index - 1)}>
           <Text style={s.navText}>← Prev</Text>
         </Pressable>
-        <Text style={s.counter}>{index + 1} / {deck.cards.length}</Text>
+        <Text style={s.counter}>Card {index + 1} of {deck.cards.length}</Text>
         <Pressable
           style={[s.navBtn, index === deck.cards.length - 1 && s.disabled]}
           disabled={index === deck.cards.length - 1}
@@ -114,14 +131,14 @@ function Flashcards({ cabinetIds }: { cabinetIds: string[] }) {
   );
 }
 
-function QuizView({ cabinetIds }: { cabinetIds: string[] }) {
-  const [quiz, setQuiz] = useState<Quiz>(() => buildQuiz(cabinetIds));
+function QuizView({ cabinetIds, scope }: { cabinetIds: string[]; scope: Scope }) {
+  const [quiz, setQuiz] = useState<Quiz>(() => buildQuiz(cabinetIds, scope));
   const [index, setIndex] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
   const [score, setScore] = useState(0);
 
   function restart() {
-    setQuiz(buildQuiz(cabinetIds));
+    setQuiz(buildQuiz(cabinetIds, scope));
     setIndex(0);
     setPicked(null);
     setScore(0);
@@ -151,7 +168,7 @@ function QuizView({ cabinetIds }: { cabinetIds: string[] }) {
 
   return (
     <View style={s.gap}>
-      {quiz.usingSample && <Text style={s.note}>{SAMPLE_NOTE}</Text>}
+      <Heading title={scope === "all" ? "All medicines quiz" : "My cabinet quiz"} usingSample={quiz.usingSample} />
       <Text style={s.counter}>Question {index + 1} of {quiz.questions.length}</Text>
       <Text style={s.h2}>{q.question}</Text>
       {q.options.map((option) => {

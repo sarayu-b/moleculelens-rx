@@ -1,5 +1,6 @@
 // src/components/ExplanationCards.tsx — the three plain-language cards
 import { StyleSheet, Text, View } from "react-native";
+import { firstSentences } from "../logic/text";
 import type { Cards, DeepDives, Medicine, TargetLink } from "../types";
 
 const TITLES = [
@@ -7,13 +8,6 @@ const TITLES = [
   "What the drug changes",
   "Why that helps — and can cause side effects",
 ];
-
-function firstSentences(text: string, n: number): string {
-  // UniProt text carries evidence tags like "(PubMed:12345)" — drop them for readability.
-  const clean = text.replace(/\s*\((?:PubMed|ECO)[^)]*\)/g, "").replace(/\s+/g, " ").trim();
-  const parts = clean.match(/[^.!?]+[.!?]+(\s|$)/g) ?? [clean];
-  return parts.slice(0, n).join("").trim();
-}
 
 export function placeholderCards(medicine: Medicine, link?: TargetLink): Cards {
   const t = link?.target;

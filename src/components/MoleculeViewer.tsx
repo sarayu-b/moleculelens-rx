@@ -64,7 +64,7 @@ export default function MoleculeViewer({ fileUrl, ligandCode, chain, ligandLabel
       </View>
 
       <Text style={styles.note}>
-        {status === "error" ? `Error: ${error}` : "Drag to rotate · pinch to zoom · two-finger drag to pan"}
+        {status === "error" ? `Error: ${error}` : "Drag to rotate · pinch to zoom · use the buttons to re-centre"}
       </Text>
     </View>
   );

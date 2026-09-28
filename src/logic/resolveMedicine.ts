@@ -75,5 +75,6 @@ export function pickPrimary(med: Medicine): TargetLink | undefined {
   return med.targets.find((l) => l.structure?.source === "rcsb") ?? med.targets[0];
 }
 
-// "COX-2 (PTGS2)", or just "Ribosome" when there is no gene symbol.
-export const withGene = (shortName: string, gene: string) => (gene ? `${shortName} (${gene})` : shortName);
+// "COX-2 (PTGS2)"; just the short name when there is no gene symbol ("Ribosome") or it repeats it ("ATP4A").
+export const withGene = (shortName: string, gene: string) =>
+  gene && gene !== shortName ? `${shortName} (${gene})` : shortName;
