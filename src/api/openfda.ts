@@ -1,5 +1,6 @@
 // src/api/openfda.ts — look up a drug product by UPC or product NDC (openFDA, no key)
-import { ndcCandidates } from "../logic/barcode";
+import { ndcCandidates, packageNdcCandidates } from "../logic/barcode";
+import { ndcToIngredient } from "./rxnorm";
 
 export type FdaProduct = { brandName?: string; genericName?: string; ingredient?: string };
 export type BarcodeMatch = FdaProduct & { method: string };
@@ -43,7 +44,7 @@ async function query(search: string): Promise<FdaProduct | null> {
 export const lookupUpc = (upc12: string) => query(`openfda.upc:"0${upc12}"`);
 export const lookupProductNdc = (productNdc: string) => query(`product_ndc:"${productNdc}"`);
 
-export async function resolveBarcode(upc12: string): Promise<BarcodeMatch | null> {
+async function resolveWithOpenFda(upc12: string): Promise<BarcodeMatch | null> {
   const byUpc = await lookupUpc(upc12);
   if (byUpc) return { ...byUpc, method: "upc" };
   // Tried in 4-4-2, 5-3-2, 5-4-1 order.
@@ -51,5 +52,23 @@ export async function resolveBarcode(upc12: string): Promise<BarcodeMatch | null
     const hit = await lookupProductNdc(ndc);
     if (hit) return { ...hit, method: `ndc ${ndc}` };
   }
+  return null;
+}
+
+// openFDA first; if it misses (or is rate-limited) on a US drug UPC, fall back to RxNorm's NDC index.
+export async function resolveBarcode(upc12: string): Promise<BarcodeMatch | null> {
+  let rateLimited: OpenFdaRateLimitError | null = null;
+  try {
+    const hit = await resolveWithOpenFda(upc12);
+    if (hit) return hit;
+  } catch (e) {
+    if (!(e instanceof OpenFdaRateLimitError)) throw e;
+    rateLimited = e;
+  }
+  if (upc12.startsWith("3")) {
+    const rx = await ndcToIngredient(packageNdcCandidates(upc12));
+    if (rx) return { ingredient: rx.ingredient, genericName: rx.ingredient, method: rx.method };
+  }
+  if (rateLimited) throw rateLimited;
   return null;
 }

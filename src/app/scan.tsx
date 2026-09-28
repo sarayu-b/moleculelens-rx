@@ -1,4 +1,4 @@
-// src/app/scan.tsx — scan a medicine box barcode → openFDA → hero medicine
+// src/app/scan.tsx — scan a medicine box barcode → openFDA (RxNorm fallback) → hero medicine
 import { BarcodeScanningResult, CameraView, useCameraPermissions } from "expo-camera";
 import { Href, router, Stack } from "expo-router";
 import { useRef, useState } from "react";

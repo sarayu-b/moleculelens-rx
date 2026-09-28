@@ -77,3 +77,14 @@ export function ndcCandidates(upc12: string): string[] {
     `${d.slice(0, 5)}-${d.slice(5, 9)}`, // 5-4-1 → ddddd-dddd
   ];
 }
+
+// Full 10-digit package NDCs (with the package code) in the same three layouts, for RxNorm.
+export function packageNdcCandidates(upc12: string): string[] {
+  if (upc12.length !== 12 || upc12[0] !== "3") return [];
+  const d = upc12.slice(1, 11);
+  return [
+    `${d.slice(0, 4)}-${d.slice(4, 8)}-${d.slice(8)}`, // 4-4-2
+    `${d.slice(0, 5)}-${d.slice(5, 8)}-${d.slice(8)}`, // 5-3-2
+    `${d.slice(0, 5)}-${d.slice(5, 9)}-${d.slice(9)}`, // 5-4-1
+  ];
+}

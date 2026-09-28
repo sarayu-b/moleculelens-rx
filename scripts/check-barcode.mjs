@@ -1,6 +1,6 @@
 // scripts/check-barcode.mjs — quick checks for src/logic/barcode.ts. Run: npm run check:barcode
 // Node 24 strips TypeScript types natively, so this imports the real source file.
-import { expandUpcE, isProductBarcode, ndcCandidates, normalizeUpc } from "../src/logic/barcode.ts";
+import { expandUpcE, isProductBarcode, ndcCandidates, normalizeUpc, packageNdcCandidates } from "../src/logic/barcode.ts";
 
 let failed = 0;
 function check(label, got, want) {
@@ -26,6 +26,10 @@ check('expandUpcE("01234566") (bad check digit)', expandUpcE("01234566"), null);
 // NDC candidates for Advil 305730150200; none for a non-drug UPC.
 check('ndcCandidates("305730150200")', ndcCandidates("305730150200"), ["0573-0150", "05730-150", "05730-1502"]);
 check('ndcCandidates("030768031213")', ndcCandidates("030768031213"), []);
+
+// Full package NDCs for the RxNorm fallback (box that openFDA missed).
+check('packageNdcCandidates("310119022412")', packageNdcCandidates("310119022412"), ["1011-9022-41", "10119-022-41", "10119-0224-1"]);
+check('packageNdcCandidates("030768031213")', packageNdcCandidates("030768031213"), []);
 
 check('isProductBarcode("code128")', isProductBarcode("code128"), false);
 
