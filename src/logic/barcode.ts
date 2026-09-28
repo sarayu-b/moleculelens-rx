@@ -57,11 +57,8 @@ export function expandUpcE(code: string): string | null {
 export function normalizeUpc(raw: string, type: string): string | null {
   const digits = raw.replace(/\D/g, "");
   const t = normalizeType(type);
-  if (t === "ean13") {
-    // A UPC-A read as EAN-13 gets a leading 0.
-    return digits.length === 13 && digits.startsWith("0") ? digits.slice(1) : null;
-  }
-  if (t === "upc_a") {
+  if (t === "ean13" || t === "upc_a") {
+    // iOS reports UPC-A as type "ean13" with only 12 digits; others add a leading 0 (13 digits).
     if (digits.length === 12) return digits;
     if (digits.length === 13 && digits.startsWith("0")) return digits.slice(1);
     return null;

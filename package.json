@@ -44,7 +44,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "build:hero": "node scripts/build-hero-list.mjs"
+    "build:hero": "node scripts/build-hero-list.mjs",
+    "check:barcode": "node scripts/check-barcode.mjs"
   },
   "private": true
 }

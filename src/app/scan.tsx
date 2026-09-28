@@ -13,7 +13,7 @@ type Result =
   | { kind: "idle" }
   | { kind: "looking"; code: string }
   | { kind: "notListed"; brandName: string; ingredient: string }
-  | { kind: "notFound" }
+  | { kind: "notFound"; upc?: string }
   | { kind: "notProduct" }
   | { kind: "error"; message: string };
 
@@ -51,7 +51,7 @@ export default function Scan() {
     setResult({ kind: "looking", code: upc });
     try {
       const hit = await resolveBarcode(upc);
-      if (!hit) { report(readUpc, "not found"); setResult({ kind: "notFound" }); return; }
+      if (!hit) { report(readUpc, "not found"); setResult({ kind: "notFound", upc }); return; }
       const med = findByIngredient(hit.ingredient ?? "") ?? findByIngredient(hit.genericName ?? "");
       report(readUpc, `matched ${hit.method} · ${hit.brandName ?? "?"} / ${hit.ingredient ?? hit.genericName ?? "?"} → ${med ? med.id : "not in list"}`);
       if (med) { router.replace(`/medicine/${med.id}` as Href); return; }
@@ -145,7 +145,11 @@ export default function Scan() {
         )}
         {result.kind === "notFound" && (
           <View style={s.card}>
-            <Text style={s.p}>{"Couldn't read that box. Try the search."}</Text>
+            <Text style={s.p}>
+              {result.upc && !result.upc.startsWith("3")
+                ? "That barcode isn't a US medicine barcode — medicine UPCs start with 3. Vitamins and supplements aren't covered."
+                : "Couldn't read that box. Try the search."}
+            </Text>
             <Pressable style={s.btn} onPress={searchInstead}>
               <Text style={s.btnText}>Search instead</Text>
             </Pressable>
