@@ -1,6 +1,6 @@
 // src/components/ExplanationCards.tsx — the three plain-language cards
 import { StyleSheet, Text, View } from "react-native";
-import type { Cards, Medicine, TargetLink } from "../types";
+import type { Cards, DeepDives, Medicine, TargetLink } from "../types";
 
 const TITLES = [
   "What the protein normally does",
@@ -22,7 +22,17 @@ export function placeholderCards(medicine: Medicine, link?: TargetLink): Cards {
     drug: link
       ? `${medicine.name} is a ${link.actionType.toLowerCase()} of ${t!.shortName} (${link.mechanism}).`
       : `${medicine.name}'s protein target isn't verified yet.`,
-    effect: "A plain-language explanation isn't available right now. Ask your pharmacist if you have questions.",
+    effect: link
+      ? `Both the benefit and many of the side effects come from this change to ${t!.shortName}. Ask your pharmacist if you have questions.`
+      : "Ask your pharmacist if you have questions.",
+  };
+}
+
+// Deep dives built only from the verified target facts (used when no hand-written or AI text exists).
+export function placeholderDeepDives(medicine: Medicine, link: TargetLink): DeepDives {
+  return {
+    sideEffects: `Many of ${medicine.name}'s side effects come from the same action on ${link.target.shortName} (${link.mechanism}) that gives its benefit. Ask your pharmacist if you have questions.`,
+    metabolism: `How the body absorbs, breaks down and clears ${medicine.name} isn't in MoleculeLens's verified data yet. Your pharmacist or the medicine's leaflet can tell you more.`,
   };
 }
 

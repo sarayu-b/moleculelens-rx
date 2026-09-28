@@ -3,7 +3,7 @@ import { Href, router, Stack, useFocusEffect, useLocalSearchParams } from "expo-
 import { useCallback, useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { fetchCards, fetchDeepDives } from "../../api/explain";
-import ExplanationCards from "../../components/ExplanationCards";
+import ExplanationCards, { placeholderDeepDives } from "../../components/ExplanationCards";
 import LockedSection from "../../components/LockedSection";
 import MoleculeViewer from "../../components/MoleculeViewer";
 import { cabinetAddNeedsPro } from "../../lib/entitlements";
@@ -17,9 +17,9 @@ const COMMON_NAMES: Record<string, string> = { "Mus musculus": "mouse", "Rattus 
 
 const HAND_CAPTION = "Hand-verified explanation";
 const AI_CAPTION = "AI explanation from verified facts · Gemini 3.8 Flash";
-const FALLBACK_CAPTION = "AI explanation unavailable — showing the verified facts";
+const FACTS_CAPTION = "Built from verified facts (ChEMBL · UniProt)";
 
-// Hand-written text if the hero list has it; otherwise ask the Worker (null = unavailable).
+// Hand-written text if the hero list has it; otherwise ask the Worker (null = not deployed or failed).
 type Explained<T> = { status: "loading" } | { status: "done"; value: T | null; caption: string };
 
 function useExplained<T>(hand: T | undefined, enabled: boolean, key: string, load: () => Promise<T | null>): Explained<T> {
@@ -33,7 +33,7 @@ function useExplained<T>(hand: T | undefined, enabled: boolean, key: string, loa
   }, [hand, enabled, key]);
   if (hand) return { status: "done", value: hand, caption: HAND_CAPTION };
   if (!enabled || fetched?.key !== key) return { status: "loading" };
-  return { status: "done", value: fetched.value, caption: fetched.value ? AI_CAPTION : FALLBACK_CAPTION };
+  return { status: "done", value: fetched.value, caption: fetched.value ? AI_CAPTION : FACTS_CAPTION };
 }
 
 export default function MedicineScreen() {
@@ -93,7 +93,7 @@ export default function MedicineScreen() {
   const comingSoon = "A deeper look for this medicine is coming soon.";
   // Debated medicines never call the Worker, so they only ever show hand-written deep dives.
   const diveLoading = canAsk && !med.deepDives && dives.status === "loading";
-  const diveValue = med.deepDives ?? (dives.status === "done" ? dives.value : null);
+  const diveValue = med.deepDives ?? (dives.status === "done" ? (dives.value ?? (primary ? placeholderDeepDives(med, primary) : null)) : null);
   const diveCaption = med.deepDives ? HAND_CAPTION : canAsk && dives.status === "done" ? dives.caption : undefined;
   const diveBody = (text?: string) =>
     diveLoading ? (

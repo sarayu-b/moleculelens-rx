@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-28T17:53:54.029Z",
+  "generatedAt": "2026-09-28T20:29:32.769Z",
   "sources": [
     "ChEMBL (https://www.ebi.ac.uk/chembl/)",
     "UniProt (https://www.uniprot.org/)",
@@ -188,7 +188,12 @@
         }
       ],
       "chemblId": "CHEMBL154",
-      "rxcui": "7258"
+      "rxcui": "7258",
+      "cards": {
+        "protein": "COX-2 is an enzyme your cells switch on during injury or infection. It turns arachidonic acid, a fat from cell membranes, into prostaglandins — messengers that cause swelling, pain and fever.",
+        "drug": "Naproxen sits in the channel where arachidonic acid enters and blocks it, so COX-2 can't make prostaglandins. It also blocks COX-1, and it stays in the body longer than ibuprofen, which is why it's taken less often.",
+        "effect": "Less prostaglandin means less pain, swelling and fever for a longer stretch. Blocking COX-1 also lowers the stomach's protective prostaglandins, so it can irritate the stomach. Ask your pharmacist if you have questions."
+      }
     },
     {
       "id": "celecoxib",
@@ -334,7 +339,12 @@
         }
       ],
       "chemblId": "CHEMBL419213",
-      "rxcui": "29046"
+      "rxcui": "29046",
+      "cards": {
+        "protein": "Angiotensin-converting enzyme (ACE) is a scissors-like enzyme lining the inside of blood vessels. It cuts angiotensin I into angiotensin II, a hormone that narrows blood vessels and tells the kidneys to hold on to salt and water.",
+        "drug": "Lisinopril fits into ACE's active site and blocks it, so far less angiotensin II is made. Blood vessels relax and the body keeps less fluid.",
+        "effect": "Lower blood pressure and less strain on the heart. ACE also breaks down a substance called bradykinin; with ACE blocked it builds up, which is the likely reason for the dry cough some people get. Ask your pharmacist if you have questions."
+      }
     },
     {
       "id": "acetaminophen",
@@ -363,7 +373,12 @@
       "targets": [],
       "mechanismDebated": true,
       "chemblId": "CHEMBL1431",
-      "rxcui": "6809"
+      "rxcui": "6809",
+      "cards": {
+        "protein": "Scientists still debate exactly which protein metformin acts on. It clearly lowers the amount of sugar the liver releases and changes how cells handle energy, but there is no single agreed target.",
+        "drug": "Leading ideas involve the liver's energy sensors and its mitochondria, plus effects in the gut. Because there's no agreed target, MoleculeLens doesn't show a protein for it.",
+        "effect": "Lower sugar output from the liver helps control type 2 diabetes, with a low risk of dangerously low blood sugar on its own. Stomach upset is the most common side effect, especially at the start. Ask your pharmacist if you have questions."
+      }
     },
     {
       "id": "omeprazole",
@@ -411,7 +426,12 @@
         }
       ],
       "chemblId": "CHEMBL1503",
-      "rxcui": "7646"
+      "rxcui": "7646",
+      "cards": {
+        "protein": "The proton pump (H+/K+ ATPase) is a molecular machine inside the stomach's acid-making cells. It pushes hydrogen ions into the stomach — that is what makes stomach acid.",
+        "drug": "Omeprazole is switched on by the acid itself, then locks onto the pump and shuts it off for good. The cell has to build new pumps before it can make acid again, which takes a day or two.",
+        "effect": "Much less acid lets heartburn and ulcers heal. Stomach acid also helps absorb some nutrients and keeps some germs in check, which is why long-term use is worth reviewing with a professional. Ask your pharmacist if you have questions."
+      }
     },
     {
       "id": "loratadine",
@@ -441,7 +461,12 @@
         }
       ],
       "chemblId": "CHEMBL998",
-      "rxcui": "28889"
+      "rxcui": "28889",
+      "cards": {
+        "protein": "The histamine H1 receptor sits on the surface of cells in your nose, eyes, skin and airways. When histamine released during an allergic reaction docks onto it, the cell triggers itching, sneezing, runny nose and swelling.",
+        "drug": "Loratadine occupies the H1 receptor so histamine can't switch it on. It's built to stay mostly out of the brain, which is why it causes far less drowsiness than older antihistamines.",
+        "effect": "Blocking H1 calms sneezing, itching and runny nose; it doesn't stop the allergy itself, only the histamine signal. Because it barely enters the brain, side effects are usually mild. Ask your pharmacist if you have questions."
+      }
     },
     {
       "id": "cetirizine",
@@ -471,7 +496,12 @@
         }
       ],
       "chemblId": "CHEMBL1000",
-      "rxcui": "20610"
+      "rxcui": "20610",
+      "cards": {
+        "protein": "The histamine H1 receptor sits on the surface of cells in your nose, eyes, skin and airways. When histamine from an allergic reaction docks onto it, the cell triggers itching, sneezing, runny nose and swelling.",
+        "drug": "Cetirizine blocks the H1 receptor so histamine can't switch it on. It starts working within about an hour and lasts about a day. A little of it reaches the brain, so some people feel drowsy.",
+        "effect": "Blocking H1 relieves sneezing, itching and hives. The main trade-off is possible sleepiness, especially together with alcohol or other sedating medicines. Ask your pharmacist if you have questions."
+      }
     },
     {
       "id": "diphenhydramine",
@@ -531,7 +561,12 @@
         }
       ],
       "chemblId": "CHEMBL809",
-      "rxcui": "36437"
+      "rxcui": "36437",
+      "cards": {
+        "protein": "The serotonin transporter (SERT) is a pump on nerve cells that pulls serotonin back in after it's released, ending its signal.",
+        "drug": "Sertraline blocks that pump, so serotonin stays in the gap between nerve cells longer and keeps signalling. The effect on mood builds over weeks as brain circuits adapt.",
+        "effect": "Over time this can ease depression and anxiety. Serotonin also works in the gut and in sleep circuits, which is why nausea and sleep changes are common early on. Never stop it suddenly without advice. Ask your pharmacist if you have questions."
+      }
     },
     {
       "id": "amlodipine",
