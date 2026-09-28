@@ -25,13 +25,8 @@ export default function Scan() {
   const [manual, setManual] = useState("");
   const busy = useRef(false);
   const last = useRef({ code: "", at: 0 });
-  // DIAGNOSTICS (temporary — keep until the user says remove): last raw read + lookup outcome.
-  const [diag, setDiag] = useState("");
-  const report = (read: string, outcome: string) => {
-    const line = `${read} → ${outcome}`;
-    setDiag(line);
-    console.log("[scan]", line);
-  };
+  // Raw read + lookup outcome, for debugging in the Metro log.
+  const report = (read: string, outcome: string) => console.log("[scan]", `${read} → ${outcome}`);
 
   async function lookup(raw: string, type: string) {
     const read = `Read: ${type} ${raw}`;
@@ -179,7 +174,6 @@ export default function Scan() {
             <Text style={s.btnText}>Go</Text>
           </Pressable>
         </View>
-        {diag ? <Text style={s.diag} selectable>{diag}</Text> : null}
       </View>
     </KeyboardAvoidingView>
   );
@@ -206,6 +200,5 @@ const s = StyleSheet.create({
   },
   btn: { backgroundColor: "#3b4fd1", paddingVertical: 12, paddingHorizontal: 16, borderRadius: 10, alignItems: "center" },
   goBtn: { paddingHorizontal: 22 },
-  diag: { color: "#6b7599", fontSize: 11, fontFamily: Platform.select({ ios: "Menlo", default: "monospace" }) },
   btnText: { color: "white", fontWeight: "700", fontSize: 16 },
 });
