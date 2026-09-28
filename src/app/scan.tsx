@@ -6,7 +6,7 @@ import {
   ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View,
 } from "react-native";
 import { OpenFdaRateLimitError, resolveBarcode } from "../api/openfda";
-import { normalizeUpc } from "../logic/barcode";
+import { isProductBarcode, normalizeType, normalizeUpc } from "../logic/barcode";
 import { findByIngredient } from "../logic/resolveMedicine";
 
 type Result =
@@ -14,6 +14,7 @@ type Result =
   | { kind: "looking"; code: string }
   | { kind: "notListed"; brandName: string; ingredient: string }
   | { kind: "notFound" }
+  | { kind: "notProduct" }
   | { kind: "error"; message: string };
 
 const REPEAT_MS = 2000;
@@ -24,17 +25,35 @@ export default function Scan() {
   const [manual, setManual] = useState("");
   const busy = useRef(false);
   const last = useRef({ code: "", at: 0 });
+  // DIAGNOSTICS (temporary — keep until the user says remove): last raw read + lookup outcome.
+  const [diag, setDiag] = useState("");
+  const report = (read: string, outcome: string) => {
+    const line = `${read} → ${outcome}`;
+    setDiag(line);
+    console.log("[scan]", line);
+  };
 
   async function lookup(raw: string, type: string) {
+    const read = `Read: ${type} ${raw}`;
+    if (!isProductBarcode(type)) {
+      report(read, "not a product barcode");
+      setResult({ kind: "notProduct" });
+      return;
+    }
     const upc = normalizeUpc(raw, type);
-    if (!upc) { setResult({ kind: "notFound" }); return; }
+    if (!upc) {
+      report(read, `can't convert ${normalizeType(type)} to UPC-A → not found`);
+      setResult({ kind: "notFound" });
+      return;
+    }
+    const readUpc = upc === raw ? read : `${read} (UPC-A ${upc})`;
     busy.current = true;
     setResult({ kind: "looking", code: upc });
     try {
       const hit = await resolveBarcode(upc);
-      if (!hit) { setResult({ kind: "notFound" }); return; }
-      console.log("[scan]", upc, "matched via", hit.method, hit);
+      if (!hit) { report(readUpc, "not found"); setResult({ kind: "notFound" }); return; }
       const med = findByIngredient(hit.ingredient ?? "") ?? findByIngredient(hit.genericName ?? "");
+      report(readUpc, `matched ${hit.method} · ${hit.brandName ?? "?"} / ${hit.ingredient ?? hit.genericName ?? "?"} → ${med ? med.id : "not in list"}`);
       if (med) { router.replace(`/medicine/${med.id}` as Href); return; }
       setResult({
         kind: "notListed",
@@ -42,6 +61,7 @@ export default function Scan() {
         ingredient: (hit.ingredient ?? hit.genericName ?? "unknown ingredient").toLowerCase(),
       });
     } catch (e: any) {
+      report(readUpc, e instanceof OpenFdaRateLimitError ? "openfda 429" : `error: ${e?.message ?? e}`);
       setResult({
         kind: "error",
         message: e instanceof OpenFdaRateLimitError ? e.message : `Lookup failed: ${e?.message ?? e}`,
@@ -93,12 +113,14 @@ export default function Scan() {
             <CameraView
               style={{ flex: 1 }}
               facing="back"
-              barcodeScannerSettings={{ barcodeTypes: ["upc_a", "upc_e", "ean13", "ean8"] }}
+              autofocus="on"
+              barcodeScannerSettings={{ barcodeTypes: ["upc_a", "upc_e", "ean13", "ean8", "code128", "qr"] }}
               onBarcodeScanned={onBarcodeScanned}
             />
             <View style={s.overlay} pointerEvents="none">
               <View style={s.frame} />
               <Text style={s.overlayText}>Point at the barcode on the box</Text>
+              <Text style={s.overlayHint}>Hold the box 15–25 cm away and keep it still</Text>
             </View>
           </>
         )}
@@ -129,6 +151,11 @@ export default function Scan() {
             </Pressable>
           </View>
         )}
+        {result.kind === "notProduct" && (
+          <View style={s.card}>
+            <Text style={s.p}>{"That's not a product barcode. Look for the UPC barcode (the one with 12 numbers under it)."}</Text>
+          </View>
+        )}
         {result.kind === "error" && <Text style={s.error}>{result.message}</Text>}
 
         <Text style={s.small}>Enter barcode manually</Text>
@@ -148,6 +175,7 @@ export default function Scan() {
             <Text style={s.btnText}>Go</Text>
           </Pressable>
         </View>
+        {diag ? <Text style={s.diag} selectable>{diag}</Text> : null}
       </View>
     </KeyboardAvoidingView>
   );
@@ -159,6 +187,7 @@ const s = StyleSheet.create({
   overlay: { ...StyleSheet.absoluteFill, alignItems: "center", justifyContent: "center", gap: 16, backgroundColor: "rgba(0,0,0,0.25)" },
   frame: { width: "80%", height: 150, borderWidth: 3, borderColor: "#9fb4ff", borderRadius: 16, backgroundColor: "transparent" },
   overlayText: { color: "white", fontSize: 16, fontWeight: "600", textShadowColor: "black", textShadowRadius: 4 },
+  overlayHint: { color: "#dfe5ff", fontSize: 14, textShadowColor: "black", textShadowRadius: 4, marginTop: -8 },
   permission: { flex: 1, justifyContent: "center", padding: 24, gap: 14, backgroundColor: "#05070f" },
   panel: { padding: 16, gap: 10, backgroundColor: "#05070f" },
   card: { backgroundColor: "#111833", borderRadius: 12, padding: 14, gap: 10 },
@@ -173,5 +202,6 @@ const s = StyleSheet.create({
   },
   btn: { backgroundColor: "#3b4fd1", paddingVertical: 12, paddingHorizontal: 16, borderRadius: 10, alignItems: "center" },
   goBtn: { paddingHorizontal: 22 },
+  diag: { color: "#6b7599", fontSize: 11, fontFamily: Platform.select({ ios: "Menlo", default: "monospace" }) },
   btnText: { color: "white", fontWeight: "700", fontSize: 16 },
 });

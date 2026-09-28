@@ -12,13 +12,17 @@ export class OpenFdaRateLimitError extends Error {
 }
 
 const TIMEOUT_MS = 8000;
+// Optional: raises the limit from 1,000/day per IP. EXPO_PUBLIC_ vars are inlined into the app bundle
+// at build time, so this is not a secret; it lives in the git-ignored .env (see .env.example).
+const API_KEY = process.env.EXPO_PUBLIC_OPENFDA_KEY;
 
 async function query(search: string): Promise<FdaProduct | null> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
   try {
     // Encode the quotes (iOS URL parsing can reject raw `"`); openFDA decodes %22 the same way.
-    const url = `https://api.fda.gov/drug/ndc.json?search=${search.replace(/"/g, "%22")}&limit=1`;
+    const keyParam = API_KEY ? `&api_key=${encodeURIComponent(API_KEY)}` : "";
+    const url = `https://api.fda.gov/drug/ndc.json?search=${search.replace(/"/g, "%22")}&limit=1${keyParam}`;
     const res = await fetch(url, { signal: controller.signal });
     if (res.status === 404) return null; // openFDA answers "no matches" with 404
     if (res.status === 429) throw new OpenFdaRateLimitError();
@@ -42,11 +46,10 @@ export const lookupProductNdc = (productNdc: string) => query(`product_ndc:"${pr
 export async function resolveBarcode(upc12: string): Promise<BarcodeMatch | null> {
   const byUpc = await lookupUpc(upc12);
   if (byUpc) return { ...byUpc, method: "upc" };
-  const layouts = ["4-4-2", "5-3-2", "5-4-1"];
-  const candidates = ndcCandidates(upc12);
-  for (let i = 0; i < candidates.length; i++) {
-    const hit = await lookupProductNdc(candidates[i]);
-    if (hit) return { ...hit, method: `ndc ${layouts[i]} (${candidates[i]})` };
+  // Tried in 4-4-2, 5-3-2, 5-4-1 order.
+  for (const ndc of ndcCandidates(upc12)) {
+    const hit = await lookupProductNdc(ndc);
+    if (hit) return { ...hit, method: `ndc ${ndc}` };
   }
   return null;
 }
