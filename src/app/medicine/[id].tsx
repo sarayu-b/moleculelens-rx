@@ -9,8 +9,8 @@ import MoleculeViewer from "../../components/MoleculeViewer";
 import { cabinetAddNeedsPro } from "../../lib/entitlements";
 import { useEntitlements } from "../../lib/EntitlementsProvider";
 import { addToCabinet, getCabinet } from "../../lib/storage";
-import { getMedicine } from "../../logic/resolveMedicine";
-import type { Cards, DeepDives, Medicine, Structure, TargetLink } from "../../types";
+import { getMedicine, pickPrimary } from "../../logic/resolveMedicine";
+import type { Cards, DeepDives, Structure } from "../../types";
 
 // Friendly names for animal source organisms in structure notes.
 const COMMON_NAMES: Record<string, string> = { "Mus musculus": "mouse", "Rattus norvegicus": "rat", "Bos taurus": "cow" };
@@ -34,15 +34,6 @@ function useExplained<T>(hand: T | undefined, enabled: boolean, key: string, loa
   if (hand) return { status: "done", value: hand, caption: HAND_CAPTION };
   if (!enabled || fetched?.key !== key) return { status: "loading" };
   return { status: "done", value: fetched.value, caption: fetched.value ? AI_CAPTION : FALLBACK_CAPTION };
-}
-
-// Opening target: explicit primaryTarget, else first with a drug-bound (rcsb) structure, else the first.
-function pickPrimary(med: Medicine): TargetLink | undefined {
-  return (
-    med.targets.find((l) => l.target.uniprotId === med.primaryTarget) ??
-    med.targets.find((l) => l.structure?.source === "rcsb") ??
-    med.targets[0]
-  );
 }
 
 export default function MedicineScreen() {

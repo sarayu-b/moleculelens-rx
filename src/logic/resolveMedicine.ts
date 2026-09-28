@@ -1,7 +1,7 @@
 // src/logic/resolveMedicine.ts
 // Looks up medicines in the bundled hero list (src/data/heroList.json).
 import heroJson from "../data/heroList.json";
-import type { HeroList, Medicine } from "../types";
+import type { HeroList, Medicine, TargetLink } from "../types";
 
 const hero = heroJson as unknown as HeroList;
 const byId = new Map(hero.medicines.map((m) => [m.id, m]));
@@ -57,4 +57,13 @@ export function targetSummary(m: Medicine, max = 3): string {
   if (!names.length) return "No verified target yet";
   const shown = names.slice(0, max).join(" · ");
   return names.length > max ? `${shown} +${names.length - max}` : shown;
+}
+
+// Opening target: explicit primaryTarget, else first with a drug-bound (rcsb) structure, else the first.
+export function pickPrimary(med: Medicine): TargetLink | undefined {
+  return (
+    med.targets.find((l) => l.target.uniprotId === med.primaryTarget) ??
+    med.targets.find((l) => l.structure?.source === "rcsb") ??
+    med.targets[0]
+  );
 }

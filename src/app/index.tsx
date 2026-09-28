@@ -68,6 +68,7 @@ export default function Home() {
             )}
             <View style={s.links}>
               <Link href={"/cabinet" as Href} style={s.link}>My cabinet →</Link>
+              <Link href={"/study" as Href} style={s.link}>🎓 Study</Link>
               <Link href="/paywall" style={s.link}>Lens Pro →</Link>
             </View>
             <Text style={s.footer}>Educational only · not medical advice</Text>
