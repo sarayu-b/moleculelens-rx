@@ -46,3 +46,7 @@ example
 .env.*
 !.env.example
 worker/.dev.vars
+
+# raw screenshots (npm run screenshots writes the resized copies to docs/screenshots/)
+docs/screenshots/raw/*
+!docs/screenshots/raw/.gitkeep
