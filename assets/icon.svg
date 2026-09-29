@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- MoleculeLens Rx app icon (original artwork): two protein ribbons cross twice, forming a lens
+       that holds a small ball-and-stick drug molecule. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#121b3a"/>
+      <stop offset="1" stop-color="#0b1020"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="228" fill="url(#bg)"/>
+
+  <!-- Green S-ribbon -->
+  <path d="M 736 196 C 300 250, 250 470, 512 520 C 774 570, 724 790, 288 840"
+        fill="none" stroke="#7ee2a8" stroke-width="78" stroke-linecap="round"/>
+  <!-- Blue S-ribbon (mirror image, drawn on top) -->
+  <path d="M 288 196 C 724 250, 774 470, 512 520 C 250 570, 300 790, 736 840"
+        fill="none" stroke="#9fb4ff" stroke-width="78" stroke-linecap="round"/>
+
+  <!-- Drug molecule inside the upper lens -->
+  <g stroke="#ffd166" stroke-width="20" stroke-linecap="round">
+    <line x1="446" y1="424" x2="512" y2="370"/>
+    <line x1="512" y1="370" x2="582" y2="420"/>
+  </g>
+  <g fill="#ffd166">
+    <circle cx="446" cy="424" r="32"/>
+    <circle cx="512" cy="370" r="38"/>
+    <circle cx="582" cy="420" r="28"/>
+  </g>
+</svg>

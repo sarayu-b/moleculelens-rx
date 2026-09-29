@@ -35,6 +35,7 @@
     "@types/react": "~19.2.2",
     "eslint": "^9.0.0",
     "eslint-config-expo": "~57.0.2",
+    "sharp": "^0.35.5",
     "typescript": "~6.0.3"
   },
   "scripts": {
@@ -45,7 +46,9 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "build:hero": "node scripts/build-hero-list.mjs",
-    "check:barcode": "node scripts/check-barcode.mjs"
+    "check:barcode": "node scripts/check-barcode.mjs",
+    "icon": "node scripts/render-icon.mjs",
+    "screenshots": "node scripts/screenshots.mjs"
   },
   "private": true
 }
