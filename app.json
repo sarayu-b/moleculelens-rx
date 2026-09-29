@@ -1,15 +1,14 @@
 {
   "expo": {
-    "name": "moleculelens-rx",
+    "name": "MoleculeLens Rx",
     "slug": "moleculelens-rx",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "moleculelensrx",
+    "scheme": "moleculelens",
     "userInterfaceStyle": "automatic",
-    "ios": {
-      "icon": "./assets/expo.icon"
-    },
+    "backgroundColor": "#05070f",
+    "ios": {},
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
@@ -28,7 +27,7 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
+          "backgroundColor": "#05070f",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
