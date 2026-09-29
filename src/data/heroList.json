@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-29T20:52:58.992Z",
+  "generatedAt": "2026-09-29T21:13:32.970Z",
   "sources": [
     "ChEMBL (https://www.ebi.ac.uk/chembl/)",
     "UniProt (https://www.uniprot.org/)",
@@ -2475,15 +2475,21 @@
       "targets": [
         {
           "target": {
-            "uniprotId": "CHEMBL2363032",
-            "name": "Voltage-gated calcium channel",
-            "shortName": "Voltage-gated calcium channel",
-            "gene": "",
+            "uniprotId": "P54289",
+            "name": "Voltage-dependent calcium channel subunit alpha-2/delta-1",
+            "shortName": "α2δ-1",
+            "gene": "CACNA2D1",
             "organism": "Homo sapiens",
-            "functionText": ""
+            "functionText": "The alpha-2/delta subunit of voltage-dependent calcium channels regulates calcium current density and activation/inactivation kinetics of the calcium channel (PubMed:35293990). Plays an important role in excitation-contraction coupling (By similarity)"
           },
           "actionType": "MODULATOR",
-          "mechanism": "Voltage-gated calcium channel modulator"
+          "mechanism": "Voltage-gated calcium channel modulator",
+          "structure": {
+            "source": "alphafold",
+            "fileUrl": "https://alphafold.ebi.ac.uk/files/AF-P54289-F1-model_v6.pdb",
+            "organism": "Homo sapiens (predicted)",
+            "isAnimal": false
+          }
         }
       ],
       "chemblId": "CHEMBL940",

@@ -1,6 +1,6 @@
 # Hero list verification report
 
-Generated 2026-09-29T20:52:58.992Z · 81/81 medicines written to src/data/heroList.json
+Generated 2026-09-29T21:13:32.970Z · 81/81 medicines written to src/data/heroList.json
 
 | Medicine | ChEMBL (pref_name) | RxCUI | Targets (accession gene / short name (organism) — mechanism · action) | Structure | Flags / errors |
 |---|---|---|---|---|---|
@@ -57,7 +57,7 @@ Generated 2026-09-29T20:52:58.992Z · 81/81 medicines written to src/data/heroLi
 | Metoprolol | CHEMBL13 (METOPROLOL) | 6918 | P08588 ADRB1 / Beta-1 adrenoceptor (Homo sapiens) — Beta-1 adrenergic receptor antagonist · ANTAGONIST | P08588: AlphaFold | ⚠️ mechanism via salt form CHEMBL3989566, CHEMBL2356097, CHEMBL2062335 |
 | Losartan | CHEMBL191 (LOSARTAN) | 52175 | P30556 AGTR1 / AT1 receptor (Homo sapiens) — Type-1 angiotensin II receptor antagonist · ANTAGONIST | P30556: AlphaFold | ⚠️ mechanism via salt form CHEMBL995 |
 | Hydrochlorothiazide | CHEMBL435 (HYDROCHLOROTHIAZIDE) | 5487 | P55017 SLC12A3 / NCC (Homo sapiens) — Thiazide-sensitive sodium-chloride cotransporter inhibitor · INHIBITOR | P55017: AlphaFold | — |
-| Gabapentin | CHEMBL940 (GABAPENTIN) | 25480 | CHEMBL2363032  / Voltage-gated calcium channel (Homo sapiens) — Voltage-gated calcium channel modulator · MODULATOR | CHEMBL2363032: none | ⚠️ collapsed PROTEIN COMPLEX GROUP "Voltage-gated calcium channel" (26 proteins) into one target |
+| Gabapentin | CHEMBL940 (GABAPENTIN) | 25480 | P54289 CACNA2D1 / α2δ-1 (Homo sapiens) — Voltage-gated calcium channel modulator · MODULATOR | P54289: AlphaFold | ⚠️ CHEMBL2363032 narrowed by seed to P54289 (of 26) |
 | Escitalopram | CHEMBL1508 (ESCITALOPRAM) | 321988 | P31645 SLC6A4 / SERT (Homo sapiens) — Serotonin transporter inhibitor · INHIBITOR | P31645: AlphaFold | ⚠️ mechanism via salt form CHEMBL1200322 |
 | Fluoxetine | CHEMBL41 (FLUOXETINE) | 4493 | P31645 SLC6A4 / SERT (Homo sapiens) — Serotonin transporter inhibitor · INHIBITOR | P31645: AlphaFold | ⚠️ mechanism via salt form CHEMBL1201082 |
 | Bupropion | CHEMBL894 (BUPROPION) | 42347 | Q01959 SLC6A3 / DA transporter (Homo sapiens) — Dopamine transporter inhibitor · INHIBITOR<br>P23975 SLC6A2 / NET (Homo sapiens) — Norepinephrine transporter inhibitor · INHIBITOR | Q01959: AlphaFold<br>P23975: AlphaFold | ⚠️ mechanism via salt form CHEMBL1201735, CHEMBL1698 |

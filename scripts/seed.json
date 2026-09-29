@@ -61,7 +61,7 @@
   { "id": "metoprolol", "name": "Metoprolol", "brandNames": ["Lopressor"] },
   { "id": "losartan", "name": "Losartan", "brandNames": ["Cozaar"] },
   { "id": "hydrochlorothiazide", "name": "Hydrochlorothiazide", "brandNames": [] },
-  { "id": "gabapentin", "name": "Gabapentin", "brandNames": ["Neurontin"] },
+  { "id": "gabapentin", "name": "Gabapentin", "brandNames": ["Neurontin"], "targetAccessions": { "CHEMBL2363032": ["P54289"] } },
   { "id": "escitalopram", "name": "Escitalopram", "brandNames": ["Lexapro"] },
   { "id": "fluoxetine", "name": "Fluoxetine", "brandNames": ["Prozac"] },
   { "id": "bupropion", "name": "Bupropion", "brandNames": ["Wellbutrin"] },

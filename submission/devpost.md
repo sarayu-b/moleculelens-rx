@@ -14,7 +14,7 @@ Expo SDK 57 and TypeScript in Expo Go. A generator script takes each medicine to
 
 ## RevenueCat
 
-Free: unlimited lookups, 3D, the cards, a 3-medicine cabinet and every safety warning. Safety is never paywalled. Lens Pro (monthly or yearly, 7-day free trial) unlocks an unlimited cabinet and side-effect and metabolism deep dives. Study Pack is a one-time purchase for flashcards and quizzes. Everything runs on RevenueCat's Test Store inside Expo Go, with my own paywall screen. Expo Go never fires the customer-info listener, so the app re-fetches entitlements after every purchase.
+Free: unlimited lookups, 3D, the cards, a 3-medicine cabinet and every safety warning. Safety is never paywalled. Lens Pro (monthly or yearly, 7-day free trial) unlocks an unlimited cabinet, side-effect and metabolism deep dives, and a shareable "how my medicines work" sheet. Study Pack is a one-time purchase for flashcards and quizzes. Everything runs on RevenueCat's Test Store inside Expo Go, with my own paywall screen. Expo Go never fires the customer-info listener, so the app re-fetches entitlements after every purchase.
 
 ## Challenges
 
@@ -32,7 +32,7 @@ Free: unlimited lookups, 3D, the cards, a 3-medicine cabinet and every safety wa
 
 ## What I learned
 
-Biology databases disagree about names, species and even what counts as a target. Checking the data mattered more than the code.
+Biology databases disagree about names, species and what counts as a target. Checking the data mattered more than the code.
 
 ## What's next
 

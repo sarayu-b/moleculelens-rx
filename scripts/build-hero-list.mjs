@@ -22,7 +22,7 @@ const SYNONYMS = {
 };
 
 // Hand-checked corrections applied after the UniProt / ChEMBL lookups.
-const SHORT_NAME_OVERRIDES = { P10827: "TRα", P10828: "TRβ" };
+const SHORT_NAME_OVERRIDES = { P10827: "TRα", P10828: "TRβ", P54289: "α2δ-1" };
 const MECHANISM_OVERRIDES = { CHEMBL1464: "Vitamin K epoxide reductase inhibitor" }; // keyed by medicine chemblId
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -277,6 +277,16 @@ async function buildMedicine(seed, existingCards, existingDeepDives) {
       let t;
       try { t = await getAccessions(m.targetChemblId); }
       catch (e) { errors.push(`Target ${m.targetChemblId}: ${e.message}`); continue; }
+      // Seed override: narrow a ChEMBL target to the listed accessions (must be real components of it),
+      // e.g. gabapentin's 26-subunit "Voltage-gated calcium channel" → the alpha-2/delta-1 subunit P54289.
+      const narrow = seed.targetAccessions?.[m.targetChemblId];
+      if (narrow) {
+        const kept = narrow.filter((acc) => t.accessions.includes(acc));
+        const missing = narrow.filter((acc) => !t.accessions.includes(acc));
+        if (missing.length) errors.push(`targetAccessions ${missing.join(", ")} not components of ${m.targetChemblId}`);
+        flags.push(`${m.targetChemblId} narrowed by seed to ${kept.join(", ")} (of ${t.accessions.length})`);
+        t = { ...t, accessions: kept };
+      }
       if (!t.accessions.length) {
         errors.push(`Target ${m.targetChemblId} "${t.prefName}" (${t.targetType}, ${t.organism}) has no protein accessions`);
         continue;
