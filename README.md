@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/icon-1024.png" width="128" height="128" alt="MoleculeLens Rx icon"></p>
+
 # MoleculeLens Rx
 
 Scan or search a medicine and see it sitting inside the protein it acts on — in interactive 3D, with a plain-language explanation, plus warnings when two of your medicines hit the same protein.
@@ -6,9 +8,13 @@ Scan or search a medicine and see it sitting inside the protein it acts on — i
 
 ▶️ [Demo video](VIDEO_URL) · Built for RevenueCat Shipaton 2026 (Next Gen Award)
 
-| Home | Target screen | Cabinet | Paywall | Study |
-|---|---|---|---|---|
-| ![Home](docs/screenshots/home.png) | ![Target](docs/screenshots/target.png) | ![Cabinet](docs/screenshots/cabinet.png) | ![Paywall](docs/screenshots/paywall.png) | ![Study](docs/screenshots/study.png) |
+<p>
+  <img src="docs/screenshots/home.png" width="18%" alt="Home: search or scan">
+  <img src="docs/screenshots/target.png" width="18%" alt="Target screen: ibuprofen in COX-2">
+  <img src="docs/screenshots/cabinet.png" width="18%" alt="Cabinet with shared-target warning">
+  <img src="docs/screenshots/paywall.png" width="18%" alt="Lens Pro paywall">
+  <img src="docs/screenshots/study.png" width="18%" alt="Study mode quiz">
+</p>
 
 ## What it does
 
@@ -57,7 +63,7 @@ flowchart TD
 - **Entitlements:** `pro` (either subscription) and `study` (Study Pack).
 - **Custom paywall:** RevenueCat's prebuilt Paywalls show a placeholder in Expo Go, so the paywall is our own screen. It shows trial copy only when the store reports an intro offer.
 - **Free:** unlimited lookups, the 3D view, the three cards, a cabinet of up to 3 medicines, and **every** shared-target warning. Safety information is never paywalled.
-- **Lens Pro:** unlimited cabinet and the side-effect and metabolism deep dives.
+- **Lens Pro:** unlimited cabinet, the side-effect and metabolism deep dives, and "Export my sheet": a plain-text "How my medicines work" summary (each medicine's protein and mechanism, plus every shared-target warning) sent through the phone's share sheet.
 - **Study Pack:** flashcards and quizzes.
 - **Expo Go quirk:** the customer-info update listener never fires in Expo Go, so after every purchase or restore the app re-fetches `getCustomerInfo()` and refreshes entitlements.
 
