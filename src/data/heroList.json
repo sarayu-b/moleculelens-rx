@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-28T20:37:23.549Z",
+  "generatedAt": "2026-09-29T20:52:58.992Z",
   "sources": [
     "ChEMBL (https://www.ebi.ac.uk/chembl/)",
     "UniProt (https://www.uniprot.org/)",
@@ -2477,10 +2477,10 @@
           "target": {
             "uniprotId": "CHEMBL2363032",
             "name": "Voltage-gated calcium channel",
-            "shortName": "Ribosome",
+            "shortName": "Voltage-gated calcium channel",
             "gene": "",
             "organism": "Homo sapiens",
-            "functionText": "A large molecular machine made of dozens of proteins plus RNA that builds every new protein the cell needs."
+            "functionText": ""
           },
           "actionType": "MODULATOR",
           "mechanism": "Voltage-gated calcium channel modulator"

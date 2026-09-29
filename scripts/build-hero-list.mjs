@@ -102,14 +102,20 @@ async function getAccessions(targetChemblId) {
 // alpha-adrenergic receptors) are still expanded: each member is a real, separate protein.
 const MAX_COMPONENTS = 5;
 const isMachine = (t) => t.accessions.length > MAX_COMPONENTS && t.targetType !== "PROTEIN FAMILY";
+// Only a protein + RNA complex (the ribosome) is called "Ribosome". Other big complexes (e.g. gabapentin's
+// "Voltage-gated calcium channel", 26 subunits) keep ChEMBL's own name and get no invented description.
+const isRibosome = (t) => /NUCLEIC-ACID/.test(t.targetType ?? "") && /ribosom/i.test(t.prefName ?? "");
 function machineTarget(t) {
+  const ribosome = isRibosome(t);
   return {
     uniprotId: t.targetChemblId,
     name: t.prefName,
-    shortName: "Ribosome",
+    shortName: ribosome ? "Ribosome" : t.prefName,
     gene: "",
     organism: t.organism,
-    functionText: "A large molecular machine made of dozens of proteins plus RNA that builds every new protein the cell needs.",
+    functionText: ribosome
+      ? "A large molecular machine made of dozens of proteins plus RNA that builds every new protein the cell needs."
+      : "",
   };
 }
 
@@ -277,6 +283,7 @@ async function buildMedicine(seed, existingCards, existingDeepDives) {
       }
       if (t.organism !== "Homo sapiens") flags.push(`non-human target ${m.targetChemblId} "${t.prefName}" (${t.organism}, ${t.accessions.length} protein(s))`);
       if (isMachine(t)) {
+        flags.push(`collapsed ${t.targetType} "${t.prefName}" (${t.accessions.length} proteins) into one target`);
         if (!seen.has(t.targetChemblId)) {
           med.targets.push({ target: machineTarget(t), actionType: m.actionType, mechanism: MECHANISM_OVERRIDES[med.chemblId] ?? m.mechanism });
           seen.add(t.targetChemblId);

@@ -1,7 +1,7 @@
 // src/app/medicine/[id].tsx — target screen: protein, 3D structure, plain-language cards
 import { Href, router, Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { Alert, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { fetchCards, fetchDeepDives } from "../../api/explain";
 import ExplanationCards, { placeholderDeepDives } from "../../components/ExplanationCards";
 import LockedSection from "../../components/LockedSection";
@@ -74,6 +74,8 @@ export default function MedicineScreen() {
       }
       await addToCabinet(med.id);
       setInCabinet(true);
+    } catch {
+      Alert.alert("Couldn't save", "Your cabinet couldn't be updated. Please try again.");
     } finally {
       setBusy(false);
     }
@@ -177,9 +179,7 @@ export default function MedicineScreen() {
             <Text style={s.p}>
               {link.target.shortName}{link.target.gene ? ` · gene ${link.target.gene}` : ""}
             </Text>
-            <Text style={s.mech}>
-              {link.mechanism} · {link.actionType}
-            </Text>
+            <Text style={s.mech}>{[link.mechanism, link.actionType].filter(Boolean).join(" · ")}</Text>
             {!isHuman(link.target.organism) && (
               <Text style={s.amber}>
                 This protein belongs to {link.target.organism}, not to you — the medicine attacks the germ.
@@ -203,8 +203,9 @@ export default function MedicineScreen() {
           ) : isMachineTarget(link) ? (
             <View style={s.debated}>
               <Text style={s.p}>
-                No single protein to show in 3D — this medicine jams a multi-part machine (the bacterial ribosome), not
-                one protein.
+                {link.target.shortName === "Ribosome"
+                  ? "No single protein to show in 3D — this medicine jams a multi-part machine (the bacterial ribosome), not one protein."
+                  : `No single protein to show in 3D — this medicine acts on ${link.target.name}, a group of related proteins, rather than one protein.`}
               </Text>
             </View>
           ) : (

@@ -1,5 +1,5 @@
 // src/components/MoleculeViewer.tsx — interactive 3D structure (3Dmol.js inside a WebView)
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { buildViewerHtml } from "../lib/viewerHtml";
@@ -14,8 +14,16 @@ type Props = {
 
 export default function MoleculeViewer({ fileUrl, ligandCode, chain, ligandLabel, height = 360 }: Props) {
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
-  const [error, setError] = useState("");
+  const [attempt, setAttempt] = useState(0); // bumping it remounts the WebView (Try again)
   const webref = useRef<WebView>(null);
+  const fail = (why: string) => { console.log("[viewer] error:", why); setStatus("error"); };
+
+  // If the CDN script or the structure file never arrives, stop spinning after 25 s.
+  useEffect(() => {
+    if (status !== "loading") return;
+    const timer = setTimeout(() => fail("timed out"), 25000);
+    return () => clearTimeout(timer);
+  }, [status, attempt, fileUrl]);
   const html = useMemo(
     () => buildViewerHtml(fileUrl, ligandCode ?? "", chain ?? ""),
     [fileUrl, ligandCode, chain]
@@ -27,6 +35,7 @@ export default function MoleculeViewer({ fileUrl, ligandCode, chain, ligandLabel
     <View style={styles.container}>
       <View style={[styles.viewer, { height }]}>
         <WebView
+          key={attempt}
           ref={webref}
           originWhitelist={["*"]}
           source={{ html }}
@@ -37,14 +46,25 @@ export default function MoleculeViewer({ fileUrl, ligandCode, chain, ligandLabel
           onMessage={(e) => {
             const msg = String(e.nativeEvent.data);
             if (msg === "rendered") setStatus("ready");
-            else if (msg.startsWith("error:")) { setStatus("error"); setError(msg.slice(6)); }
+            else if (msg.startsWith("error:")) fail(msg.slice(6));
             else if (msg.startsWith("ligatoms:")) console.log("ligand atoms:", msg.slice(9));
           }}
+          onError={(e) => fail(e.nativeEvent.description)}
+          onHttpError={(e) => fail(`HTTP ${e.nativeEvent.statusCode}`)}
         />
         {status === "loading" && (
           <View style={styles.overlay}>
             <ActivityIndicator color="#fff" />
             <Text style={styles.overlayText}>Loading structure…</Text>
+          </View>
+        )}
+        {status === "error" && (
+          <View style={[styles.overlay, styles.errorOverlay]}>
+            <Text style={styles.overlayText}>{"Couldn't load the 3D structure."}</Text>
+            <Text style={styles.note}>Check your connection and try again.</Text>
+            <Pressable style={styles.retry} onPress={() => { setStatus("loading"); setAttempt((n) => n + 1); }}>
+              <Text style={styles.btnText}>Try again</Text>
+            </Pressable>
           </View>
         )}
       </View>
@@ -64,7 +84,7 @@ export default function MoleculeViewer({ fileUrl, ligandCode, chain, ligandLabel
       </View>
 
       <Text style={styles.note}>
-        {status === "error" ? `Error: ${error}` : "Drag to rotate · pinch to zoom · use the buttons to re-centre"}
+        Drag to rotate · pinch to zoom · use the buttons to re-centre
       </Text>
     </View>
   );
@@ -73,6 +93,8 @@ export default function MoleculeViewer({ fileUrl, ligandCode, chain, ligandLabel
 const styles = StyleSheet.create({
   container: { gap: 8 },
   viewer: { borderRadius: 16, overflow: "hidden", backgroundColor: "#0b1020" },
+  errorOverlay: { backgroundColor: "#0b1020", padding: 16 },
+  retry: { backgroundColor: "#22306b", paddingHorizontal: 18, paddingVertical: 10, borderRadius: 10, marginTop: 4 },
   overlay: { ...StyleSheet.absoluteFill, alignItems: "center", justifyContent: "center", gap: 8 },
   overlayText: { color: "white" },
   row: { flexDirection: "row", gap: 8 },

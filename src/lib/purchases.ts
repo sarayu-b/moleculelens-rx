@@ -7,9 +7,13 @@ const RC_TEST_STORE_KEY = "test_YoxeCAioQWYlqtwBzAiVaUnKEDF";
 let configured = false;
 export function initPurchases() {
   if (configured) return; // guard against Fast Refresh calling this twice
-  Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
-  Purchases.configure({ apiKey: RC_TEST_STORE_KEY });
-  configured = true;
+  try {
+    Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
+    Purchases.configure({ apiKey: RC_TEST_STORE_KEY });
+    configured = true;
+  } catch (e) {
+    console.warn("RevenueCat configure failed", e); // the paywall then shows "Couldn't load plans"
+  }
 }
 
 export async function getPackages(): Promise<PurchasesPackage[]> {

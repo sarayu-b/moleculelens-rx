@@ -9,13 +9,19 @@ const TITLES = [
   "Why that helps — and can cause side effects",
 ];
 
+// "Ibuprofen is an inhibitor of COX-2 (Cyclooxygenase inhibitor)." — skips empty parts.
+function drugSentence(medicine: Medicine, link: TargetLink): string {
+  const action = link.actionType.toLowerCase();
+  const role = action ? `is ${/^[aeiou]/.test(action) ? "an" : "a"} ${action} of` : "acts on";
+  const mech = link.mechanism ? ` (${link.mechanism})` : "";
+  return `${medicine.name} ${role} ${link.target.shortName}${mech}.`;
+}
+
 export function placeholderCards(medicine: Medicine, link?: TargetLink): Cards {
   const t = link?.target;
   return {
     protein: t?.functionText ? firstSentences(t.functionText, 2) : "No protein description is available yet.",
-    drug: link
-      ? `${medicine.name} is a ${link.actionType.toLowerCase()} of ${t!.shortName} (${link.mechanism}).`
-      : `${medicine.name}'s protein target isn't verified yet.`,
+    drug: link ? drugSentence(medicine, link) : `${medicine.name}'s protein target isn't verified yet.`,
     effect: link
       ? `Both the benefit and many of the side effects come from this change to ${t!.shortName}. Ask your pharmacist if you have questions.`
       : "Ask your pharmacist if you have questions.",
@@ -25,7 +31,7 @@ export function placeholderCards(medicine: Medicine, link?: TargetLink): Cards {
 // Deep dives built only from the verified target facts (used when no hand-written or AI text exists).
 export function placeholderDeepDives(medicine: Medicine, link: TargetLink): DeepDives {
   return {
-    sideEffects: `Many of ${medicine.name}'s side effects come from the same action on ${link.target.shortName} (${link.mechanism}) that gives its benefit. Ask your pharmacist if you have questions.`,
+    sideEffects: `Many of ${medicine.name}'s side effects come from the same action on ${link.target.shortName}${link.mechanism ? ` (${link.mechanism})` : ""} that gives its benefit. Ask your pharmacist if you have questions.`,
     metabolism: `How the body absorbs, breaks down and clears ${medicine.name} isn't in MoleculeLens's verified data yet. Your pharmacist or the medicine's leaflet can tell you more.`,
   };
 }

@@ -59,7 +59,9 @@ export default function Scan() {
       report(readUpc, e instanceof OpenFdaRateLimitError ? "openfda 429" : `error: ${e?.message ?? e}`);
       setResult({
         kind: "error",
-        message: e instanceof OpenFdaRateLimitError ? e.message : `Lookup failed: ${e?.message ?? e}`,
+        message: e instanceof OpenFdaRateLimitError
+          ? e.message
+          : "Couldn't reach the medicine database. Check your connection and try again, or search by name.",
       });
     } finally {
       busy.current = false;

@@ -62,7 +62,10 @@ export default function Cabinet() {
           {items.map((item) => {
             const med = getMedicine(item.medicineId);
             if (!med) return null;
-            const remove = async () => setItems(await removeFromCabinet(med.id));
+            const remove = async () => {
+              try { setItems(await removeFromCabinet(med.id)); }
+              catch { Alert.alert("Couldn't remove", "Please try again."); }
+            };
             return (
               <Pressable
                 key={med.id}
