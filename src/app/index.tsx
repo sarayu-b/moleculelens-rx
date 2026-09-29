@@ -23,7 +23,7 @@ export default function Home() {
 
   return (
     <SafeAreaView style={s.page} edges={["top", "bottom"]}>
-      <Stack.Screen options={{ headerShown: false }} />
+      <Stack.Screen options={{ headerShown: false, title: "Home" }} />
       <FlatList
         data={results}
         keyExtractor={(m) => m.id}
