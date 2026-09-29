@@ -1,11 +1,12 @@
 // src/app/cabinet.tsx — saved medicines + shared-target warnings
 import { Href, router, Stack, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Pressable, ScrollView, Share, StyleSheet, Text, View } from "react-native";
 import WarningBanner from "../components/WarningBanner";
 import { cabinetAddNeedsPro, FREE_CABINET_LIMIT } from "../lib/entitlements";
 import { useEntitlements } from "../lib/EntitlementsProvider";
 import { getCabinet, removeFromCabinet } from "../lib/storage";
+import { buildSheet, SHEET_TITLE } from "../logic/exportSheet";
 import { getHeroList, getMedicine, targetSummary } from "../logic/resolveMedicine";
 import { findSharedTargets } from "../logic/sharedTargets";
 import type { CabinetItem } from "../types";
@@ -31,6 +32,15 @@ export default function Cabinet() {
   async function onAdd() {
     if (cabinetAddNeedsPro(items.length, pro)) router.push({ pathname: "/paywall", params: { reason: "cabinet" } });
     else router.navigate("/"); // search on Home, then "Add to cabinet" on the target screen
+  }
+
+  async function onExport() {
+    if (!pro) { router.push({ pathname: "/paywall", params: { reason: "export" } }); return; }
+    try {
+      await Share.share({ message: buildSheet(items), title: SHEET_TITLE });
+    } catch (e: any) {
+      Alert.alert("Couldn't open the share sheet", String(e?.message ?? e));
+    }
   }
 
   return (
@@ -77,6 +87,11 @@ export default function Cabinet() {
       <Pressable style={s.addBtn} onPress={onAdd}>
         <Text style={s.addText}>+ Add a medicine</Text>
       </Pressable>
+      {items.length > 0 && (
+        <Pressable style={s.exportBtn} onPress={onExport}>
+          <Text style={s.exportText}>{pro ? "Export my sheet" : "Export my sheet 🔒"}</Text>
+        </Pressable>
+      )}
       <Text style={s.plan}>
         {pro ? "Lens Pro: unlimited medicines" : `Free plan: ${FREE_CABINET_LIMIT} medicines · Lens Pro: unlimited`}
       </Text>
@@ -102,6 +117,8 @@ const s = StyleSheet.create({
   hint: { color: "#6b7599", fontSize: 12, textAlign: "center" },
   addBtn: { backgroundColor: "#3b4fd1", padding: 14, borderRadius: 12, alignItems: "center" },
   addText: { color: "white", fontWeight: "700", fontSize: 16 },
+  exportBtn: { borderWidth: 1, borderColor: "#9fb4ff", padding: 13, borderRadius: 12, alignItems: "center" },
+  exportText: { color: "#9fb4ff", fontWeight: "700", fontSize: 16 },
   plan: { color: "#9aa4c7", fontSize: 13, textAlign: "center" },
   footer: { color: "#6b7599", fontSize: 12, textAlign: "center", lineHeight: 17 },
 });

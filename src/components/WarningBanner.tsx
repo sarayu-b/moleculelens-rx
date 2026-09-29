@@ -1,18 +1,6 @@
 // src/components/WarningBanner.tsx — amber shared-target warning (never paywalled)
 import { StyleSheet, Text, View } from "react-native";
-import { withGene } from "../logic/resolveMedicine";
-import type { SharedTarget } from "../logic/sharedTargets";
-
-function joinNames(names: string[]): string {
-  if (names.length <= 2) return names.join(" and ");
-  return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
-}
-
-export function warningText(w: SharedTarget): string {
-  const verb = w.medicines.length > 2 ? "all bind" : "both bind";
-  const note = w.note ? ` ${w.note}` : "";
-  return `${joinNames(w.medicines)} ${verb} ${withGene(w.shortName, w.gene)}.${note} Ask your pharmacist about timing.`;
-}
+import { warningText, type SharedTarget } from "../logic/sharedTargets";
 
 export default function WarningBanner({ warning }: { warning: SharedTarget }) {
   return (

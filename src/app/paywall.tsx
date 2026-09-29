@@ -9,6 +9,7 @@ import { buy, getPackages, hasEntitlement, restore } from "../lib/purchases";
 const HEADLINES: Record<string, string> = {
   cabinet: "Your free cabinet holds 3 medicines",
   study: "Study mode is part of Study Pack",
+  export: "Export your sheet with Lens Pro",
 };
 const BENEFITS = [
   "Unlimited family cabinet",

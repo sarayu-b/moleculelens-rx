@@ -1,6 +1,7 @@
 // src/logic/sharedTargets.ts — find medicines in the cabinet that act on the same protein.
 // Informational only; never gated behind a purchase.
 import type { CabinetItem, HeroList } from "../types";
+import { withGene } from "./resolveMedicine";
 
 export type SharedTarget = {
   uniprotId: string;
@@ -41,4 +42,16 @@ export function findSharedTargets(items: CabinetItem[], heroList: HeroList): Sha
   if (noteTarget) noteTarget.note = IBUPROFEN_ASPIRIN_NOTE;
 
   return shared.map(({ ids: _ids, ...g }) => g);
+}
+
+function joinNames(names: string[]): string {
+  if (names.length <= 2) return names.join(" and ");
+  return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+}
+
+// The full warning sentence, shared by the cabinet banner and the exported sheet.
+export function warningText(w: SharedTarget): string {
+  const verb = w.medicines.length > 2 ? "all bind" : "both bind";
+  const note = w.note ? ` ${w.note}` : "";
+  return `${joinNames(w.medicines)} ${verb} ${withGene(w.shortName, w.gene)}.${note} Ask your pharmacist about timing.`;
 }
